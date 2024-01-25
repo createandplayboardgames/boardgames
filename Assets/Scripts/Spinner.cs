@@ -5,26 +5,51 @@ using UnityEngine;
 public class Spinner : MonoBehaviour
 {
 
-    private Sprite[] diceImage; //change with gameState
-    private SpriteRenderer rend;
-    private int maxRoll = 6; // change with gameState
-    private int playerTurn = 1;
+    private Sprite[] diceSides; // change with gameState
+
+    private SpriteRenderer rend; // change sprites
+
+    //private int maxRoll = 6; // change with gameState
+
+    // private int playerTurn = 1;
     // Start is called before the first frame update
     void Start()
     {
+        // assign sprite rend component
+        rend = GetComponent<SpriteRenderer>();
+
+        // load dice sprites from folder
+        diceSides = Resources.LoadAll<Sprite>("DiceSides/");
         
     }
 
-    // Update is called once per frame
-    void Update()
+    // click mouse to start Spin
+    private void OnMouseDown()
     {
-        
+        StartCoroutine("Spin");
     }
 
-    public int Spin(int maxRoll)
+    private IEnumerator Spin()
     {
-        var spinResult = Random.Range(1, maxRoll + 1);
-        // sprite renderer
-        return spinResult;
+        // initialize spinner and end roll
+        int spinResult = 0;
+        int finalState;
+
+        // roll 
+        for (int i = 0; i <= 20; i++)
+        {
+            // roll 0 - 5 (could be changed in future depending on spinner type)
+            spinResult = Random.Range(0, 5);
+
+            // render dice faces while roll is happening
+            rend.sprite = diceSides[spinResult];
+
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        // end state and save for player movement
+        finalState = spinResult + 1;
+        
+        Debug.Log(finalState);
     }
 }

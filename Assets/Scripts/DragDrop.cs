@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class DragDrop : MonoBehaviour
 {
+    private bool isDragged = false; // keep track of sprite state
+    private Vector3 spriteDragPosition; 
     private Vector3 _dragOffset;
     private Camera _cam;
     SpriteRenderer aSpriteRenderer;
@@ -23,17 +25,22 @@ public class DragDrop : MonoBehaviour
 
     void OnMouseDown()
     {
+        isDragged = true;
         _dragOffset = transform.position - GetMousePos();
     }
 
     void OnMouseDrag()
     {
-        transform.position = GetMousePos() + _dragOffset;
-        aSpriteRenderer.color = new Color(1f, 1f, 1f, .5f);
+        if (isDragged)
+        {
+            transform.position = GetMousePos() + _dragOffset;
+            aSpriteRenderer.color = new Color(1f, 1f, 1f, .5f);
+        }
     }
 
     void OnMouseUp()
     {
+        isDragged = false;
         aSpriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
 
