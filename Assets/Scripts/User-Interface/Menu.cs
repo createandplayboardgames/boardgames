@@ -12,12 +12,18 @@ public class Menu : MonoBehaviour
 
     public void OnPlayButton ()
     {
+        // Load saved game
         SceneManager.LoadScene(2);
     }
 
     public void OnMenuButton ()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+        public void OnSaveButton ()
+    {
+        // Save Things
     }
 
 }
