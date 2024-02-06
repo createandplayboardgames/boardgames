@@ -4,26 +4,40 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public Transform[] tiles; // Update with created GameBoard
+    // get tiles
+    public Transform[] tiles;
 
-    private float movementSpeed = 1f; // Update with movement speed for game
+    [SerializeField] private float movementSpeed = 1f;
 
-    public Vector3 playerPosition;
+    // tile location
+    [HideInInspector] public int tileIndex = 0;
 
-    public bool movementAllow = false;
+    public bool moveAllowed = false;
 
-
-    private void Update()
+    // initialize
+    void Start()
     {
-        if (movementAllow)
-            // get player position
-            Move();
+        transform.position = tiles[tileIndex].transform.position;
     }
 
-    private void Move()
+    // Update is called once per frame
+    void Update()
     {
-            // Do some movement
-            // Get position x,y coordinates
-            // Change cooridinates and move and save
+        if (moveAllowed) { Move(); }
+    }
+
+    public void Move()
+    {
+        if (tileIndex <= tiles.Length - 1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                tiles[tileIndex].transform.position, movementSpeed * Time.deltaTime);
+
+            if (transform.position == tiles[tileIndex].transform.position)
+            {
+                tileIndex += 1;
+            }
+        }
     }
 }
+
