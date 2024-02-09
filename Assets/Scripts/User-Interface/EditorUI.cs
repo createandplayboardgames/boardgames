@@ -7,8 +7,25 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Tilemaps;
 
+/*
+ * EditorUI is the basis of user interface for the Create page/Drag and Drop Editor. 
+ * It allows for in game tilemap tile placement, with a new gameObject tile created on tile. 
+ * 
+ * Makes reference to PlayerInput via mouse
+ *                    BuildingObject for tiles and player pieces
+ *                    
+ * Sources Cited: https://www.youtube.com/@VelvaryGames/videos
+ *                https://catlikecoding.com/unity/tutorials/basics/game-objects-and-scripts/
+ *                https://www.youtube.com/watch?v=qFXnBourCQk&ab_channel=MuddyWolf
+ */
+
 public class EditorUI : Singleton<EditorUI>
 {
+    // Set up instance of GameDefinitionManager
+    GameDefinitionManager manager = new GameDefinitionManager();
+
+    SquareTileData tileData;
+
     // underlying maps for tile movement and placement
     [SerializeField] Tilemap previewMap, defaultMap;
 
@@ -17,8 +34,8 @@ public class EditorUI : Singleton<EditorUI>
 
     TileBase tileBase;
 
-    // selected tile or piece in this script we can call the data for each tile
-    BuildingObject selectedObj;
+    // selected tile or piece from menu bar
+    MenuObject selectedObj;
 
     // mouse position to camera
     Camera _camera;
@@ -28,7 +45,6 @@ public class EditorUI : Singleton<EditorUI>
 
     protected override void Awake()
     {
-        base.Awake();
         playerInput = new PlayerInput();
         _camera = Camera.main;
     }
@@ -36,7 +52,7 @@ public class EditorUI : Singleton<EditorUI>
     /*
      * Enable editor player input
      */
-    private void OnEnable()
+    public void OnEnable()
     {
         playerInput.Enable();
 
@@ -50,7 +66,7 @@ public class EditorUI : Singleton<EditorUI>
     /*
      * Disable editor player input
      */
-    private void OnDisable()
+    public void OnDisable()
     {
         playerInput.Disable();
 
@@ -65,7 +81,7 @@ public class EditorUI : Singleton<EditorUI>
      * Get player selected piece and show preview with mouse movement
      * 
     */
-    private BuildingObject SelectedObj
+    public MenuObject SelectedObj
     {
         set
         {
@@ -80,7 +96,7 @@ public class EditorUI : Singleton<EditorUI>
      * Get Mouse position, show tile preview, 
      * update position on grid
      */
-    private void Update()
+    public void Update()
     {
         // if tile selected, show preview 
         if (selectedObj != null)
@@ -95,8 +111,6 @@ public class EditorUI : Singleton<EditorUI>
 
                 //update preview
                 UpdatePreview();
-
-                //PlaceObject();
             }
         }
     }
@@ -106,7 +120,7 @@ public class EditorUI : Singleton<EditorUI>
      * Updatepreview shows tile being moved around while not yet placed.
      * Tile location updated to follow cursor.
     */
-    private void UpdatePreview()
+    public void UpdatePreview()
     {
         //Remove old tile if existing
         previewMap.SetTile(lastGridPosition, null);
@@ -118,38 +132,47 @@ public class EditorUI : Singleton<EditorUI>
     /*
      * Get mouse position
      */
-    private void OnMouseMove(InputAction.CallbackContext ctx)
+    public void OnMouseMove(InputAction.CallbackContext ctx)
     {
         mousePos = ctx.ReadValue<Vector2>();
     }
 
     /*
      * Left click to select tile placement if not over tile option bar.
+     * TODO: Add gameObject tile
      */
-    private void OnLeftClick(InputAction.CallbackContext ctx)
+    public void OnLeftClick(InputAction.CallbackContext ctx)
     {
         if (selectedObj != null && !EventSystem.current.IsPointerOverGameObject())
         {
             PlaceObject();
-
+            /* TODO:
+            tileData = tileData.AddComponent<SquareTileData>();
+            manager.CreateTile();
+            */
         }
     }
 
     /*
      *  Right Click to remove tile from scene.
+     *  TODO: Remove gameObject tile
      */
-    private void OnRightClick(InputAction.CallbackContext ctx)
+    public void OnRightClick(InputAction.CallbackContext ctx)
     {
         if (defaultMap.HasTile(currentGridPosition))
         {
             defaultMap.SetTile(currentGridPosition, null);
+            /* TODO:
+            manager.DeleteTile(tileData);
+            */
+
         }
     }
 
     /*
      * Selected tile or other component
      */
-    public void ObjectSelected(BuildingObject obj)
+    public void ObjectSelected(MenuObject obj)
     {
         SelectedObj = obj;
 
@@ -157,9 +180,9 @@ public class EditorUI : Singleton<EditorUI>
 
 
     /*
-     * Place tile on default map.
+     * Place tile on default map. 
      */
-    private void PlaceObject()
+    public void PlaceObject()
     {
         if (selectedObj != null)
         {

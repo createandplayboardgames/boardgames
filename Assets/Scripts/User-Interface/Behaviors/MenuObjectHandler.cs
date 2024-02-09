@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingButtonHandler : MonoBehaviour
+/*
+ * Handles Menu bar item selection
+ */
+
+public class MenuObjectHandler : MonoBehaviour
 {
-    [SerializeField] BuildingObject item;
+    [SerializeField] MenuObject item;
     Button button;
 
     EditorUI editor;
@@ -18,7 +22,6 @@ public class BuildingButtonHandler : MonoBehaviour
 
     private void ButtonClicked()
     {
-        // Debug.Log("Button was clicked: " + item.name);
         editor.ObjectSelected(item);
     }
 }

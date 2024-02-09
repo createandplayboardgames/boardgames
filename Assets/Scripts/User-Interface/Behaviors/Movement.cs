@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Moves player pieces along board
+ */
+
 public class Movement : MonoBehaviour
 {
     // get tiles

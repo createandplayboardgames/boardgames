@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * TODO: Makes call to GameDefinition Manager for players, spinner and board
+ * Updates player position with Dice roll, updates player turn, ends game upon completion
+ */
+
 public class GameControl : MonoBehaviour
 {
     /* get number of players, spiner, and position on map.
@@ -29,6 +34,8 @@ public class GameControl : MonoBehaviour
 
     /*
      * Update players turn, and activate game over scene.
+     * Source: https://www.youtube.com/watch?v=W8ielU8iURI&ab_channel=AlexanderZotov
+     * 
      * TODO: activate game over scene and player turns, also make text to say whos turn it is.
      */
     void Update()
