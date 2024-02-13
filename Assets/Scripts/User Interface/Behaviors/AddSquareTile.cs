@@ -6,6 +6,7 @@ using UnityEngine;
  * TODO: add square tile prefab to board, 
  * connect to drag and drop, 
  * connect to sqauretiledata
+ * Transition AddSquareTile to GameDefinitionManager
  */
 public class AddSquareTile : MonoBehaviour
 {
