@@ -29,16 +29,13 @@ public class GameDefinitionManager : MonoBehaviour
     public void CreateTile(GameObject tileGameObject)
     {
         // TODO - create GameObject (from prefab)
-        squareTile = tileGameObject.AddComponent<SquareTileData>();
         // Add to dictionary holding gameobject and data of square tiles
-        tileList.Add(tileGameObject, squareTile);
 
 
     }
     public void DeleteTile(GameObject tileGameObject)
     {
         // TODO - delete TileData's GameObject
-        tileList.Remove(tileGameObject);
     }
     void ConnectPorts(ConnectableSide.OutgoingPort outgoing, ConnectableSide.IncomingPort incoming)
     {
