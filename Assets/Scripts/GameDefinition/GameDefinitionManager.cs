@@ -6,6 +6,9 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameDefinitionManager : MonoBehaviour
 {
+    // --Create Dictionary for game object and squaretile
+    public Dictionary<GameObject, SquareTileData> tileList = new();
+    SquareTileData squareTile;
 
     // --- Players 
     void CreatePlayer()
@@ -23,11 +26,14 @@ public class GameDefinitionManager : MonoBehaviour
 
 
     // --- Tiles
-    void CreateTile()
+    public void CreateTile(GameObject tileGameObject)
     {
         // TODO - create GameObject (from prefab)
+        // Add to dictionary holding gameobject and data of square tiles
+
+
     }
-    void DeleteTile(SquareTileData tile)
+    public void DeleteTile(GameObject tileGameObject)
     {
         // TODO - delete TileData's GameObject
     }
@@ -47,5 +53,3 @@ public class GameDefinitionManager : MonoBehaviour
     }
 
 }
-
-
