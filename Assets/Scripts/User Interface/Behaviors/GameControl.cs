@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -14,9 +16,12 @@ public class GameControl : MonoBehaviour
      * TODO: link to data from set classes
      */
 
-    //GameDefinitionManager manager;
+    public TextMeshProUGUI turnText;
+
+    GameDefinitionManager manager;
     
     private static GameObject player1, player2;
+
 
     public static int spinner = 0;
     public static int player1position = 0;
@@ -47,19 +52,27 @@ public class GameControl : MonoBehaviour
         {
             player1.GetComponent<Movement>().moveAllowed = false;
             player1position = player1.GetComponent<Movement>().tileIndex - 1;
+            turnText.text = "Computer's Turn";
         }
         if (player2.GetComponent<Movement>().tileIndex > player2position + spinner)
         {
             player2.GetComponent<Movement>().moveAllowed = false;
             player2position = player2.GetComponent<Movement>().tileIndex - 1;
+            turnText.text = "Your Turn";
         }
         if (player1.GetComponent<Movement>().tileIndex == player1.GetComponent<Movement>().tiles.Length)
         {
             gameOver = true;
+            Debug.Log("End Game");
+            //TODO: Assign Winner
+            SceneManager.LoadScene("EndGame");
         }
         if (player2.GetComponent<Movement>().tileIndex == player2.GetComponent<Movement>().tiles.Length)
         {
             gameOver = true;
+            Debug.Log("End Game");
+            //TODO: Assign Winner
+            SceneManager.LoadScene("EndGame");
         }
 
     }

@@ -14,8 +14,11 @@ public class Spinner : MonoBehaviour
     private SpriteRenderer rend; // change sprites
 
     //private int maxRoll = 6; // change with gameState
+    private bool coroutineAllowed = true;
 
     private int playerTurn = 1;
+
+    private bool vsComputer = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,12 +33,13 @@ public class Spinner : MonoBehaviour
     // click mouse to start Spin
     private void OnMouseDown()
     {
-        _ = StartCoroutine("Spin");
+        if(!GameControl.gameOver && coroutineAllowed) { StartCoroutine("Spin"); }
     }
 
     private IEnumerator Spin()
     {
         // initialize spinner and end roll
+        coroutineAllowed = false;
         int spinResult = 0;
         int finalState;
 
@@ -43,7 +47,7 @@ public class Spinner : MonoBehaviour
         for (int i = 0; i <= 20; i++)
         {
             // roll 0 - 5 (could be changed in future depending on spinner type)
-            spinResult = Random.Range(0, 5);
+            spinResult = Random.Range(0, 6);
 
             // render dice faces while roll is happening
             rend.sprite = diceSides[spinResult];
@@ -64,6 +68,11 @@ public class Spinner : MonoBehaviour
             GameControl.MovePlayer(2);
         }
         playerTurn *= -1;
+        coroutineAllowed = true;
+        if( playerTurn == -1 && vsComputer)
+        {
+            StartCoroutine("Spin");
+        }
 
         Debug.Log(finalState);
 

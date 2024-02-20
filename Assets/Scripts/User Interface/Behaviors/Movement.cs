@@ -7,6 +7,7 @@ using UnityEngine;
  */
 public class Movement : MonoBehaviour
 {
+    TileData tileData;
     // get tiles
     public Transform[] tiles;
 

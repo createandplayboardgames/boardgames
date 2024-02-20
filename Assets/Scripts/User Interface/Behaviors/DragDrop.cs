@@ -11,7 +11,8 @@ public class DragDrop : MonoBehaviour
 
     public Vector3 targetPosition;
 
-    public float snapDistance = 1f;
+    Collider2D tileCollider;
+
 
     void Update()
     {
@@ -24,6 +25,8 @@ public class DragDrop : MonoBehaviour
     {
         _dragging = true;
         _dragOffset = GetMousePos() - (Vector2)transform.position;
+        tileCollider = GetComponent<Collider2D>();
+
     }
 
     public void OnMouseOver()
