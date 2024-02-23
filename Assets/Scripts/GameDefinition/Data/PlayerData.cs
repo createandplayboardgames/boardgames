@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    public String playerName;
+    public String playerName = "no name";
     public int points = 0;
     public TileData location;
-    public PlayerData(String playerName)
-    {
-        this.playerName = playerName;
-    }
 }

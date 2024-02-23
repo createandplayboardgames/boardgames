@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -9,6 +10,9 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class GameDefinitionManager : MonoBehaviour
 {
     public int tilecount = 0;
+    public List<PlayerData> players = new List<PlayerData>(); 
+    // TODO - this is data, and should go elsewhere
+
 
     // --- Players 
     public void CreatePlayer()
@@ -16,6 +20,7 @@ public class GameDefinitionManager : MonoBehaviour
         // TODO - create GameObject (from prefab)
         GameObject newPlayer = Instantiate(Resources.Load("PlayerPiece"), new Vector3(2, 5, 0), Quaternion.identity) as GameObject;
         newPlayer.transform.SetParent(GameObject.FindGameObjectWithTag("Tokens").transform, false);
+        players.Add(newPlayer.GetComponent<PlayerData>());
     }
     void DeletePlayer(PlayerData player)
     {
@@ -25,7 +30,6 @@ public class GameDefinitionManager : MonoBehaviour
     {
         //TODO - move PlayerData's GameObject to TileData's GameObject
     }
-
 
     // --- Tiles
     public void CreateTile()
@@ -51,10 +55,11 @@ public class GameDefinitionManager : MonoBehaviour
 
 
     // --- Spinner
-    int SpinSpinner()
+    public int SpinSpinner()
     {
         // TODO - animate spinner (?)
         return 1;
     }
 
+ 
 }

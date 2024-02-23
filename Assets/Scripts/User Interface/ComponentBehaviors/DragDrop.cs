@@ -54,4 +54,14 @@ public class DragDrop : MonoBehaviour
         //TODO
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("OnCollisionEnter2D");
+    }
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        Debug.Log("OnTriggerStay2D");
+    }
+
 }

@@ -26,12 +26,14 @@ public class TileData : MonoBehaviour
     public bool right_outgoing;
     public bool up_incoming;
     public bool down_outgoing;
-
+    
     public ConnectableSide port_left;
     public ConnectableSide port_right;
     public ConnectableSide port_top;
     public ConnectableSide port_bottom;
-    public Boolean isEndingTile = false;
+
+    private GameAction associatedAction = null;
+    public Boolean shouldFinishGame = false;
 
     private void Start()
     {
@@ -43,6 +45,7 @@ public class TileData : MonoBehaviour
         
     }
 
+    /*
     public void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("RightPort"))
@@ -66,6 +69,15 @@ public class TileData : MonoBehaviour
             Debug.Log("port_bottom");
         }
         
+    }
+    */
+
+    public bool IsEndingTile()
+    {
+        return associatedAction is FinishGameAction || shouldFinishGame;
+    }
+    public GameAction getAssociatedAction(){
+        return associatedAction;
     }
 }
 
