@@ -6,48 +6,41 @@ using UnityEngine;
 
 public class DragDrop : MonoBehaviour
 {
-    private bool _dragging;
-    private Vector2 _dragOffset;
-
+    private bool isDragHappening = false;
+    private Vector2 currentDragOffset;
     public Vector3 targetPosition;
-
     Collider2D tileCollider;
 
-
+    private void Start(){
+        var rb = GetComponent<Rigidbody2D>();
+        rb.freezeRotation = true;
+    }
+    void OnMouseDown(){
+        isDragHappening = true; //start drag
+        currentDragOffset = GetMousePos() - (Vector2) transform.position; //store offset
+    }
     void Update()
     {
-        if (!_dragging) return;
-        var mousePosition = GetMousePos();
-        transform.position = mousePosition - _dragOffset;
+        if (!isDragHappening) return;
+        var newPos = GetMousePos() - currentDragOffset; //calculate new position
+        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z) ; //drag (don't change Z-position)
     }
-
-    void OnMouseDown()
-    {
-        _dragging = true;
-        _dragOffset = GetMousePos() - (Vector2)transform.position;
-        tileCollider = GetComponent<Collider2D>();
-
-    }
-
-    public void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
-    void OnMouseUp()
-    {
-        _dragging = false;
+    void OnMouseUp(){
+        isDragHappening = false; //end drag
         //TODO: Snap to closest tile if in range
     }
 
-    Vector2 GetMousePos()
-    {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    public void OnMouseOver(){
+        if (Input.GetMouseButtonDown(1)){ //right click
+            Debug.Log("DESTROYING TILE");
+            //Destroy(gameObject);
+        }
     }
+    Vector2 GetMousePos(){ return Camera.main.ScreenToWorldPoint(Input.mousePosition); }
+
+
+
+
 
     public void SnapToPosition()
     {
