@@ -14,19 +14,20 @@ public class GameDefinitionManager : MonoBehaviour
 
     public int tilecount = 0;
 
-    private GameObject loadGamePiece(string pieceName)
+    private GameObject loadGamePiece(string pieceName, string parentName)
     {
-        var board = GameObject.Find("Board");
+        var parent = GameObject.Find(parentName);
         GameObject gamePiece = Instantiate(Resources.Load(pieceName),
-            board.transform.position, board.transform.rotation) as GameObject;
-        gamePiece.transform.parent = board.transform;
+            parent.transform.position, parent.transform.rotation) as GameObject;
+        gamePiece.transform.parent = parent.transform;
+        gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
         return gamePiece;
     }
 
     // --- Players 
     public void CreatePlayer()
     {
-        GameObject player = loadGamePiece("Player");
+        GameObject player = loadGamePiece("Player", "Players");
         players.Add(player.GetComponent<PlayerData>());
     }
     void DeletePlayer(PlayerData player)
@@ -42,7 +43,7 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Tiles
     public void CreateTile()
     {
-        loadGamePiece("Tile");
+        loadGamePiece("Tile", "Tiles");
         tilecount++;
     }
 

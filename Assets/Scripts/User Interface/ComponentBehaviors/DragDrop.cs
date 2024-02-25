@@ -1,34 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // Following the tutorial: Drag and Drop in Unity - 2021 Tutorial by Tarodev //
 
-public class DragDrop : MonoBehaviour
+public class DragDrop : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private bool isDragHappening = false;
     private Vector2 currentDragOffset;
     public Vector3 targetPosition;
     Collider2D tileCollider;
 
-    private void Start(){
+    private void Start()
+    {
         var rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
     }
-    void OnMouseDown(){
-        isDragHappening = true; //start drag
-        currentDragOffset = GetMousePos() - (Vector2) transform.position; //store offset
-    }
-    void Update()
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isDragHappening) return;
-        var newPos = GetMousePos() - currentDragOffset; //calculate new position
-        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z) ; //drag (don't change Z-position)
+        Debug.Log("HELLO DOWN");
+        currentDragOffset = GetMousePos() - (Vector2)transform.position; //store offset
     }
-    void OnMouseUp(){
-        isDragHappening = false; //end drag
+    public void OnDrag(PointerEventData eventData)
+    {
+        var newPos = GetMousePos() - currentDragOffset; //calculate new position
+        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z); //drag (don't change Z-position)    }
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
         //TODO: Snap to closest tile if in range
     }
+    
+
 
     public void OnMouseOver(){
         if (Input.GetMouseButtonDown(1)){ //right click
@@ -37,9 +42,6 @@ public class DragDrop : MonoBehaviour
         }
     }
     Vector2 GetMousePos(){ return Camera.main.ScreenToWorldPoint(Input.mousePosition); }
-
-
-
 
 
     public void SnapToPosition()
@@ -56,5 +58,6 @@ public class DragDrop : MonoBehaviour
     {
         Debug.Log("OnTriggerStay2D");
     }
+
 
 }
