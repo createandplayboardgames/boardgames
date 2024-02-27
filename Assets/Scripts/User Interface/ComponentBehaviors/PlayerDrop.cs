@@ -11,7 +11,7 @@ public class PlayerDrop : MonoBehaviour, IPointerUpHandler
         SnapToTile(null); //unsnap
         foreach (Collider2D collider in overlapping)
         {
-            if (collider.gameObject == gameObject)
+            if (collider.gameObject == gameObject) //skip self
                 continue;
             if (collider.gameObject.GetComponent<TileData>() != null)
             { //overlaps with Tile
