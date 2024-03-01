@@ -11,7 +11,7 @@ public class GameDefinitionManager : MonoBehaviour
 {
     // TODO - this is data, and should go elsewhere
     public List<PlayerData> players = new List<PlayerData>();
-
+    private int MAX_PLAYER_COUNT = 4;
     public int tilecount = 0;
 
     private GameObject loadGamePiece(string pieceName, string parentName)
@@ -27,7 +27,11 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Players 
     public void CreatePlayer()
     {
-        GameObject player = loadGamePiece("Player", "Players");
+        if (players.Count > MAX_PLAYER_COUNT){
+            //TODO - display message
+            return; 
+        }
+        GameObject player = loadGamePiece("Player", "PlayerArea");
         players.Add(player.GetComponent<PlayerData>());
     }
     void DeletePlayer(PlayerData player)
@@ -43,7 +47,7 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Tiles
     public void CreateTile()
     {
-        loadGamePiece("Tile", "Tiles");
+        loadGamePiece("Tile", "TileArea");
         tilecount++;
     }
 

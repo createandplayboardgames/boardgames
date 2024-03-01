@@ -2026,7 +2026,7 @@ GameObject:
   - component: {fileID: 1237800169}
   - component: {fileID: 1237800170}
   m_Layer: 0
-  m_Name: Tiles
+  m_Name: TileArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3177,7 +3177,7 @@ GameObject:
   - component: {fileID: 2144568493}
   - component: {fileID: 2144568494}
   m_Layer: 0
-  m_Name: Players
+  m_Name: PlayerArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
