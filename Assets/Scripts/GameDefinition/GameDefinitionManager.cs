@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -8,14 +9,26 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameDefinitionManager : MonoBehaviour
 {
+    // TODO - this is data, and should go elsewhere
+    public List<PlayerData> players = new List<PlayerData>();
+
     public int tilecount = 0;
+
+    private GameObject loadGamePiece(string pieceName, string parentName)
+    {
+        var parent = GameObject.Find(parentName);
+        GameObject gamePiece = Instantiate(Resources.Load(pieceName),
+            parent.transform.position, parent.transform.rotation) as GameObject;
+        gamePiece.transform.parent = parent.transform;
+        gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
+        return gamePiece;
+    }
 
     // --- Players 
     public void CreatePlayer()
     {
-        // TODO - create GameObject (from prefab)
-        GameObject newPlayer = Instantiate(Resources.Load("PlayerPiece"), new Vector3(2, 5, 0), Quaternion.identity) as GameObject;
-        newPlayer.transform.SetParent(GameObject.FindGameObjectWithTag("Tokens").transform, false);
+        GameObject player = loadGamePiece("Player", "Players");
+        players.Add(player.GetComponent<PlayerData>());
     }
     void DeletePlayer(PlayerData player)
     {
@@ -30,11 +43,12 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Tiles
     public void CreateTile()
     {
-        GameObject newTile = Instantiate(Resources.Load("SquareTile"), new Vector3(-2, -6, 0), Quaternion.identity) as GameObject;
-        newTile.transform.SetParent(GameObject.FindGameObjectWithTag("Tiles").transform, false);
-        newTile.name = "SquareTile" + tilecount;
+        loadGamePiece("Tile", "Tiles");
         tilecount++;
     }
+
+
+
     public void DeleteTile()
     {
         // TODO - delete TileData's GameObject
@@ -51,10 +65,11 @@ public class GameDefinitionManager : MonoBehaviour
 
 
     // --- Spinner
-    int SpinSpinner()
+    public int SpinSpinner()
     {
         // TODO - animate spinner (?)
         return 1;
     }
 
+ 
 }

@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 2017962484622771343}
   - component: {fileID: 5250957330147275159}
   - component: {fileID: 8055849416454120470}
-  - component: {fileID: 9117847391114721899}
-  - component: {fileID: -4767582462540543631}
+  - component: {fileID: 7751534518082430233}
+  - component: {fileID: 1963816161646424953}
   m_Layer: 0
-  m_Name: PlayerPiece
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,13 +186,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 246628128472694631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc3977c1a11d66544b61ce62f2ade477, type: 3}
+  m_Script: {fileID: 11500000, guid: e1010125a43a9514d874cfb9ce4d9aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
-  points: 0
-  location: {fileID: 0}
---- !u!114 &9117847391114721899
+  targetPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &7751534518082430233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,35 +199,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 246628128472694631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1010125a43a9514d874cfb9ce4d9aa3, type: 3}
+  m_Script: {fileID: 11500000, guid: 27b97294f6c61fd418dd485b475e1abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
-  snapDistance: 1
---- !u!50 &-4767582462540543631
-Rigidbody2D:
-  serializedVersion: 4
+  playerName: no name
+  points: 0
+  location: {fileID: 0}
+--- !u!114 &1963816161646424953
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246628128472694631}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da74388143327b143bdeda3bfef67ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
