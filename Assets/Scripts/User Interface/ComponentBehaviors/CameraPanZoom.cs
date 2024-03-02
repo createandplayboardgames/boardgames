@@ -9,8 +9,11 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 amountToChange = eventData.delta * dragScale;
-        mainCamera.transform.Translate(amountToChange.x, -amountToChange.y, 0);
+        if (eventData.button == PointerEventData.InputButton.Middle)
+        {
+            Vector2 amountToChange = eventData.delta * dragScale;
+            mainCamera.transform.Translate(amountToChange.x, -amountToChange.y, 0);
+        }
     }
     public void OnScroll(PointerEventData eventData)
     {
