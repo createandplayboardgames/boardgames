@@ -19,7 +19,7 @@ public class GameDefinitionManager : MonoBehaviour
         var parent = GameObject.Find(parentName);
         GameObject gamePiece = Instantiate(Resources.Load(pieceName),
             parent.transform.position, parent.transform.rotation) as GameObject;
-        gamePiece.transform.parent = parent.transform;
+            gamePiece.transform.parent = parent.transform;
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
         return gamePiece;
     }
@@ -43,12 +43,14 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Tiles
     public void CreateTile()
     {
-        loadGamePiece("Tile", "Tiles");
+        loadGamePiece("SquareTile", "Tileset");
         tilecount++;
+        //GameObject newTile = Instantiate(Resources.Load("SquareTile"), new Vector3(-2, -6, 0), Quaternion.identity) as GameObject;
+        //newTile.transform.SetParent(GameObject.FindGameObjectWithTag("TileSet").transform, false);
+        //newTile.transform.localPosition = Random.insideUnitSphere * 2f;
+        //newTile.name = "SquareTile" + tilecount;
+
     }
-
-
-
     public void DeleteTile()
     {
         // TODO - delete TileData's GameObject
@@ -59,17 +61,19 @@ public class GameDefinitionManager : MonoBehaviour
     public void ConnectPorts(ConnectableSide.OutgoingPort outgoing, ConnectableSide.IncomingPort incoming)
     {
         // TODO - validation
-        outgoing.connectedTo = incoming;
+        if (outgoing != null && incoming != null)
+        {
+            outgoing.connectedTo = incoming;
+        }
         // TODO - update views
     }
 
 
     // --- Spinner
-    public int SpinSpinner()
+    int SpinSpinner()
     {
         // TODO - animate spinner (?)
         return 1;
     }
 
- 
 }
