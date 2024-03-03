@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameDefinitionManager : MonoBehaviour
 {
@@ -23,6 +17,7 @@ public class GameDefinitionManager : MonoBehaviour
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
         //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera 
         //ideally without overlapping others
+        gamePiece.GetComponent<Select>()?.SelectPiece();
         return gamePiece;
     }
 
@@ -38,7 +33,7 @@ public class GameDefinitionManager : MonoBehaviour
     }
     void DeletePlayer(PlayerData player)
     {
-        // TODO - delete PlayerData's GameObject
+        // TODO - delete PlayerData's GameObject, delete from cache
     }
     void MovePlayer(PlayerData player, TileData tile)
     {
