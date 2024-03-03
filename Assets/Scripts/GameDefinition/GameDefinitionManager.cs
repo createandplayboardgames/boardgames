@@ -21,6 +21,8 @@ public class GameDefinitionManager : MonoBehaviour
             parent.transform.position, parent.transform.rotation) as GameObject;
         gamePiece.transform.parent = parent.transform;
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
+        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera 
+        //ideally without overlapping others
         return gamePiece;
     }
 
