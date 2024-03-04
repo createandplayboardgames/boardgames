@@ -9,83 +9,86 @@ using UnityEngine.Tilemaps;
 
 public class TileData : MonoBehaviour
 {
+    private GameDefinitionManager gameDefinitionManager;
 
-    GameDefinitionManager gameDefinitionManager;
+    // Get nodes and components from tile node points and gets positions of nodes
+    public Transform tilePosition;
 
-    // Get nodes and components from tile node points
-    public Transform left;
-    public Transform right;
-    public Transform up;
-    public Transform down;
-    public Transform center;
+    public GameObject adjacentTile = null;
 
-    Collider2D sourceCollider;
+    public List<GameObject> adjacentTiles = new List<GameObject>();
 
     // For two direction options: left to right or up to down.
-    public bool left_incoming;
+    public bool left_outgoing;
     public bool right_outgoing;
-    public bool up_incoming;
+    public bool up_outgoing;
     public bool down_outgoing;
-    
+
+
     public ConnectableSide port_left;
     public ConnectableSide port_right;
     public ConnectableSide port_top;
     public ConnectableSide port_bottom;
+    public bool isEndingTile = false;
+    public bool newTile = false;
 
     private GameAction associatedAction = null;
     public Boolean shouldFinishGame = false;
-        
-    private void Start()
-    {
-        
-    }
+
 
     public void Update()
     {
-        
+        if (newTile && adjacentTile != null)
+        {
+            AddAdjacentTile(adjacentTile);
+        }
+        else if (!newTile && adjacentTile!=null)
+        {
+            RemoveAdjacentTile(adjacentTile);
+            adjacentTile = null;
+        }
+
     }
 
-    /*
-    public void OnTriggerStay2D(Collider2D other)
+    // add adjacent tile if not currently in list
+    public void AddAdjacentTile(GameObject tile)
     {
-        if (other.CompareTag("RightPort"))
+        if (!adjacentTiles.Contains(tile))
         {
-            left_incoming = true;
-            Debug.Log("port_right");
+            adjacentTiles.Add(tile);
         }
-        if (other.CompareTag("LeftPort"))
-        {
-            right_outgoing = true;
-            Debug.Log("port_left");
-        }
-        if (other.CompareTag("UpPort"))
-        {
-            down_outgoing = true;
-            Debug.Log("port_top");
-        }
-        if (other.CompareTag("DownPort"))
-        {
-            up_incoming = true;
-            Debug.Log("port_bottom");
-        }
-        
     }
-    */
+
+    // remove tile if currently in adjacent tile list
+    public void RemoveAdjacentTile(GameObject tile)
+    {
+        if (adjacentTiles.Contains(tile))
+        {
+            adjacentTiles.Remove(tile);
+        }
+    }
 
     public bool IsEndingTile()
     {
         return associatedAction is FinishGameAction || shouldFinishGame;
     }
-    public GameAction getAssociatedAction(){
+    public GameAction getAssociatedAction()
+    {
         return associatedAction;
     }
 }
 
-public class ConnectableSide
+public class ConnectableSide : MonoBehaviour
 {
     public OutgoingPort outgoing;
     public IncomingPort incoming;
-    public class OutgoingPort { public IncomingPort connectedTo = null; }
-    public class IncomingPort { public Boolean hasConnection = false; }
-
+    public class OutgoingPort
+    {
+        public IncomingPort connectedTo = null;
+    }
+    public class IncomingPort
+    {
+        public Boolean hasConnection = false;
+    }
 }
+
