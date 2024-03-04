@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class TileSnapping : MonoBehaviour
 {
-    TileData data;
+    public GameDefinitionManager gameDefinitionManager;
+    public TileData data;
+    public TileData otherTileData;
     public Transform left;
     public Transform right;
     public Transform up;
@@ -18,6 +20,15 @@ public class TileSnapping : MonoBehaviour
     public Vector3 otherNodePosition;
     public Vector3 nodePosition;
 
+    private void Start()
+    {
+        data = GetComponent<TileData>();
+    }
+
+    private void Update()
+    {
+
+    }
 
     private void GetPosition()
     {
@@ -27,27 +38,49 @@ public class TileSnapping : MonoBehaviour
         }
     }
 
+
+
     private void OnTriggerStay2D(Collider2D other)
     {
         allowInteraction = true;
         otherNodePosition = other.transform.position;
         if (other.CompareTag("RightPort"))
         {
+            //update tile data
+            data.left_outgoing = true;
+            data.newTile = true;
+            data.adjacentTile = other.transform.parent.gameObject;
+            //
             nodePosition = left.transform.position;
             GetPosition();
         }
         else if (other.CompareTag("LeftPort"))
         {
+            //update tile data
+            data.right_outgoing = true;
+            data.newTile = true;
+            data.adjacentTile = other.transform.parent.gameObject;
+            //
             nodePosition = right.transform.position;
             GetPosition();
         }
         else if (other.CompareTag("UpPort"))
         {
+            //update tile data
+            data.down_outgoing = true;
+            data.newTile = true;
+            data.adjacentTile = other.transform.parent.gameObject;
+            //
             nodePosition = down.transform.position;
             GetPosition();
         }
         else if (other.CompareTag("DownPort"))
         {
+            //update tile data
+            data.up_outgoing = true;
+            data.newTile = true;
+            data.adjacentTile = other.transform.parent.gameObject;
+            //
             nodePosition = up.transform.position;
             GetPosition();
         }
@@ -58,19 +91,31 @@ public class TileSnapping : MonoBehaviour
         allowInteraction = false;
         if (other.CompareTag("RightPort"))
         {
-            Debug.Log("port_right");
+            data.adjacentTile = other.transform.parent.gameObject;
+            data.newTile = false;
+            data.left_outgoing = false;
+            Debug.Log("port_right exit");
         }
         if (other.CompareTag("LeftPort"))
         {
-            Debug.Log("port_left");
+            data.adjacentTile = other.transform.parent.gameObject;
+            data.newTile = false;
+            data.right_outgoing = false;
+            Debug.Log("port_left exit");
         }
         if (other.CompareTag("UpPort"))
         {
-            Debug.Log("port_top");
+            data.adjacentTile = other.transform.parent.gameObject;
+            data.newTile = false;
+            data.down_outgoing = false;
+            Debug.Log("port_top exit");
         }
         if (other.CompareTag("DownPort"))
         {
-            Debug.Log("port_bottom");
+            data.adjacentTile = other.transform.parent.gameObject;
+            data.newTile = false;
+            data.up_outgoing = false;
+            Debug.Log("port_bottom exit");
         }
     }
 

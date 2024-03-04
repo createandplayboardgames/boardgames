@@ -32,24 +32,10 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
         _dragging = true;
         currentDragOffset = GetMousePos() - (Vector2)transform.position; //store offset
 
+        // Disable Triggers on tile child nodes
         if (gameObject.CompareTag("Tiles"))
         {
-            // Enable TileSnapping
-            gameObject.GetComponent<TileSnapping>().enabled = true;
-            gameObject.GetComponent<TileSnapping>().allowInteraction = true;
-            if (trigger == true)
-            {
-                for (int i = 0; i < gameObject.transform.childCount; i++)
-                {
-                    GameObject child = gameObject.transform.GetChild(i).gameObject;
-                    if (child.GetComponent<Collider2D>().isTrigger)
-                    {
-                        child.GetComponent<Collider2D>().isTrigger = false;
-                    }
-
-                }
-                trigger = false;
-            }
+            DisableTriggers(gameObject);
         }
     }
 
@@ -59,25 +45,7 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
         // Enable Triggers on tile child nodes
         if (gameObject.CompareTag("Tiles"))
         {
-            if (trigger == false)
-            {
-                for (int i = 0; i < gameObject.transform.childCount; i++)
-                {
-                    GameObject child = gameObject.transform.GetChild(i).gameObject;
-                    if (!child.GetComponent<Collider2D>().isTrigger)
-                    {
-                        child.GetComponent<Collider2D>().isTrigger = true;
-                    }
-
-                }
-                trigger = true;
-
-            }
-            // Disable TileSnapping
-            gameObject.GetComponent<TileSnapping>().enabled = false;
-            gameObject.GetComponent<TileSnapping>().allowInteraction = false;
-
-
+            EnableTriggers(gameObject);
         }
     }
 
@@ -95,4 +63,44 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
+
+    public void DisableTriggers(GameObject gameObject)
+    {
+        gameObject.GetComponent<TileSnapping>().enabled = true;
+        gameObject.GetComponent<TileSnapping>().allowInteraction = true;
+        if (trigger == true)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                GameObject child = gameObject.transform.GetChild(i).gameObject;
+                if (child.GetComponent<Collider2D>().isTrigger)
+                {
+                    child.GetComponent<Collider2D>().isTrigger = false;
+                }
+
+            }
+            trigger = false;
+        }
+    }
+
+    public void EnableTriggers(GameObject gameObject)
+    {
+        if (trigger == false)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                GameObject child = gameObject.transform.GetChild(i).gameObject;
+                if (!child.GetComponent<Collider2D>().isTrigger)
+                {
+                    child.GetComponent<Collider2D>().isTrigger = true;
+                }
+
+            }
+            trigger = true;
+        }
+        // Disable TileSnapping
+        gameObject.GetComponent<TileSnapping>().enabled = false;
+        gameObject.GetComponent<TileSnapping>().allowInteraction = false;
+    }
+
 }
