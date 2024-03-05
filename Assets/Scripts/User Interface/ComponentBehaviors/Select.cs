@@ -15,8 +15,7 @@ public class Select : MonoBehaviour, IPointerDownHandler
         MenuHandler menuHandler = GameObject.Find("MainMenu").GetComponent<MenuHandler>();
         //check type, then perform action - depedent on application state
         PlayerData playerData = GetComponent<PlayerData>();
-        if (playerData)
-        {
+        if (playerData){
             if (!menuHandler.isRequestingPlayerLocationSet)
                 GameObject.Find("MainMenu").GetComponent<MenuHandler>().ShowInforMenuPlayer(playerData);
             return;
@@ -26,8 +25,7 @@ public class Select : MonoBehaviour, IPointerDownHandler
         {
             if (menuHandler.isRequestingPlayerLocationSet) {
                 menuHandler.FinishSetPlayerLocation(tileData);
-            } else
-            {
+            } else {
                 menuHandler.ShowInfoMenuTile(tileData);
             }
 

@@ -36,8 +36,8 @@
                             <ui:VisualElement name="PlayerLocation" style="flex-grow: 0; flex-basis: auto; flex-direction: row; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
                                 <ui:Label tabindex="-1" text="Location" parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-grow: 1; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-direction: column; flex-shrink: 1; justify-content: flex-start; align-items: auto; align-self: center;" />
                                 <ui:VisualElement style="flex-grow: 1; flex-direction: row-reverse;">
-                                    <ui:Button text="Set" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayerSetLocationButton" style="flex-grow: 1;" />
-                                    <ui:Button text="Find" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayerFindLocationButton" style="flex-grow: 1;" />
+                                    <ui:Button text="Set" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayerSetLocationButton" style="flex-grow: 0;" />
+                                    <ui:Button text="Find" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayerFindLocationButton" style="flex-grow: 0;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
