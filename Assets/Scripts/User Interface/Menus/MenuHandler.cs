@@ -1,4 +1,5 @@
 using System;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,7 +15,8 @@ public class MenuHandler : MonoBehaviour
     //--- Dynamic Menus
     private VisualElement dynamicMenusRoot;
     private VisualElement infoMenuPlayer;
-    //players
+    private VisualElement infoMenuTile;
+    //players 
     private PlayerData currentPlayerData = null;
     private TextField playerNameField;
     private IntegerField playerPointsField;
@@ -24,9 +26,9 @@ public class MenuHandler : MonoBehaviour
 
     public void OnEnable()
     {
-        root = GetComponent<UIDocument>().rootVisualElement;
+        root = GameObject.Find("MainMenu").GetComponent<UIDocument>().rootVisualElement;
         closeButton = root.Q("CloseButton") as Button;
-        closeButton.RegisterCallback<ClickEvent>(evt => { SetMainMenuVisible(false); });
+        closeButton.RegisterCallback<ClickEvent>(evt => { SetMenuRootShown(false); });
         //--- setup Main Menus
         // Tiles
         tileOptionSquare = root.Q("TileOptionSquare");
@@ -47,6 +49,7 @@ public class MenuHandler : MonoBehaviour
         //--- setup Dynamic Menus
         dynamicMenusRoot = root.Q("DynamicMenus");
         infoMenuPlayer = root.Q("InfoMenuPlayer");
+        infoMenuTile = root.Q("InfoMenuTile");
         //player
         playerNameField = root.Q("PlayerNameField") as TextField;
         playerNameField.RegisterValueChangedCallback<string>(evt => { //set name 
@@ -64,47 +67,49 @@ public class MenuHandler : MonoBehaviour
             else FinishSetPlayerLocation(null); 
         });
 
+
         //initialize
-        HideAllDynamicMenus();
-        SetMainMenuVisible(false);
+        SetMenuRootShown(false);
+        SetAllDynamicMenusUnShown();
     }
-
-
 
     private void RefreshPlayerSetLocationButtonText(){
         playerSetLocationButton.text = isRequestingPlayerLocationSet ? "Setting..." : "Set";
         Debug.Log("setting to " + playerSetLocationButton.text);
-
     }
-
 
 
     //----- Layout Helpers
-
-    public void SetMainMenuVisible(bool visible)
-    {
-        GameObject.Find("MainMenu").GetComponent<UIDocument>().rootVisualElement.visible = visible;
+    // Basic Methods to Show/Hide
+    private void SetElementVisible(VisualElement element, bool visible){
+        element.style.visibility = visible ? Visibility.Visible : Visibility.Hidden;
     }
-    private void HideAllDynamicMenus()
-    {
+    private void SetElementDisplayed(VisualElement element, bool displayed){
+        element.style.display = displayed ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    // Show/Hides
+    public void SetMenuRootShown(bool shown){
+        SetElementDisplayed(root, shown);
+    }
+    public void SetDynamicMenuElementShown(VisualElement element, bool shown){
+        SetElementDisplayed(element, shown); 
+    }
+    private void SetAllDynamicMenusUnShown(){
         foreach (var child in dynamicMenusRoot.Children())
-            child.style.visibility = Visibility.Hidden;
-        dynamicMenusRoot.style.visibility = Visibility.Hidden;
-
+            SetDynamicMenuElementShown(child, false);
     }
-    internal void ShowInforMenuPlayer(PlayerData playerData)
-    {
-        HideAllDynamicMenus();
-        dynamicMenusRoot.style.visibility = Visibility.Visible;
+    public void ShowInforMenuPlayer(PlayerData playerData){
+        SetAllDynamicMenusUnShown();
+        SetDynamicMenuElementShown(infoMenuPlayer, true);
         currentPlayerData = playerData;
-        infoMenuPlayer.style.visibility = Visibility.Visible;
         playerNameField.value = playerData.playerName;
         playerPointsField.value = playerData.points;
     }
 
-    internal void ShowInfoMenuTile(TileData tileData)
-    {
-        throw new NotImplementedException();
+    public void ShowInfoMenuTile(TileData tileData){
+        SetAllDynamicMenusUnShown();
+        SetDynamicMenuElementShown(infoMenuTile, true);
     }
 
 
