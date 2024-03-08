@@ -31,7 +31,7 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
     {
         _dragging = true;
         currentDragOffset = GetMousePos() - (Vector2)transform.position; //store offset
-
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
         // Disable Triggers on tile child nodes
         if (gameObject.CompareTag("Tiles"))
         {
@@ -42,6 +42,8 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
     public void OnMouseUp()
     {
         _dragging = false;
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
+
         // Enable Triggers on tile child nodes
         if (gameObject.CompareTag("Tiles"))
         {
@@ -64,10 +66,10 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
+    //Disable active triggers in moving object
     public void DisableTriggers(GameObject gameObject)
     {
         gameObject.GetComponent<TileSnapping>().enabled = true;
-        gameObject.GetComponent<TileSnapping>().allowInteraction = true;
         if (trigger == true)
         {
             for (int i = 0; i < gameObject.transform.childCount; i++)
@@ -83,6 +85,7 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
         }
     }
 
+    //Enable triggers in set object
     public void EnableTriggers(GameObject gameObject)
     {
         if (trigger == false)
@@ -98,9 +101,8 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
             }
             trigger = true;
         }
-        // Disable TileSnapping
-        gameObject.GetComponent<TileSnapping>().enabled = false;
-        gameObject.GetComponent<TileSnapping>().allowInteraction = false;
+        gameObject.GetComponent<TileSnapping>().enabled = true;
+
     }
 
 }

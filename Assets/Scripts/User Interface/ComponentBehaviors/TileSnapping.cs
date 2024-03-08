@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class TileSnapping : MonoBehaviour
     public Transform up;
     public Transform down;
 
+    public DragDrop dragdrop;
+
     public bool allowInteraction = false;
 
     public Vector3 otherNodePosition;
@@ -22,99 +25,105 @@ public class TileSnapping : MonoBehaviour
 
     private void Start()
     {
-        data = GetComponent<TileData>();
-    }
-
-    private void Update()
-    {
+        data = gameObject.GetComponent<TileData>();
+        dragdrop = gameObject.GetComponent<DragDrop>();
 
     }
 
-    private void GetPosition()
+    //Set tile to snap next to other tile if allowed
+    public void GetPosition()
     {
         if (allowInteraction)
         {
             gameObject.transform.position += (otherNodePosition - nodePosition);
         }
+        allowInteraction = false;
+    }
+
+    //add connection to ConnectableSide
+    public void UpdateConnections(Transform node, Collider2D other)
+    {
+        ConnectableSide tile1 = gameObject.GetComponent<ConnectableSide>();
+        ConnectableSide tile2 = other.transform.parent.GetComponent<ConnectableSide>();
+        EdgeData node1 = node.transform.GetComponent<EdgeData>();
+        EdgeData node2 = other.transform.GetComponent<EdgeData>();
+
+        gameDefinitionManager.ConnectPorts(tile1, node1, tile2, node2);
+
     }
 
 
 
+
+    //Triggers for adding connection and snapping tiles together
     private void OnTriggerStay2D(Collider2D other)
     {
-        allowInteraction = true;
-        otherNodePosition = other.transform.position;
-        if (other.CompareTag("RightPort"))
-        {
-            //update tile data
-            data.left_outgoing = true;
-            data.newTile = true;
-            data.adjacentTile = other.transform.parent.gameObject;
-            //
-            nodePosition = left.transform.position;
-            GetPosition();
-        }
-        else if (other.CompareTag("LeftPort"))
-        {
-            //update tile data
-            data.right_outgoing = true;
-            data.newTile = true;
-            data.adjacentTile = other.transform.parent.gameObject;
-            //
-            nodePosition = right.transform.position;
-            GetPosition();
-        }
-        else if (other.CompareTag("UpPort"))
-        {
-            //update tile data
-            data.down_outgoing = true;
-            data.newTile = true;
-            data.adjacentTile = other.transform.parent.gameObject;
-            //
-            nodePosition = down.transform.position;
-            GetPosition();
-        }
-        else if (other.CompareTag("DownPort"))
-        {
-            //update tile data
-            data.up_outgoing = true;
-            data.newTile = true;
-            data.adjacentTile = other.transform.parent.gameObject;
-            //
-            nodePosition = up.transform.position;
-            GetPosition();
-        }
+        gameObject.GetComponent<TileSnapping>().allowInteraction = true;
+         otherNodePosition = other.transform.position;
+
+            if (other.CompareTag("RightPort") && !other.gameObject.GetComponent<EdgeData>().isConnected)
+            {
+                //
+                left.gameObject.GetComponent<EdgeData>().isConnected = true;
+                //
+                nodePosition = left.transform.position;
+                GetPosition();
+            }
+            else if (other.CompareTag("LeftPort") && !other.gameObject.GetComponent<EdgeData>().isConnected)
+            {
+                //update tile data
+                right.gameObject.GetComponent<EdgeData>().isConnected = true;
+
+
+                //
+                nodePosition = right.transform.position;
+                GetPosition();
+            }
+            else if (other.CompareTag("UpPort") && !other.gameObject.GetComponent<EdgeData>().isConnected)
+            {
+                //update tile data
+                down.gameObject.GetComponent<EdgeData>().isConnected = true;
+
+                //
+                nodePosition = down.transform.position;
+                GetPosition();
+            }
+            else if (other.CompareTag("DownPort") && !other.gameObject.GetComponent<EdgeData>().isConnected)
+            {
+                //update tile data
+                up.gameObject.GetComponent<EdgeData>().isConnected = true;
+
+                //
+                nodePosition = up.transform.position;
+                GetPosition();
+            }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        allowInteraction = false;
+        gameObject.GetComponent<TileSnapping>().allowInteraction = false;
         if (other.CompareTag("RightPort"))
         {
-            data.adjacentTile = other.transform.parent.gameObject;
-            data.newTile = false;
-            data.left_outgoing = false;
+            left.gameObject.GetComponent<EdgeData>().isConnected = false;
+
             Debug.Log("port_right exit");
         }
         if (other.CompareTag("LeftPort"))
         {
-            data.adjacentTile = other.transform.parent.gameObject;
-            data.newTile = false;
-            data.right_outgoing = false;
+            right.gameObject.GetComponent<EdgeData>().isConnected = false;
+
             Debug.Log("port_left exit");
         }
         if (other.CompareTag("UpPort"))
         {
-            data.adjacentTile = other.transform.parent.gameObject;
-            data.newTile = false;
-            data.down_outgoing = false;
+            down.gameObject.GetComponent<EdgeData>().isConnected = false;
+
             Debug.Log("port_top exit");
         }
         if (other.CompareTag("DownPort"))
         {
-            data.adjacentTile = other.transform.parent.gameObject;
-            data.newTile = false;
-            data.up_outgoing = false;
+            up.gameObject.GetComponent<EdgeData>().isConnected = false;
+
             Debug.Log("port_bottom exit");
         }
     }
