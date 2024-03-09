@@ -32,9 +32,9 @@ public class TileData : MonoBehaviour
     public ConnectableSide port_top;
     public ConnectableSide port_bottom;
 
-    private GameAction associatedAction = null;
     public Boolean shouldFinishGame = false;
-        
+    public Guid ID = Guid.NewGuid();
+
     private void Start()
     {
         
@@ -74,11 +74,9 @@ public class TileData : MonoBehaviour
 
     public bool IsEndingTile()
     {
-        return associatedAction is FinishGameAction || shouldFinishGame;
+        return shouldFinishGame;//return associatedAction is FinishGameAction || shouldFinishGame;
     }
-    public GameAction getAssociatedAction(){
-        return associatedAction;
-    }
+
 }
 
 public class ConnectableSide

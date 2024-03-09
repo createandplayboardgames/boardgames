@@ -37,7 +37,7 @@ public class GameSessionController : MonoBehaviour
     
     private void PerformPerMoveActions()
     {
-
+        /*
         // Perform Actions
         var action = currentPlayer.location.getAssociatedAction();
         if (action is FinishGameAction || currentPlayer.location.shouldFinishGame)
@@ -57,7 +57,7 @@ public class GameSessionController : MonoBehaviour
             PlayerData player = ParsePlayerFromAction(a.player); //convert dummy players
             ChangePlayerPoints(player, 0);
         }
-
+        */
         // TODO - perform action associated with player
     }
 
@@ -65,10 +65,12 @@ public class GameSessionController : MonoBehaviour
     private PlayerData ParsePlayerFromAction(PlayerData player)
     {
         //player might dummy-type
+        /*
         if (player is RandomPlayer)
             return manager.players[ (new System.Random()).Next(0, manager.players.Count) ];
         if (player is CurrentPlayer)
             return currentPlayer;
+        */
         return player;
     }
 
