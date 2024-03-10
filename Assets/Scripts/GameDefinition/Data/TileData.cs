@@ -4,13 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TileData : MonoBehaviour
 {
-    private GameDefinitionManager gameDefinitionManager;
-
     public Transform tilePosition;
     public Transform left;
     public Transform right;
@@ -22,8 +21,6 @@ public class TileData : MonoBehaviour
     private GameAction associatedAction = null;
     public Boolean shouldFinishGame = false;
 
-
-
     public bool IsEndingTile()
     {
         return associatedAction is FinishGameAction || shouldFinishGame;
@@ -34,25 +31,31 @@ public class TileData : MonoBehaviour
     }
 
     // Get all current tile edges that have a connection.
-    public void GetAllOutgoingConnections()
+    public List<EdgeData> GetAllOutgoingConnections()
     {
+        List<EdgeData> outgoingConnections = new List<EdgeData>();
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
             if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
-            { Debug.Log(edge.edge); }
+            {
+                outgoingConnections.Add(edge);
+            }
         }
+        return outgoingConnections;
     }
 
     // Get all connected tiles
-    public void GetAllIncomingConnections()
+    public List<TileData> GetAllIncomingConnections()
     {
+        List<TileData> incomingConnections = new List<TileData>();
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
             if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
-            { Debug.Log(edge.connectedEdge.GetTile()); }
+            { incomingConnections.Add(edge.connectedEdge.GetTile()); }
         }
+        return incomingConnections;
     }
 
 
@@ -93,18 +96,16 @@ public class TileData : MonoBehaviour
         else return null;
 
     }
-    
+
     // Returns tile directly left of the current tile
     public TileData Left()
     {
         EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
         if (edge != null)
         {
-            Debug.Log(edge.GetTile());
             return edge.GetTile();
         }
-        else return null;
-
+        else { return null; }
     }
 
 }
