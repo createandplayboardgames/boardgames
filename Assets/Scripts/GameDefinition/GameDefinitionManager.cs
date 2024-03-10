@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -45,11 +46,6 @@ public class GameDefinitionManager : MonoBehaviour
     {
         loadGamePiece("SquareTile", "Tileset");
         tilecount++;
-        //GameObject newTile = Instantiate(Resources.Load("SquareTile"), new Vector3(-2, -6, 0), Quaternion.identity) as GameObject;
-        //newTile.transform.SetParent(GameObject.FindGameObjectWithTag("TileSet").transform, false);
-        //newTile.transform.localPosition = Random.insideUnitSphere * 2f;
-        //newTile.name = "SquareTile" + tilecount;
-
     }
     public void DeleteTile()
     {
@@ -58,14 +54,19 @@ public class GameDefinitionManager : MonoBehaviour
        
     }
 
-    public void ConnectPorts(ConnectableSide.OutgoingPort outgoing, ConnectableSide.IncomingPort incoming)
+    // Connect Ports
+    public void UpdateConnections(Transform node, Collider2D other)
     {
-        // TODO - validation
-        if (outgoing != null && incoming != null)
+        if (!node.gameObject.GetComponent<EdgeData>().isConnected && !other.gameObject.GetComponent<EdgeData>().isConnected)
         {
-            outgoing.connectedTo = incoming;
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = null;
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = null;
         }
-        // TODO - update views
+        else
+        {
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = other.gameObject.GetComponent<EdgeData>();
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = node.gameObject.GetComponent<EdgeData>();
+        }
     }
 
 
