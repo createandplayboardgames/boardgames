@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 // Following the tutorial: Drag and Drop in Unity - 2021 Tutorial by Tarodev //
 
-public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class DragDrop : MonoBehaviour 
 {
     private bool _dragging;
     
     private Vector2 currentDragOffset;
 
-    public Vector3 targetPosition;
+    private Vector2 startPosition;
 
-    public bool trigger = false;
-
-    public TileSnapping tileSnapping;
-
+    public bool overObject = false;
 
     void Update()
     {
@@ -29,25 +27,39 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
 
     public void OnMouseDown()
     {
+        startPosition = transform.position;
         _dragging = true;
         currentDragOffset = GetMousePos() - (Vector2)transform.position; //store offset
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
-        // Disable Triggers on tile child nodes
-        if (gameObject.CompareTag("Tiles"))
-        {
-            DisableTriggers(gameObject);
-        }
+
     }
+
 
     public void OnMouseUp()
     {
         _dragging = false;
+
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
 
-        // Enable Triggers on tile child nodes
+        //Enable Snapping and check for overlapping object tiles
         if (gameObject.CompareTag("Tiles"))
         {
-            EnableTriggers(gameObject);
+            if (overObject)
+            {
+                transform.position = new Vector3(startPosition.x,
+                                                 startPosition.y,
+                                                 transform.position.z);
+            }
+            else
+            {
+
+                var currentPos = transform.position;
+
+                transform.position = new Vector3(Mathf.Round(currentPos.x),
+                                                 Mathf.Round(currentPos.y),
+                                                 transform.position.z);
+            }
+
         }
     }
 
@@ -61,48 +73,10 @@ public class DragDrop : MonoBehaviour //IPointerDownHandler, IDragHandler, IPoin
         }
     }
 
+
     Vector2 GetMousePos()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-    //Disable active triggers in moving object
-    public void DisableTriggers(GameObject gameObject)
-    {
-        gameObject.GetComponent<TileSnapping>().enabled = true;
-        if (trigger == true)
-        {
-            for (int i = 0; i < gameObject.transform.childCount; i++)
-            {
-                GameObject child = gameObject.transform.GetChild(i).gameObject;
-                if (child.GetComponent<Collider2D>().isTrigger)
-                {
-                    child.GetComponent<Collider2D>().isTrigger = false;
-                }
-
-            }
-            trigger = false;
-        }
-    }
-
-    //Enable triggers in set object
-    public void EnableTriggers(GameObject gameObject)
-    {
-        if (trigger == false)
-        {
-            for (int i = 0; i < gameObject.transform.childCount; i++)
-            {
-                GameObject child = gameObject.transform.GetChild(i).gameObject;
-                if (!child.GetComponent<Collider2D>().isTrigger)
-                {
-                    child.GetComponent<Collider2D>().isTrigger = true;
-                }
-
-            }
-            trigger = true;
-        }
-        gameObject.GetComponent<TileSnapping>().enabled = true;
-
     }
 
 }
