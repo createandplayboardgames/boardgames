@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2822217214727055782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6640005551106021969}
+  - component: {fileID: 6894603444453136061}
+  m_Layer: 0
+  m_Name: Center
+  m_TagString: Center
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6640005551106021969
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2822217214727055782}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353535221182068848}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.1, y: 0.1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &6894603444453136061
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2822217214727055782}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1}
+  m_EdgeRadius: 0
 --- !u!1 &4787926189382140198
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4497393758938723297}
   - component: {fileID: 6370403127693213834}
+  - component: {fileID: 3037475773996518875}
   m_Layer: 0
   m_Name: Left
   m_TagString: LeftPort
@@ -81,6 +163,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &3037475773996518875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4787926189382140198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge: {fileID: 4497393758938723297}
+  connectedEdge: {fileID: 0}
+  isConnected: 0
 --- !u!1 &5686110007803136489
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3160579446162477446}
   - component: {fileID: 6570881284917133054}
+  - component: {fileID: 6063812166207094035}
   m_Layer: 0
   m_Name: Down
   m_TagString: DownPort
@@ -162,6 +260,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &6063812166207094035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686110007803136489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge: {fileID: 3160579446162477446}
+  connectedEdge: {fileID: 0}
+  isConnected: 0
 --- !u!1 &6517506713974452490
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5133515988113532825}
   - component: {fileID: 3461574203043126671}
+  - component: {fileID: 7080295419361660523}
   m_Layer: 0
   m_Name: Right
   m_TagString: RightPort
@@ -243,6 +357,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &7080295419361660523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517506713974452490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge: {fileID: 5133515988113532825}
+  connectedEdge: {fileID: 0}
+  isConnected: 0
 --- !u!1 &8262919974360399702
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1371085284889968384}
   - component: {fileID: 4528720256894270694}
+  - component: {fileID: 3284120833086746800}
   m_Layer: 0
   m_Name: Up
   m_TagString: UpPort
@@ -324,6 +454,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &3284120833086746800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262919974360399702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge: {fileID: 1371085284889968384}
+  connectedEdge: {fileID: 0}
+  isConnected: 0
 --- !u!1 &9203087263479064480
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +485,7 @@ GameObject:
   - component: {fileID: 716106916994866016}
   - component: {fileID: 9079359504812932902}
   - component: {fileID: -2368001060901877463}
-  - component: {fileID: 2207875766951248403}
+  - component: {fileID: 6721189959040535030}
   m_Layer: 0
   m_Name: SquareTile
   m_TagString: Tiles
@@ -364,6 +509,7 @@ RectTransform:
   - {fileID: 1371085284889968384}
   - {fileID: 3160579446162477446}
   - {fileID: 4497393758938723297}
+  - {fileID: 6640005551106021969}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -476,7 +622,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9203087263479064480}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -545,9 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1010125a43a9514d874cfb9ce4d9aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 850, y: 544, z: 0}
-  trigger: 1
-  tileSnapping: {fileID: 0}
+  overObject: 0
 --- !u!114 &-2368001060901877463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,19 +705,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePosition: {fileID: 5353535221182068848}
-  thisTile: {fileID: 9203087263479064480}
-  otherTile: {fileID: 0}
-  left_outgoing: 0
-  right_outgoing: 0
-  up_outgoing: 0
-  down_outgoing: 0
-  tileLocation: {x: 0, y: 0, z: 0}
-  port_left: {fileID: 0}
-  port_right: {fileID: 0}
-  port_top: {fileID: 0}
-  port_bottom: {fileID: 0}
+  left: {fileID: 4497393758938723297}
+  right: {fileID: 5133515988113532825}
+  up: {fileID: 1371085284889968384}
+  down: {fileID: 3160579446162477446}
   isEndingTile: 0
---- !u!114 &2207875766951248403
+  shouldFinishGame: 0
+--- !u!114 &6721189959040535030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -585,10 +723,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e8c4d7b46b884438633d6f29a3e2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameDefinitionManager: {fileID: 0}
+  data: {fileID: 0}
+  otherTileData: {fileID: 0}
+  dragdrop: {fileID: 0}
   left: {fileID: 4497393758938723297}
   right: {fileID: 5133515988113532825}
   up: {fileID: 1371085284889968384}
   down: {fileID: 3160579446162477446}
-  allowInteraction: 0
-  otherNodePosition: {x: 0, y: 0, z: 0}
-  nodePosition: {x: 0, y: 0, z: 0}
+  center: {fileID: 6640005551106021969}
