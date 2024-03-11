@@ -19,13 +19,13 @@ public class TileData : MonoBehaviour
     public bool isEndingTile = false;
 
     private GameAction associatedAction = null;
-    public Boolean shouldFinishGame = false;
+    public bool shouldFinishGame = false;
 
     public bool IsEndingTile()
     {
         return associatedAction is FinishGameAction || shouldFinishGame;
     }
-    public GameAction getAssociatedAction()
+    public GameAction GetAssociatedAction()
     {
         return associatedAction;
     }
@@ -62,50 +62,59 @@ public class TileData : MonoBehaviour
     // Returns tile directly above current tile
     public TileData Up()
     {
-        EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
-        if (edge != null)
+        if (up != null)
         {
-            Debug.Log(edge.GetTile());
-            return edge.GetTile();
+            EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
         }
-        else return null;
+        return null;
     }
 
     // Returns tile directly below current tile
     public TileData Down()
     {
-        EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
-        if (edge != null)
+        if (down != null)
         {
-            Debug.Log(edge.GetTile());
-            return edge.GetTile();
+            EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
         }
-        else return null;
+        return null;
 
     }
 
     // Returns tile directly right of the current tile
     public TileData Right()
     {
-        EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
-        if (edge != null)
+        if (right != null)
         {
-            Debug.Log(edge.GetTile());
-            return edge.GetTile();
+            EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
         }
-        else return null;
+        return null;
 
     }
 
     // Returns tile directly left of the current tile
     public TileData Left()
     {
-        EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
-        if (edge != null)
+        if (left != null)
         {
-            return edge.GetTile();
+            EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
         }
-        else { return null; }
+        return null;
     }
 
 }
