@@ -39,7 +39,7 @@ public class GameSessionController : MonoBehaviour
     {
 
         // Perform Actions
-        var action = currentPlayer.location.getAssociatedAction();
+        var action = currentPlayer.location.GetAssociatedAction();
         if (action is FinishGameAction || currentPlayer.location.shouldFinishGame)
         {
             SceneManager.LoadScene("EndGame");
