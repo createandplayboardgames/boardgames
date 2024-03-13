@@ -15,10 +15,12 @@ public class GameSessionController : MonoBehaviour
     GameDefinitionManager manager;
     PlayerData currentPlayer = null;
     int currentPlayerIndex = 0;
+
+    /*
     private void TaylorsUpdate()
     {
         //find current player
-        currentPlayer = manager.players[currentPlayerIndex];
+        currentPlayer = manager.cache.players[currentPlayerIndex];
 
         PerformPerTurnActions();
 
@@ -33,11 +35,12 @@ public class GameSessionController : MonoBehaviour
         //update current player
         currentPlayerIndex = (currentPlayerIndex + 1) % manager.players.Count;
     }
+    */
 
     
     private void PerformPerMoveActions()
     {
-
+        /*
         // Perform Actions
         var action = currentPlayer.location.GetAssociatedAction();
         if (action is FinishGameAction || currentPlayer.location.shouldFinishGame)
@@ -57,7 +60,7 @@ public class GameSessionController : MonoBehaviour
             PlayerData player = ParsePlayerFromAction(a.player); //convert dummy players
             ChangePlayerPoints(player, 0);
         }
-
+        */
         // TODO - perform action associated with player
     }
 
@@ -65,10 +68,12 @@ public class GameSessionController : MonoBehaviour
     private PlayerData ParsePlayerFromAction(PlayerData player)
     {
         //player might dummy-type
+        /*
         if (player is RandomPlayer)
             return manager.players[ (new System.Random()).Next(0, manager.players.Count) ];
         if (player is CurrentPlayer)
             return currentPlayer;
+        */
         return player;
     }
 
@@ -87,10 +92,9 @@ public class GameSessionController : MonoBehaviour
     {
         //TODO 
     }
-    private void MovePlayerToLocation(PlayerData player, TileData location)
-    {
-        player.location = location;
+    private void MovePlayerToLocation(PlayerData player, TileData location){
         //TODO - animate player to location
+        //TODO - update data classes (?)
     }
     private void ChangePlayerPoints(PlayerData player, int points)
     {

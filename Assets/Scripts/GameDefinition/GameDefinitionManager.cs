@@ -1,58 +1,65 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameDefinitionManager : MonoBehaviour
 {
-    // TODO - this is data, and should go elsewhere
-    public List<PlayerData> players = new List<PlayerData>();
+    private readonly int MAX_PLAYER_COUNT = 4;
+    public GameDefinitionCache cache = new();
 
-    public int tilecount = 0;
-
-    private GameObject loadGamePiece(string pieceName, string parentName)
-    {
-        var parent = GameObject.Find(parentName);
-        GameObject gamePiece = Instantiate(Resources.Load(pieceName),
+    // ====== General Functions
+    private GameObject LoadGameObject(string prefabName, String sortingLayerName){
+        var parent = GameObject.Find(Keywords.GAMEOBJECT_BOARD);
+        GameObject gamePiece = Instantiate(Resources.Load(prefabName),
             parent.transform.position, parent.transform.rotation) as GameObject;
-            gamePiece.transform.parent = parent.transform;
-        gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
+        gamePiece.transform.parent = parent.transform;
+        gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
+        //TODO - select (currently won't work with actions)
+        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera - ideally without overlapping 
         return gamePiece;
     }
 
-    // --- Players 
-    public void CreatePlayer()
-    {
-        GameObject player = loadGamePiece("Player", "Players");
-        players.Add(player.GetComponent<PlayerData>());
+    // ====== Players 
+    public void CreatePlayer(){
+        if (cache.players.Count > MAX_PLAYER_COUNT)
+            return; //TODO - show error message
+        var obj = LoadGameObject(Keywords.PREFAB_PLAYER, Keywords.SORTING_LAYER_PLAYERS);
+        cache.players.Add(obj.GetComponent<PlayerData>());
     }
-    void DeletePlayer(PlayerData player)
-    {
-        // TODO - delete PlayerData's GameObject
-    }
-    void MovePlayer(PlayerData player, TileData tile)
-    {
-        //TODO - move PlayerData's GameObject to TileData's GameObject
+    void DeletePlayer(PlayerData player){
+        cache.players.Remove(player);
+        Destroy(player.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
     }
 
+    // ====== Tiles
+    public void CreateTile(){
+        var obj = LoadGameObject(Keywords.PREFAB_TILE, Keywords.SORTING_LAYER_TILES);
+        cache.tiles.Add(obj.GetComponent<TileData>());
+    }
+    public void DeleteTile(TileData tile){
+        cache.tiles.Remove(tile);
+        Destroy(tile.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
+    }
 
-    // --- Tiles
-    public void CreateTile()
-    {
-        loadGamePiece("SquareTile", "Tileset");
-        tilecount++;
+    // ====== Actions
+    public void CreateFinishGameAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_FINISH_GAME, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<FinishGameActionData>());
     }
-    public void DeleteTile()
-    {
-        // TODO - delete TileData's GameObject
-        tilecount--;
-       
+    public void CreateChangePointsAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_CHANGE_POINTS, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<ChangePointsActionData>());
     }
+    public void CreateMoveToAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_MOVE_TO, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<MoveToActionData>());
+    }
+    public void DeleteAction(ActionData action){
+        cache.actions.Remove(action);
+        Destroy(action.gameObject);
 
     // Connect Ports
     public void UpdateConnections(Transform node, Collider2D other)
@@ -67,14 +74,6 @@ public class GameDefinitionManager : MonoBehaviour
             node.gameObject.GetComponent<EdgeData>().connectedEdge = other.gameObject.GetComponent<EdgeData>();
             other.gameObject.GetComponent<EdgeData>().connectedEdge = node.gameObject.GetComponent<EdgeData>();
         }
-    }
-
-
-    // --- Spinner
-    int SpinSpinner()
-    {
-        // TODO - animate spinner (?)
-        return 1;
     }
 
 }
