@@ -431,7 +431,6 @@ GameObject:
   - component: {fileID: 1375943613}
   - component: {fileID: 1375943617}
   - component: {fileID: 1375943618}
-  - component: {fileID: 1375943619}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -549,20 +548,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winnerText: {fileID: 1620694938}
-  winner: 0
---- !u!114 &1375943619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375943612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b134e46eb99bac94f884378485a784c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  winner: player 1
 --- !u!1 &1497862656
 GameObject:
   m_ObjectHideFlags: 0

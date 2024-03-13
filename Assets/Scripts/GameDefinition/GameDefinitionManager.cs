@@ -57,9 +57,11 @@ public class GameDefinitionManager : MonoBehaviour
         GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_MOVE_TO, Keywords.SORTING_LAYER_ACTIONS);
         cache.actions.Add(action.GetComponent<MoveToActionData>());
     }
-    public void DeleteAction(ActionData action){
+    public void DeleteAction(ActionData action)
+    {
         cache.actions.Remove(action);
         Destroy(action.gameObject);
+    }
 
     // Connect Ports
     public void UpdateConnections(Transform node, Collider2D other)

@@ -5,24 +5,26 @@ using TMPro;
 
 public class EndScene : MonoBehaviour
 {
-    FinishGameActionData endGame;
+    //FinishGameActionData endGame;
+
     public TextMeshProUGUI winnerText;
 
     // Change to PlayerData eventually
-    public PlayerData winner;
+    //public PlayerData winner;
 
     public void Start()
     {
         // change to FindObject().GetComponent once reorganized
-        endGame = gameObject.GetComponent<FinishGameActionData>();
+        //endGame = gameObject.GetComponent<FinishGameActionData>();
     }
 
     public void Update()
     {
-        if(endGame.winner != null)
-        {
-            winnerText.text = "Congratulations! " + endGame.winner + " has won the game!";
-        }
-        else { winnerText.text = "Congratulations Winner!"; }
+        //if(endGame.winner != null)
+        //{
+        //    winnerText.text = "Congratulations! " + endGame.winner + " has won the game!";
+        //}
+        //else { winnerText.text = "Congratulations Winner!"; }
+        winnerText.text = "Congratulations Winner!";
     }
 }

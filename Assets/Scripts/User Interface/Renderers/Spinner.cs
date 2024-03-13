@@ -26,7 +26,7 @@ public class Spinner : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
 
         // load dice sprites from folder
-        diceSides = Resources.LoadAll<Sprite>("DiceSides/");
+        diceSides = Resources.LoadAll<Sprite>("images/DiceSides/");
         
     }
 
