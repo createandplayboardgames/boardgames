@@ -10,13 +10,8 @@ public class LayoutHelper : MonoBehaviour{
 
     // ===== Organizing Items on Tiles
     public void SnapPlayerToTile(PlayerData player, TileData tile){
-        if (tile == null){ //unset case
-            player.location = null;
-            player.transform.parent = null; 
-        } else { //set case
-            player.location = tile;
-            LayoutPlayersOnTile(tile);
-        }
+        UpdateLocationData(player, tile);
+        LayoutPlayersOnTile(tile);
     }
     public void SnapActionToTile(ActionData action, TileData tile){
         foreach (ActionData a in gameDefinitionManager.cache.actions){
@@ -25,11 +20,25 @@ public class LayoutHelper : MonoBehaviour{
                 return;
             }
         }
+        UpdateLocationData(action, tile);
         LayoutActionOnTile(action, tile);
+    }
+    public void UpdateLocationData(NonTileData item, TileData tile)
+    {
+        if (tile == null)
+        { //unset 
+            item.location = null;
+            item.transform.parent = null;
+        }
+        else
+        { //set 
+            item.location = tile;            
+        }
     }
 
     private void LayoutPlayersOnTile(TileData tile){
         // determine players on tile
+        if (tile == null) return;
         List<PlayerData> playersOnTile = new();
         foreach (PlayerData player in gameDefinitionManager.cache.players)
             if (player.location == tile) { playersOnTile.Add(player); }
@@ -63,6 +72,7 @@ public class LayoutHelper : MonoBehaviour{
       	
     }
     private void LayoutItemInCenterOfTile(NonTileData item, TileData tile){
+        if (tile == null) return;
         var t = item.gameObject.transform;
         t.position = tile.gameObject.transform.position; //position
         t.parent = tile.gameObject.transform; //parent;

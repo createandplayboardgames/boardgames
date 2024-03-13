@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7043975379355410825}
   - component: {fileID: 4498228723722439722}
   - component: {fileID: 8820105123333281423}
+  - component: {fileID: 6026387337583531354}
   m_Layer: 0
   m_Name: ActionFinishGame
   m_TagString: Untagged
@@ -145,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1010125a43a9514d874cfb9ce4d9aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
+  overObject: 0
 --- !u!114 &4498228723722439722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,4 +171,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92dcbbba1a5bfd409803ef9655d3246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location: {fileID: 0}
   winner: {fileID: 0}
+--- !u!114 &6026387337583531354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4048357872057362153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e7b9e066aa6c84b911a1654cbe8ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
