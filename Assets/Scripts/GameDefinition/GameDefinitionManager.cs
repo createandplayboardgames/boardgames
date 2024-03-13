@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -19,7 +20,7 @@ public class GameDefinitionManager : MonoBehaviour
         var parent = GameObject.Find(parentName);
         GameObject gamePiece = Instantiate(Resources.Load(pieceName),
             parent.transform.position, parent.transform.rotation) as GameObject;
-        gamePiece.transform.parent = parent.transform;
+            gamePiece.transform.parent = parent.transform;
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
         return gamePiece;
     }
@@ -43,12 +44,9 @@ public class GameDefinitionManager : MonoBehaviour
     // --- Tiles
     public void CreateTile()
     {
-        loadGamePiece("Tile", "Tiles");
+        loadGamePiece("SquareTile", "Tileset");
         tilecount++;
     }
-
-
-
     public void DeleteTile()
     {
         // TODO - delete TileData's GameObject
@@ -56,20 +54,27 @@ public class GameDefinitionManager : MonoBehaviour
        
     }
 
-    public void ConnectPorts(ConnectableSide.OutgoingPort outgoing, ConnectableSide.IncomingPort incoming)
+    // Connect Ports
+    public void UpdateConnections(Transform node, Collider2D other)
     {
-        // TODO - validation
-        outgoing.connectedTo = incoming;
-        // TODO - update views
+        if (!node.gameObject.GetComponent<EdgeData>().isConnected && !other.gameObject.GetComponent<EdgeData>().isConnected)
+        {
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = null;
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = null;
+        }
+        else
+        {
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = other.gameObject.GetComponent<EdgeData>();
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = node.gameObject.GetComponent<EdgeData>();
+        }
     }
 
 
     // --- Spinner
-    public int SpinSpinner()
+    int SpinSpinner()
     {
         // TODO - animate spinner (?)
         return 1;
     }
 
- 
 }

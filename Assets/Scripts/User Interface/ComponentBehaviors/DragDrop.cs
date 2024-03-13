@@ -1,35 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 // Following the tutorial: Drag and Drop in Unity - 2021 Tutorial by Tarodev //
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class DragDrop : MonoBehaviour 
 {
+    private bool _dragging;
+    
     private Vector2 currentDragOffset;
-    public Vector3 targetPosition;
 
-    public void OnPointerDown(PointerEventData eventData)
+    private Vector2 startPosition;
+
+    public bool overObject = false;
+
+    void Update()
     {
+        if (!_dragging) return;
+        var mousePosition = GetMousePos();
+        transform.position = new Vector3(mousePosition.x, mousePosition.y, transform.position.z);
+
+    }
+
+
+    public void OnMouseDown()
+    {
+        startPosition = transform.position;
+        _dragging = true;
         currentDragOffset = GetMousePos() - (Vector2)transform.position; //store offset
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
-        var newPos = GetMousePos() - currentDragOffset; //calculate new position
-        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z); //drag (don't change Z-position)    }
-    }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        //TODO: Snap to closest tile if in range
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+
     }
 
-    public void OnMouseOver(){
-        if (Input.GetMouseButtonDown(1)){ //right click
+
+    public void OnMouseUp()
+    {
+        _dragging = false;
+
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
+
+        //Enable Snapping and check for overlapping object tiles
+        if (gameObject.CompareTag("Tiles"))
+        {
+            if (overObject)
+            {
+                transform.position = new Vector3(startPosition.x,
+                                                 startPosition.y,
+                                                 transform.position.z);
+            }
+            else
+            {
+
+                var currentPos = transform.position;
+
+                transform.position = new Vector3(Mathf.Round(currentPos.x),
+                                                 Mathf.Round(currentPos.y),
+                                                 transform.position.z);
+            }
+
+        }
+    }
+
+
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
             Debug.Log("Destroying Tile");
             Destroy(gameObject);
         }
     }
-    Vector2 GetMousePos(){ return Camera.main.ScreenToWorldPoint(Input.mousePosition); }
+
+
+    Vector2 GetMousePos()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
 
 }
