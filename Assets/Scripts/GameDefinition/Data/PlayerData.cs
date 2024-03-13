@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerData : NonTileData
 {
+    public Guid ID = Guid.NewGuid();
     public String playerName = "no name";
     public int points = 0;
 }

@@ -1,6 +1,6 @@
 public static class Keywords{ // NOTE: this must be in-sync w/ gameobjects 
 	public readonly static string GAMEOBJECT_BOARD = "Board";
-	public readonly static string PREFAB_TILE = "Tile";
+	public readonly static string PREFAB_TILE = "SquareTile";
 	public readonly static string PREFAB_PLAYER = "Player";
 	public readonly static string PREFAB_ACTION_FINISH_GAME = "ActionFinishGame";
 	public readonly static string PREFAB_ACTION_CHANGE_POINTS = "ActionChangePoints";
