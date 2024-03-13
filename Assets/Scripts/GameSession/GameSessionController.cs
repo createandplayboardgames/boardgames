@@ -15,10 +15,12 @@ public class GameSessionController : MonoBehaviour
     GameDefinitionManager manager;
     PlayerData currentPlayer = null;
     int currentPlayerIndex = 0;
+
+    /*
     private void TaylorsUpdate()
     {
         //find current player
-        currentPlayer = manager.players[currentPlayerIndex];
+        currentPlayer = manager.cache.players[currentPlayerIndex];
 
         PerformPerTurnActions();
 
@@ -33,6 +35,7 @@ public class GameSessionController : MonoBehaviour
         //update current player
         currentPlayerIndex = (currentPlayerIndex + 1) % manager.players.Count;
     }
+    */
 
     
     private void PerformPerMoveActions()
@@ -89,10 +92,9 @@ public class GameSessionController : MonoBehaviour
     {
         //TODO 
     }
-    private void MovePlayerToLocation(PlayerData player, TileData location)
-    {
-        player.location = location;
+    private void MovePlayerToLocation(PlayerData player, TileData location){
         //TODO - animate player to location
+        //TODO - update data classes (?)
     }
     private void ChangePlayerPoints(PlayerData player, int points)
     {

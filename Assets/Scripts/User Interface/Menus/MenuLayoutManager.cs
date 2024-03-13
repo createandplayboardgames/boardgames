@@ -35,7 +35,7 @@ public class MenuLayoutManager : MonoBehaviour
     private Button          input_moveTo_set;
     private Button          input_moveTo_find;
 
-    public void OnEnable(){
+    public void Start(){
         
         // Initialize external dependencies
         controller = GetComponent<MenuController>();
@@ -116,7 +116,7 @@ public class MenuLayoutManager : MonoBehaviour
         }); 
         input_moveTo_find = root.Q("input_moveTo_find") as Button ;
         input_moveTo_find.RegisterCallback<ClickEvent>(evt => {
-            controller.FindMoveToLocation();
+            //controller.FindMoveToLocation();
         });
 
         //initialize
@@ -144,17 +144,17 @@ public class MenuLayoutManager : MonoBehaviour
         SetInfoMenuShown(infoMenu_finishGame, true);
         controller.EditFinishGameAction(finishGameActionData);
         //populate menu
-        PopulatePlayerDropdownField(input_finishGame_winner);
+        RefreshPlayerDropdownField(input_finishGame_winner);
+        Debug.Log(input_finishGame_winner.choices);
+        Debug.Log(input_finishGame_winner.choices.IndexOf(finishGameActionData.winner.playerName));
         input_finishGame_winner.index = input_finishGame_winner.choices.IndexOf(finishGameActionData.winner.playerName);
     }
     public void ShowInfoMenuChangePointsAction(ChangePointsActionData changePointsActionData){
         HideAllInfoMenus();
         SetInfoMenuShown(infoMenu_changePoints, true);
-        Debug.Log("HERE " + changePointsActionData);
         controller.EditChangePointsAction(changePointsActionData);
         //populate menu
-        PopulatePlayerDropdownField(input_changePoints_player);
-        Debug.Log(input_changePoints_player.choices + "and " + changePointsActionData.player.playerName);
+        RefreshPlayerDropdownField(input_changePoints_player);
         input_changePoints_player.index = input_finishGame_winner.choices.IndexOf(changePointsActionData.player.playerName);
         input_changePoints_op.value = changePointsActionData.operation;
         input_changePoints_val.value = changePointsActionData.value;
@@ -163,7 +163,7 @@ public class MenuLayoutManager : MonoBehaviour
         HideAllInfoMenus();
         SetInfoMenuShown(infoMenu_moveTo, true);
         controller.EditMoveToAction(moveToActionData);
-        //TODO - populate
+        //TODO - populate menu
     }
     // ---- Show/Hide Others
     public void SetRootShown(bool shown) { 
@@ -186,15 +186,15 @@ public class MenuLayoutManager : MonoBehaviour
     }
 
     // ---- Player Dropdown Helpers 
-    private void PopulatePlayerDropdownField(DropdownField dropdownField){
-        // setup
-        controller.playerNamesToIDs.Clear();
-        dropdownField.choices.Clear();
-        // populate
-        foreach (PlayerData playerData in gameDefinitionManager.GetAllPlayersAndDummies()) {
-            dropdownField.choices.Add(playerData.playerName);
-            controller.playerNamesToIDs.Add(playerData.playerName, playerData.ID);
+    private void RefreshPlayerDropdownField(DropdownField dropdownField){
+        dropdownField.choices.Clear(); 
+        controller.playerNameIDMap.Clear(); //clear
+        foreach (PlayerData playerData in controller.GetAllPlayersAndDummies()) {
+            Debug.Log("adding " + playerData.playerName + " to dropdown");
+            controller.playerNameIDMap.Add(playerData.playerName, playerData.ID); //map name-id
+            dropdownField.choices.Add(playerData.playerName); //add name
         }
+
     }
 
 }

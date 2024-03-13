@@ -4,101 +4,59 @@ using UnityEngine;
 
 public class GameDefinitionManager : MonoBehaviour
 {
-    // TODO - this is data, and should go elsewhere
-    public List<PlayerData> players = new();
     private readonly int MAX_PLAYER_COUNT = 4;
-    public int tilecount = 0;
-    public static PlayerData RANDOM_PLAYER_DUMMY = new("RANDOM PLAYER"); 
-    public static PlayerData CURRENT_PLAYER_DUMMY = new("CURRENT PLAYER"); //TODO - MUST be saved, in order for play game to work
-    public List<PlayerData> GetAllPlayersAndDummies()
-    {
-        List<PlayerData> all = new();
-        all.Add(GameDefinitionManager.RANDOM_PLAYER_DUMMY); //add dummy classes
-        all.Add(GameDefinitionManager.CURRENT_PLAYER_DUMMY);
-        all.AddRange(players); //copy
-        return all;
-    }
+    public GameDefinitionCache cache = new();
 
-
-    private GameObject LoadGameItem(string pieceName)
-    {
-        var parent = GameObject.Find("Board");
-        GameObject gamePiece = Instantiate(Resources.Load(pieceName),
+    // ====== General Functions
+    private GameObject LoadGameObject(string prefabName, String sortingLayerName){
+        var parent = GameObject.Find(Keywords.GAMEOBJECT_BOARD);
+        GameObject gamePiece = Instantiate(Resources.Load(prefabName),
             parent.transform.position, parent.transform.rotation) as GameObject;
         gamePiece.transform.parent = parent.transform;
-        //gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = parent.GetComponent<SpriteRenderer>().sortingLayerName;
-        //TODO - set sorting layer, by type! VERY IMPORTANT!
-
-        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera 
-        //ideally without overlapping others
-
-        gamePiece.GetComponent<Select>()?.SelectPiece();
+        gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
+        //TODO - select (currently won't work with actions)
+        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera - ideally without overlapping 
         return gamePiece;
     }
 
-    // --- Players 
-    public void CreatePlayer()
-    {
-        if (players.Count > MAX_PLAYER_COUNT){
-            //TODO - display message
-            return; 
-        }
-        GameObject player = LoadGameItem("Player");
-        players.Add(player.GetComponent<PlayerData>());
-        Debug.Log("added player to players");
+    // ====== Players 
+    public void CreatePlayer(){
+        if (cache.players.Count > MAX_PLAYER_COUNT)
+            return; //TODO - show error message
+        var obj = LoadGameObject(Keywords.PREFAB_PLAYER, Keywords.SORTING_LAYER_PLAYERS);
+        cache.players.Add(obj.GetComponent<PlayerData>());
     }
-    void DeletePlayer(PlayerData player)
-    {
-        players.Remove(player);
-        Destroy(player.gameObject);
-        //TODO - delete from actions which held references to this player
-    }
-    void MovePlayer(PlayerData player, TileData tile)
-    {
-        player.location = tile;
-        //TODO - move PlayerData's GameObject to TileData's GameObject
+    void DeletePlayer(PlayerData player){
+        cache.players.Remove(player);
+        Destroy(player.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
     }
 
-
-    // --- Tiles
-    public void CreateTile()
-    {
-        LoadGameItem("Tile");
-        tilecount++;
+    // ====== Tiles
+    public void CreateTile(){
+        var obj = LoadGameObject(Keywords.PREFAB_TILE, Keywords.SORTING_LAYER_TILES);
+        cache.tiles.Add(obj.GetComponent<TileData>());
+    }
+    public void DeleteTile(TileData tile){
+        cache.tiles.Remove(tile);
+        Destroy(tile.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
     }
 
-
-
-    public void DeleteTile(TileData tileData)
-    {
-        Destroy(tileData.gameObject);
-        tilecount--;
-       
+    // ====== Actions
+    public void CreateFinishGameAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_FINISH_GAME, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<FinishGameActionData>());
+    }
+    public void CreateChangePointsAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_CHANGE_POINTS, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<ChangePointsActionData>());
+    }
+    public void CreateMoveToAction(){
+        GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_MOVE_TO, Keywords.SORTING_LAYER_ACTIONS);
+        cache.actions.Add(action.GetComponent<MoveToActionData>());
+    }
+    public void DeleteAction(ActionData action){
+        cache.actions.Remove(action);
+        Destroy(action.gameObject);
     }
 
-    public void ConnectPorts(ConnectableSide.OutgoingPort outgoing, ConnectableSide.IncomingPort incoming)
-    {
-        // TODO - validation
-        outgoing.connectedTo = incoming;
-        // TODO - update views
-    }
-
-
-    
-
-    // --- Actions
-    internal void CreateFinishGameAction()
-    {
-        LoadGameItem("ActionFinishGame");
-    }
-
-    internal void CreateChangePointsAction()
-    {
-        LoadGameItem("ActionChangePoints");
-    }
-
-    internal void CreateMoveToAction()
-    {
-        LoadGameItem("ActionMoveTo");
-    }
 }

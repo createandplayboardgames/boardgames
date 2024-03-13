@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveToActionData : MonoBehaviour{
-    public PlayerData playerToMove = GameDefinitionManager.CURRENT_PLAYER_DUMMY;
-    public TileData location;
+public class MoveToActionData : ActionData {
+    public PlayerData playerToMove;
+    public void Start() { playerToMove = GameObject.Find(Keywords.CURRENT_PLAYER_DUMMY).GetComponent<PlayerData>(); }
+    public TileData targetLocation;
 }

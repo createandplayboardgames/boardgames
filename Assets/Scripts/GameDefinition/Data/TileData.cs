@@ -7,11 +7,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileData : MonoBehaviour
+public class TileData : GameItemData
 {
 
-    GameDefinitionManager gameDefinitionManager;
+    public Boolean shouldFinishGame = false;
 
+    //TODO - this isn't data - move elsewhere
+    
+    GameDefinitionManager gameDefinitionManager;
     // Get nodes and components from tile node points
     public Transform left;
     public Transform right;
@@ -32,8 +35,7 @@ public class TileData : MonoBehaviour
     public ConnectableSide port_top;
     public ConnectableSide port_bottom;
 
-    public Boolean shouldFinishGame = false;
-    public Guid ID = Guid.NewGuid();
+
 
     private void Start()
     {
@@ -72,10 +74,6 @@ public class TileData : MonoBehaviour
     }
     */
 
-    public bool IsEndingTile()
-    {
-        return shouldFinishGame;//return associatedAction is FinishGameAction || shouldFinishGame;
-    }
 
 }
 

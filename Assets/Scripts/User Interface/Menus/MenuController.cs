@@ -8,18 +8,21 @@ public class MenuController : MonoBehaviour
 
     MenuLayoutManager layoutManager;
     GameDefinitionManager gameDefinitionManager;
+
     // These are the items that may be edited through the menu...
     private PlayerData              edititem_player = null;
     private FinishGameActionData    edititem_finishGameAction = null;
     private ChangePointsActionData  edititem_changePointsAction = null;
     private MoveToActionData        edititem_moveToAction = null;
     public Boolean isRequestingPlayerLocationSet = false;
-    private void OnEnable(){
+    public Dictionary<string, Guid> playerNameIDMap = new();
+
+    private void Start(){
         layoutManager = GetComponent<MenuLayoutManager>(); //TODO - circular reference? potential of errors?
         gameDefinitionManager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
     }
 
-    //---- Player 
+    // ===== Player 
     public void EditPlayer(PlayerData player){
         edititem_player = player;
     }
@@ -32,6 +35,7 @@ public class MenuController : MonoBehaviour
         if (edititem_player == null) return;
         edititem_player.points = newValue;
     }
+    /* Feature Disabled, currently
     public void TogglePlayerLocationSet(){
         if (!isRequestingPlayerLocationSet) StartSetPlayerLocation();
         else FinishSetPlayerLocation(null);
@@ -43,25 +47,27 @@ public class MenuController : MonoBehaviour
     public void FinishSetPlayerLocation(TileData tileData){
         isRequestingPlayerLocationSet = false;
         if (edititem_player == null || tileData == null) return;
-        edititem_player.location = tileData;
-        edititem_player.gameObject.GetComponent<PlayerDrop>().SnapToTile(tileData);
+        //edititem_player.location = tileData;
+        //TODO - update tile information
+        //gameDefinitionManager.SnapToTile(tileData);
     }
+    */
 
-    // --- Finish Game 
+
+    // ===== Finish Game 
     public void EditFinishGameAction(FinishGameActionData finishGameActionData){
         edititem_finishGameAction = finishGameActionData;
     }
     public void SetFinishGameWinner(string newValue){
-        edititem_finishGameAction.winner = GetPlayerFromPlayerName(newValue);
+        edititem_finishGameAction.winner = GetPlayer(newValue);
     }
 
-    // --- Change Points
-
+    // ===== Change Points
     public void EditChangePointsAction(ChangePointsActionData changePointsActionData){
         edititem_changePointsAction = changePointsActionData;
     }
     public void SetChangePointsPlayer(string newValue){
-        //edititem_changePointsAction.playerID = GetPlayerIDFromName(newValue);
+        edititem_changePointsAction.player= GetPlayer(newValue);
     }
     public void SetChangePointsOp(ChangePointsActionData.Operation newValue){
         edititem_changePointsAction.operation = newValue;
@@ -70,35 +76,48 @@ public class MenuController : MonoBehaviour
         edititem_changePointsAction.value = newValue;
     }
 
-    // --- Move To
+    // ===== Move To
     public void EditMoveToAction(MoveToActionData moveToActionData){
         edititem_moveToAction = moveToActionData;
     }
     public void SetMoveToPlayer(string newValue){
-        //TODO - player parsing!
-    }
-    public void FindMoveToLocation(){
-        throw new NotImplementedException();
+        //TODO - copy from above
     }
     public void StartSetMoveToLocation(){
-        throw new NotImplementedException();
+        // TODO - click on tile
     }
 
 
-    // ---- PlayerData Management (TDOO: move this!)
 
-    public Dictionary<string, Guid> playerNamesToIDs = new();
-    private PlayerData GetPlayerFromPlayerName(string playerName){ return GetPlayerDataFromID(GetPlayerIDFromName(playerName)); }
-    private Guid GetPlayerIDFromName(string playerName){
-        if (!playerNamesToIDs.ContainsKey(playerName))
-            return Guid.Empty; // TODO - error
-        return playerNamesToIDs[playerName];
-    }
-    private PlayerData GetPlayerDataFromID(Guid id){
-        foreach (PlayerData playerData in gameDefinitionManager.GetAllPlayersAndDummies())
-            if (id.Equals(playerData.ID)) return playerData;
+
+
+    // ===== Helper Methods
+
+    public PlayerData GetPlayer(Guid playerID){
+        foreach (PlayerData playerData in GetAllPlayersAndDummies())
+            if (playerID.Equals(playerData.ID))
+                return playerData;
         return null;
     }
+
+    public List<PlayerData> GetAllPlayersAndDummies()
+    {
+        List<PlayerData> all = new();
+        all.Add(GameObject.Find(Keywords.CURRENT_PLAYER_DUMMY).GetComponent<PlayerData>()); //add dummy classes
+        all.Add(GameObject.Find(Keywords.RANDOM_PLAYER_DUMMY).GetComponent<PlayerData>());
+        all.AddRange(gameDefinitionManager.cache.players); //copy
+        return all;
+    }
+
+    public PlayerData GetPlayer(string playerName){
+        return GetPlayer(GetPlayerID(playerName));
+    }
+    public Guid GetPlayerID(string playerName){
+        if (!playerNameIDMap.ContainsKey(playerName))
+            return Guid.Empty; // TODO - error
+        return playerNameIDMap[playerName];
+    }
+
 
 }
 
