@@ -10,13 +10,13 @@ public class Buttons : MonoBehaviour
 {
     public void OnCreateButton () 
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Create");
     }
 
     public void OnPlayButton ()
     {
         // Load and Play
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("Play");
     }
 
     public void OnMenuButton ()

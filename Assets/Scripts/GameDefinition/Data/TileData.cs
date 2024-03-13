@@ -1,87 +1,120 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileData : GameItemData
+public class TileData : MonoBehaviour
 {
-
-    public Boolean shouldFinishGame = false;
-
-    //TODO - this isn't data - move elsewhere
-    
-    GameDefinitionManager gameDefinitionManager;
-    // Get nodes and components from tile node points
+    public Transform tilePosition;
     public Transform left;
     public Transform right;
     public Transform up;
     public Transform down;
-    public Transform center;
 
-    Collider2D sourceCollider;
+    public bool isEndingTile = false;
 
-    // For two direction options: left to right or up to down.
-    public bool left_incoming;
-    public bool right_outgoing;
-    public bool up_incoming;
-    public bool down_outgoing;
-    
-    public ConnectableSide port_left;
-    public ConnectableSide port_right;
-    public ConnectableSide port_top;
-    public ConnectableSide port_bottom;
+    private GameAction associatedAction = null;
+    public bool shouldFinishGame = false;
 
-
-
-    private void Start()
+    public bool IsEndingTile()
     {
-        
+        return associatedAction is FinishGameAction || shouldFinishGame;
+    }
+    public GameAction GetAssociatedAction()
+    {
+        return associatedAction;
     }
 
-    public void Update()
+    // Get all current tile edges that have a connection.
+    public List<EdgeData> GetAllOutgoingConnections()
     {
-        
+        List<EdgeData> outgoingConnections = new List<EdgeData>();
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            GameObject child = gameObject.transform.GetChild(i).gameObject;
+            if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
+            {
+                outgoingConnections.Add(edge);
+            }
+        }
+        return outgoingConnections;
     }
 
-    /*
-    public void OnTriggerStay2D(Collider2D other)
+    // Get all connected tiles
+    public List<TileData> GetAllIncomingConnections()
     {
-        if (other.CompareTag("RightPort"))
+        List<TileData> incomingConnections = new List<TileData>();
+        for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            left_incoming = true;
-            Debug.Log("port_right");
+            GameObject child = gameObject.transform.GetChild(i).gameObject;
+            if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
+            { incomingConnections.Add(edge.connectedEdge.GetTile()); }
         }
-        if (other.CompareTag("LeftPort"))
-        {
-            right_outgoing = true;
-            Debug.Log("port_left");
-        }
-        if (other.CompareTag("UpPort"))
-        {
-            down_outgoing = true;
-            Debug.Log("port_top");
-        }
-        if (other.CompareTag("DownPort"))
-        {
-            up_incoming = true;
-            Debug.Log("port_bottom");
-        }
-        
+        return incomingConnections;
     }
-    */
 
+
+    // Returns tile directly above current tile
+    public TileData Up()
+    {
+        if (up != null)
+        {
+            EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
+        }
+        return null;
+    }
+
+    // Returns tile directly below current tile
+    public TileData Down()
+    {
+        if (down != null)
+        {
+            EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
+        }
+        return null;
+
+    }
+
+    // Returns tile directly right of the current tile
+    public TileData Right()
+    {
+        if (right != null)
+        {
+            EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
+        }
+        return null;
+
+    }
+
+    // Returns tile directly left of the current tile
+    public TileData Left()
+    {
+        if (left != null)
+        {
+            EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
+            if (edge != null)
+            {
+                return edge.GetTile();
+            }
+        }
+        return null;
+    }
 
 }
 
-public class ConnectableSide
-{
-    public OutgoingPort outgoing;
-    public IncomingPort incoming;
-    public class OutgoingPort { public IncomingPort connectedTo = null; }
-    public class IncomingPort { public Boolean hasConnection = false; }
-
-}

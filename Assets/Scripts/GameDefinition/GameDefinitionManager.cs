@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameDefinitionManager : MonoBehaviour
@@ -57,6 +60,20 @@ public class GameDefinitionManager : MonoBehaviour
     public void DeleteAction(ActionData action){
         cache.actions.Remove(action);
         Destroy(action.gameObject);
+
+    // Connect Ports
+    public void UpdateConnections(Transform node, Collider2D other)
+    {
+        if (!node.gameObject.GetComponent<EdgeData>().isConnected && !other.gameObject.GetComponent<EdgeData>().isConnected)
+        {
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = null;
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = null;
+        }
+        else
+        {
+            node.gameObject.GetComponent<EdgeData>().connectedEdge = other.gameObject.GetComponent<EdgeData>();
+            other.gameObject.GetComponent<EdgeData>().connectedEdge = node.gameObject.GetComponent<EdgeData>();
+        }
     }
 
 }
