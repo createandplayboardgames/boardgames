@@ -9,8 +9,7 @@ public class DropOnTile : MonoBehaviour, IPointerUpHandler
     GameDefinitionManager gameDefinitionManager;
     LayoutHelper layoutHelper;
 
-    public void Start()
-    {
+    public void Start(){
         gameDefinitionManager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
         layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
@@ -20,22 +19,31 @@ public class DropOnTile : MonoBehaviour, IPointerUpHandler
     }
     private void AttemptDropOnTile(){
         // Does object overlap w/ Tile?
-        Collider2D[] overlapping = Physics2D.OverlapCircleAll(transform.position, 1f); //TODO
-        var player = GetComponent<PlayerData>();
-        layoutHelper.SnapPlayerToTile(player, null); //unsnap
+        TileData tile = FindOverlappingTile();
+        // find type, perform appropriate snap
+        PlayerData player = GetComponent<PlayerData>();
+        if (player){
+            layoutHelper.SnapPlayerToTile(player, null); //unsnap
+            if (tile) layoutHelper.SnapPlayerToTile(player, tile); //snap
+            return;
+        }
+        ActionData action = GetComponent<ActionData>();
+        if (action){
+            layoutHelper.SnapActionToTile(action, null); //unsnap
+            if (tile) layoutHelper.SnapActionToTile(action, tile); //snap
+            return;   
+        }
+    }
+
+    private TileData FindOverlappingTile(){
+        Collider2D[] overlapping = Physics2D.OverlapCircleAll(transform.position, .5f); //TODO
         foreach (Collider2D collider in overlapping){
             if (collider.gameObject == gameObject) //skip self
                 continue;
             if (collider.gameObject.GetComponent<TileData>() != null)
-            { //overlaps with Tile
-                var tile = collider.gameObject.GetComponent<TileData>();
-                layoutHelper.SnapPlayerToTile(player, tile);
-                break;
-            }
+                return collider.gameObject.GetComponent<TileData>();
         }
+        return null;
     }
-
-
-
 
 }
