@@ -15,6 +15,7 @@ public class DragDrop : MonoBehaviour
     private Vector2 startPosition;
 
     public bool overObject = false;
+    public bool withinBoard = true;
 
     void Update()
     {
@@ -41,10 +42,17 @@ public class DragDrop : MonoBehaviour
 
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
 
+        if( !withinBoard )
+        {
+            transform.position = new Vector3(startPosition.x,
+                                             startPosition.y,
+                                             transform.position.z);
+        }
+
         //Enable Snapping and check for overlapping object tiles
         if (gameObject.CompareTag("Tiles"))
         {
-            if (overObject)
+            if ( overObject )
             {
                 transform.position = new Vector3(startPosition.x,
                                                  startPosition.y,

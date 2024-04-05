@@ -33,6 +33,10 @@ public class TriggerUpdates : MonoBehaviour
     //Triggers for adding connection and checking location
     private void OnTriggerStay2D(Collider2D other)
     {
+        if(other.CompareTag("Board"))
+        {
+            dragdrop.withinBoard = true;
+        }
         if ( other.CompareTag("Center"))
         {
             dragdrop.overObject = true;
@@ -72,6 +76,10 @@ public class TriggerUpdates : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if(other.CompareTag("Board"))
+        {
+            dragdrop.withinBoard = false;
+        }
         if (other.CompareTag("Center"))
         {
             dragdrop.overObject = false;
