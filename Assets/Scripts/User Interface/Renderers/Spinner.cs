@@ -71,6 +71,7 @@ public class Spinner : MonoBehaviour
         coroutineAllowed = true;
         if( playerTurn == -1 && vsComputer)
         {
+            yield return new WaitForSeconds(1.0f);
             StartCoroutine("Spin");
         }
 

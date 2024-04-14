@@ -135,6 +135,33 @@ public class GameSessionController : MonoBehaviour
 
     }
 
+    //public void GetMovementOptions(int roll, TileData tile)
+    //{
+    //    int temp = roll;
+    //    List<TileData> nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
+    //    Debug.Log(nextTiles);
+    //    if (temp == 0)
+    //    {
+    //        GameObject tileObject = tile.gameObject;
+    //        tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+    //    }
+    //    for (int i = 0; i < nextTiles.Count; i++)
+    //    {
+    //        GetMovementOptions(temp--, nextTiles[i]);
+    //    }
+
+
+    //}
+
+    public static void colorDirection(int roll, Transform[] tile)
+    {
+        if (player1.GetComponent<Movement>().tiles.Length >= roll)
+        {
+            GameObject tileObject = tile[roll].transform.gameObject;
+            tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+        }
+    }
+
 
 
     /*
@@ -145,9 +172,6 @@ public class GameSessionController : MonoBehaviour
      */
     void Update()
     {
-
-
-
 
         if (player1.GetComponent<Movement>().tileIndex > player1position + spinner)
         {
@@ -179,13 +203,16 @@ public class GameSessionController : MonoBehaviour
     }
 
     /*
-     * If players turn, move action
+     * If players turn, move action and highlight move
      */
     public static void MovePlayer(int playerturn)
     {
         switch (playerturn)
         {
             case 1:
+                colorDirection(player1position + spinner,
+                               player1.GetComponent<Movement>().tiles);
+
                 player1.GetComponent<Movement>().moveAllowed = true;
                 break;
             case 2:

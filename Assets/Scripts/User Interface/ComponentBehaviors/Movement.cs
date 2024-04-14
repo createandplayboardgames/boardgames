@@ -7,9 +7,11 @@ using UnityEngine;
  */
 public class Movement : MonoBehaviour
 {
-    TileData tileData;
+    public TileData tileData;
     // get tiles
     public Transform[] tiles;
+
+    Transform currentPos;
 
     [SerializeField] private float movementSpeed = 1f;
 
@@ -21,14 +23,27 @@ public class Movement : MonoBehaviour
     // initialize
     void Start()
     {
+        tileData = tiles[tileIndex].GetComponent<TileData>();
         transform.position = tiles[tileIndex].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (moveAllowed) { Move(); }
+        if (moveAllowed) 
+        { 
+            tileData = tiles[tileIndex].GetComponent<TileData>();
+            //GetMovementOptions(tileIndex, tileData);
+            Move(); 
+        }
     }
+
+    public void GetCurrentPos()
+    {
+        currentPos.position = tiles[tileIndex].transform.position;
+    }
+
+
 
     public void Move()
     {

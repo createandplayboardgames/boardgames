@@ -46,7 +46,7 @@ public class TileData : MonoBehaviour
         {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
             if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
-            { incomingConnections.Add(edge.connectedEdge.GetTile()); }
+            { incomingConnections.Add(edge.GetComponent<EdgeData>().connectedEdge.GetTile()); }
         }
         return incomingConnections;
     }
