@@ -8,6 +8,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public TileData tileData;
+    public List<TileData> travelled = new List<TileData>();
+    public List<TileData> pathOptions = new List<TileData>();
     // get tiles
     public Transform[] tiles;
 
@@ -24,6 +26,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         tileData = tiles[tileIndex].GetComponent<TileData>();
+        travelled.Add(tileData);
         transform.position = tiles[tileIndex].transform.position;
     }
 
@@ -33,6 +36,11 @@ public class Movement : MonoBehaviour
         if (moveAllowed) 
         { 
             tileData = tiles[tileIndex].GetComponent<TileData>();
+            if (!travelled.Contains(tileData))
+            {
+                travelled.Add(tileData);
+                //Debug.Log(tileData);
+            }
             //GetMovementOptions(tileIndex, tileData);
             Move(); 
         }

@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 58420007}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -245,6 +249,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+--- !u!114 &58420007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 773926677}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &77254788
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +369,17 @@ MonoBehaviour:
   movementSpeed: 5
   tileIndex: 0
   moveAllowed: 1
+--- !u!114 &93442058 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 1165646005}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &112429373 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
@@ -427,6 +453,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1040028891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &197851789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 1954792918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &210756163
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +639,17 @@ RectTransform:
   m_AnchoredPosition: {x: 37.490845, y: -33.774185}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &507269773 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 554605816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &519901919 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
@@ -978,6 +1026,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 197851789}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1358,6 +1410,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
   m_PrefabInstance: {fileID: 1954792918}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1101211956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 37227501}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1165646005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1370,6 +1433,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 1101211956}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1628,6 +1695,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
   m_PrefabInstance: {fileID: 1581291280}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1422607503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 1672184835}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1581291280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1648,6 +1726,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 93442058}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1772,6 +1854,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 507269773}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1939,6 +2025,10 @@ PrefabInstance:
       propertyPath: isConnected
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+      propertyPath: connectedEdge
+      value: 
+      objectReference: {fileID: 1422607503}
     - target: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

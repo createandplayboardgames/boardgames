@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
@@ -135,31 +137,60 @@ public class GameSessionController : MonoBehaviour
 
     }
 
-    //public void GetMovementOptions(int roll, TileData tile)
-    //{
-    //    int temp = roll;
-    //    List<TileData> nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
-    //    Debug.Log(nextTiles);
-    //    if (temp == 0)
-    //    {
-    //        GameObject tileObject = tile.gameObject;
-    //        tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
-    //    }
-    //    for (int i = 0; i < nextTiles.Count; i++)
-    //    {
-    //        GetMovementOptions(temp--, nextTiles[i]);
-    //    }
-
-
-    //}
-
-    public static void colorDirection(int roll, Transform[] tile)
+    public static void GetMovementOptions(int roll, TileData tile, GameObject player)
     {
-        if (player1.GetComponent<Movement>().tiles.Length >= roll)
+        List<TileData>nextTiles = new List<TileData>();
+        nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
+        //foreach (var item in nextTiles)
+        //{
+           // Debug.Log(item.ToString());
+       // }
+        if (roll <= 0)
         {
-            GameObject tileObject = tile[roll].transform.gameObject;
+            return;
+            //GameObject tileObject = tile.gameObject;
+            //tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+        }
+        for (int i = 0; i < nextTiles.Count; i++)
+        {
+            if (!player.GetComponent<Movement>().travelled.Contains(nextTiles[i]))
+            {
+                if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
+                {
+                    player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
+                    //Debug.Log(nextTiles[i]);
+                }
+                roll -= 1;
+                //Debug.Log(nextTiles[i]);
+                GetMovementOptions(roll, nextTiles[i], player);
+            }
+        }
+
+
+    }
+
+    public void ClearColorDirection(GameObject player)
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
+        }
+    }
+
+    public static void colorDirection(GameObject player)
+    {
+        for(int i = 0; i < player.GetComponent<Movement>().pathOptions.Count; i++)
+        {
+            Debug.Log(player.GetComponent<Movement>().pathOptions[i]);
+            GameObject tileObject = player.GetComponent<Movement>().pathOptions[i].gameObject;
             tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
         }
+        //if (player1.GetComponent<Movement>().tiles.Length >= roll)
+        //{
+        //    GameObject tileObject = tile[roll].transform.gameObject;
+        //    tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+        //}
     }
 
 
@@ -176,6 +207,7 @@ public class GameSessionController : MonoBehaviour
         if (player1.GetComponent<Movement>().tileIndex > player1position + spinner)
         {
             player1.GetComponent<Movement>().moveAllowed = false;
+            ClearColorDirection(player1);
             player1position = player1.GetComponent<Movement>().tileIndex - 1;
             turnText.text = "Computer's Turn";
         }
@@ -210,8 +242,9 @@ public class GameSessionController : MonoBehaviour
         switch (playerturn)
         {
             case 1:
-                colorDirection(player1position + spinner,
-                               player1.GetComponent<Movement>().tiles);
+                player1.GetComponent<Movement>().pathOptions.Clear();
+                GetMovementOptions(spinner, player1.GetComponent<Movement>().tileData, player1);
+                colorDirection(player1);
 
                 player1.GetComponent<Movement>().moveAllowed = true;
                 break;
