@@ -56,7 +56,7 @@ public class LayoutHelper : MonoBehaviour{
             //first, center
             var t = players[i].gameObject.transform;
             t.position = tile.gameObject.transform.position; //position
-            t.parent = tile.gameObject.transform; //parent;
+            //t.parent = tile.gameObject.transform; //parent;
             float angleIncrement = 360 / players.Count;
             //calculate deltaX and deltaY
             float startAngle = 180;
@@ -75,7 +75,7 @@ public class LayoutHelper : MonoBehaviour{
         if (tile == null) return;
         var t = item.gameObject.transform;
         t.position = tile.gameObject.transform.position; //position
-        t.parent = tile.gameObject.transform; //parent;
+        //t.parent = tile.gameObject.transform; //parent;
     }
 
 }	
