@@ -27,9 +27,27 @@ public class GameDefinitionManager : MonoBehaviour
         if (cache.players.Count > MAX_PLAYER_COUNT)
             return; //TODO - show error message
         var obj = LoadGameObject(Keywords.PREFAB_PLAYER, Keywords.SORTING_LAYER_PLAYERS);
+        
+        //give the player a unique name, of form "player-num"  - TODO -this needs testing!
+        int i = 0;
+        while (true){
+            String name = "player-" + i;  // choose potential name
+            bool isNameUnique = true; //check if name unique...
+            foreach (PlayerData player in cache.players){ //... against all current names
+                if (player.playerName == name) {
+                    isNameUnique = false; 
+                    break;
+                }
+            }
+            if (isNameUnique){
+                obj.GetComponent<PlayerData>().playerName = name;
+                break;
+            }
+            i++; 
+        }
         cache.players.Add(obj.GetComponent<PlayerData>());
     }
-    void DeletePlayer(PlayerData player){
+    public void DeletePlayer(PlayerData player){
         cache.players.Remove(player);
         Destroy(player.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
     }

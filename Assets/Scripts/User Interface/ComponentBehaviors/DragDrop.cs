@@ -33,8 +33,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     }
     public void OnMouseOver() {
         if (Input.GetMouseButtonDown(1))
-            Destroy(gameObject);
-    
+            Destroy(gameObject); //TODO - do this through GameDefinitionManager, to ensure that cache remains valid 
     }
     Vector2 GetMousePos() { return Camera.main.ScreenToWorldPoint(Input.mousePosition); }
 

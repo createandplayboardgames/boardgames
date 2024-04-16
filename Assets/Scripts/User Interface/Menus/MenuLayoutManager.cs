@@ -190,7 +190,6 @@ public class MenuLayoutManager : MonoBehaviour
         dropdownField.choices.Clear(); 
         controller.playerNameIDMap.Clear(); //clear
         foreach (PlayerData playerData in controller.GetAllPlayersAndDummies()) {
-            Debug.Log("adding " + playerData.playerName + " to dropdown");
             controller.playerNameIDMap.Add(playerData.playerName, playerData.ID); //map name-id
             dropdownField.choices.Add(playerData.playerName); //add name
         }
