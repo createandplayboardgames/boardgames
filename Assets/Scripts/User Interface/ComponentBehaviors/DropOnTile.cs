@@ -36,7 +36,7 @@ public class DropOnTile : MonoBehaviour, IPointerUpHandler
     }
 
     private TileData FindOverlappingTile(){
-        Collider2D[] overlapping = Physics2D.OverlapCircleAll(transform.position, .5f); //TODO
+        Collider2D[] overlapping = Physics2D.OverlapCircleAll(transform.position, .15f); 
         foreach (Collider2D collider in overlapping){
             if (collider.gameObject == gameObject) //skip self
                 continue;
