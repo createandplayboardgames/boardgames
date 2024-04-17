@@ -19,21 +19,21 @@ public class MenuLayoutManager : MonoBehaviour
     private VisualElement infoMenu_changePoints;
     private VisualElement infoMenu_moveTo;
     // --- Inputs
-    private VisualElement input_add_tile_square;
-    private VisualElement input_add_player_pawn;
-    private VisualElement input_add_action_finishGame;
-    private VisualElement input_add_action_changePoints;
-    private VisualElement input_add_action_moveTo;
-    private TextField       input_player_playerName;
-    private IntegerField    input_player_points;
-    private Button          input_player_setLocation;
-    private DropdownField   input_finishGame_winner;
-    private DropdownField   input_changePoints_player;
-    private EnumField       input_changePoints_op;
-    private IntegerField    input_changePoints_val;
-    private DropdownField   input_moveTo_player;
-    private Button          input_moveTo_set;
-    private Button          input_moveTo_find;
+    public VisualElement input_add_tile_square;
+    public VisualElement input_add_player_pawn;
+    public VisualElement input_add_action_finishGame;
+    public VisualElement input_add_action_changePoints;
+    public VisualElement input_add_action_moveTo;
+    public TextField       input_player_playerName;
+    public IntegerField    input_player_points;
+    public Button          input_player_setLocation;
+    public DropdownField   input_finishGame_winner;
+    public DropdownField   input_changePoints_player;
+    public EnumField       input_changePoints_op;
+    public IntegerField    input_changePoints_val;
+    public DropdownField   input_moveTo_player;
+    public Button          input_moveTo_set;
+    public Button          input_moveTo_find;
 
     public void Start(){
         
@@ -76,8 +76,8 @@ public class MenuLayoutManager : MonoBehaviour
         });
         // player
         input_player_playerName  = root.Q("input_player_playerName") as TextField;
-        input_player_playerName.RegisterValueChangedCallback<string>(evt => {
-            controller.SetPlayerName(evt.newValue);
+        input_player_playerName.RegisterCallback<BlurEvent>(evt => { 
+            controller.SetPlayerName(input_player_playerName.value); // called on editing finished 
         });
         input_player_points = root.Q("input_player_points") as IntegerField;
         input_player_points.RegisterValueChangedCallback<int>(evt => {

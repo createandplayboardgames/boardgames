@@ -28,7 +28,7 @@ public class GameDefinitionManager : MonoBehaviour
             return; //TODO - show error message
         var obj = LoadGameObject(Keywords.PREFAB_PLAYER, Keywords.SORTING_LAYER_PLAYERS);
         
-        //give the player a unique name, of form "player-num"  - TODO -this needs testing!
+        //give the player a unique name, of form "player-num"  - TODO - this needs testing!
         int i = 0;
         while (true){
             String name = "player-" + i;  // choose potential name
