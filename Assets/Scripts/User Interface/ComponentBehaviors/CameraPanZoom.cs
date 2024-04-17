@@ -4,11 +4,16 @@ using UnityEngine.EventSystems;
 public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
 
+    private LayoutHelper layoutHelper;
     public Camera mainCamera;
     private float dragScale = .02f;
     private float zoomScale = .5f;
-    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Middle;
+    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Right;
 
+    public void Start()
+    {
+        layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button != panButton)
@@ -28,16 +33,11 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
         if (eventData.button != panButton)
             return;
 
-        //calculate new position, limit to background boundaries 
+        //calculate new position 
         Vector3 cameraCenter = mainCamera.transform.position;
-        GameObject board = GameObject.Find("Background");
-        Vector3 boardCenter = board.transform.position;
-        float   boardWidth  = GetComponent<SpriteRenderer>().bounds.size.x;
-        float   boardHeight = GetComponent<SpriteRenderer>().bounds.size.y;
         Vector2 amountToChange = eventData.delta * dragScale;
-        float newX = Mathf.Clamp(cameraCenter.x + amountToChange.x, boardCenter.x - boardWidth/2,  boardCenter.x + boardWidth/2);
-        float newY = Mathf.Clamp(cameraCenter.y + amountToChange.y, boardCenter.y - boardHeight/2, boardCenter.y + boardHeight/2);
-        mainCamera.transform.position = new Vector3(newX, newY, cameraCenter.z);
+        mainCamera.transform.position = layoutHelper.GetBoundedPosition(
+            new Vector3(cameraCenter.x + amountToChange.x, cameraCenter.y + amountToChange.y, cameraCenter.z));
     }
     public void OnScroll(PointerEventData eventData)
     {

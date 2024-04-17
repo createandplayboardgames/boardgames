@@ -6,9 +6,15 @@ using UnityEngine.EventSystems;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler
 {
+    private LayoutHelper layoutHelper;
     private Vector2 startPosition;
     public bool overObject = false; //s TODO - is this unused?
 
+
+    public void Start()
+    {
+        layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         startPosition = transform.position;
@@ -16,7 +22,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     }
     public void OnMouseDrag()
     {
-        transform.position = new Vector3(GetMousePos().x, GetMousePos().y, transform.position.z);
+        transform.position = layoutHelper.GetBoundedPosition(new Vector3(GetMousePos().x, GetMousePos().y, transform.position.z));
     }
     public void OnMouseUp()
     {
