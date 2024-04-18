@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DropOnTile : MonoBehaviour, IPointerUpHandler
+public class DropOnTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 
     GameDefinitionManager gameDefinitionManager;
@@ -14,6 +14,9 @@ public class DropOnTile : MonoBehaviour, IPointerUpHandler
         layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
 
+    public void OnPointerDown(PointerEventData eventData){
+        //nothing - required for OnPointerU to work
+    }
     public void OnPointerUp(PointerEventData eventData){
         AttemptDropOnTile();
     }
@@ -24,13 +27,13 @@ public class DropOnTile : MonoBehaviour, IPointerUpHandler
         PlayerData player = GetComponent<PlayerData>();
         if (player){
             layoutHelper.SnapPlayerToTile(player, null); //unsnap
-            if (tile) layoutHelper.SnapPlayerToTile(player, tile); //snap
+            if (tile != null) layoutHelper.SnapPlayerToTile(player, tile); //snap
             return;
         }
         ActionData action = GetComponent<ActionData>();
         if (action){
             layoutHelper.SnapActionToTile(action, null); //unsnap
-            if (tile) layoutHelper.SnapActionToTile(action, tile); //snap
+            if (tile != null) layoutHelper.SnapActionToTile(action, tile); //snap
             return;   
         }
     }
