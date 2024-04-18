@@ -55,6 +55,12 @@ public class Movement : MonoBehaviour
 
     public void Move()
     {
+        //if (moveAllowed)
+        //{
+        //    //transform.position = Vector2.MoveTowards(transform.position,
+        //    //        tile.transform.position, movementSpeed * Time.deltaTime);
+        //    transform.position = tile.transform.position;
+        //}
         if (tileIndex <= tiles.Length - 1)
         {
             transform.position = Vector2.MoveTowards(transform.position,

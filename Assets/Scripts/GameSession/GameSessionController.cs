@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 
 /*
@@ -127,6 +129,11 @@ public class GameSessionController : MonoBehaviour
     public static int player2position = 0;
     public static bool gameOver = false;
 
+    bool mouseOver;
+    Ray ray;
+    RaycastHit2D hit;
+    GameObject currentHit;
+
     void Start()
     {
         player1 = GameObject.Find("Player1");
@@ -169,6 +176,7 @@ public class GameSessionController : MonoBehaviour
 
     }
 
+
     public void ClearColorDirection(GameObject player)
     {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
@@ -186,11 +194,7 @@ public class GameSessionController : MonoBehaviour
             GameObject tileObject = player.GetComponent<Movement>().pathOptions[i].gameObject;
             tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
         }
-        //if (player1.GetComponent<Movement>().tiles.Length >= roll)
-        //{
-        //    GameObject tileObject = tile[roll].transform.gameObject;
-        //    tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
-        //}
+        
     }
 
 
@@ -203,6 +207,13 @@ public class GameSessionController : MonoBehaviour
      */
     void Update()
     {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        MouseHoverChecker(ray, hit);
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            MouseClickChecker(ray, hit);
+        }
 
         if (player1.GetComponent<Movement>().tileIndex > player1position + spinner)
         {
@@ -232,6 +243,57 @@ public class GameSessionController : MonoBehaviour
             SceneManager.LoadScene("EndGame");
         }
 
+    }
+
+    public void MouseHoverChecker(Ray ray, RaycastHit2D hit)
+    {
+        hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+        if (hit.collider == null)
+        {
+            Debug.Log("nothing hit");
+
+        }
+        else
+        {
+            
+            //Make Separate Function for color
+            if (hit.collider.CompareTag("Tiles"))
+            {
+                
+                print(hit.collider.name);
+                currentHit = hit.collider.gameObject;
+                print(currentHit.name);
+                //highlight tile
+                //currentHit.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+
+            }
+        }
+        
+    }
+
+    public void MouseClickChecker(Ray ray, RaycastHit2D hit)
+    {
+        hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+        if (hit.collider == null)
+        {
+            Debug.Log("nothing clicked");
+
+        }
+        else
+        {
+
+            //Make Separate Function for color
+            if (hit.collider.CompareTag("Tiles"))
+            {
+
+                print(hit.collider.name);
+                currentHit = hit.collider.gameObject;
+
+                //player1.GetComponent<Movement>().Move(currentHit);
+                //TODO validate movement option
+                //TODO move player
+            }
+        }
     }
 
     /*
