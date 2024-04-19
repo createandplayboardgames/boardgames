@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Select : MonoBehaviour//, IPointerDownHandler
 {
-    /*
     public void OnPointerDown(PointerEventData eventData){
         SelectPiece();
     }
@@ -42,5 +41,4 @@ public class Select : MonoBehaviour//, IPointerDownHandler
             return;
         }
     }   
-    */
 }

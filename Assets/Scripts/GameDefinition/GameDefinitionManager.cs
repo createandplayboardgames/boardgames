@@ -17,8 +17,10 @@ public class GameDefinitionManager : MonoBehaviour
             parent.transform.position, parent.transform.rotation) as GameObject;
         gamePiece.transform.parent = parent.transform;
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
+        gamePiece.GetComponent<SpriteRenderer>().sortingOrder = gamePiece.GetInstanceID(); //assign "random" sorting order value
         //TODO - select (currently won't work with actions)
-        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera - ideally without overlapping 
+        //TODO - because the camera can pan and zoom, we should instantiate objects in the middle of the camera - 
+        //...ideally without overlapping 
         return gamePiece;
     }
 
