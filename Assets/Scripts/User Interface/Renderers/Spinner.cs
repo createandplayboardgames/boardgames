@@ -18,7 +18,7 @@ public class Spinner : MonoBehaviour
 
     private int playerTurn = 1;
 
-    private bool vsComputer = true;
+    private bool vsComputer = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,11 +61,11 @@ public class Spinner : MonoBehaviour
 
         if (playerTurn == 1)
         {
-            GameSessionController.MovePlayer(1);
+            GameSessionController.PlayerTurn(1);
         }
         else if (playerTurn == -1)
         {
-            GameSessionController.MovePlayer(2);
+            GameSessionController.PlayerTurn(2);
         }
         playerTurn *= -1;
         coroutineAllowed = true;

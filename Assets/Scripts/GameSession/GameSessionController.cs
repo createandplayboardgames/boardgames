@@ -139,69 +139,13 @@ public class GameSessionController : MonoBehaviour
         player1 = GameObject.Find("Player1");
         player2 = GameObject.Find("Player2");
 
-        player1.GetComponent<Movement>().moveAllowed = false;
+        player1.GetComponent<Movement>().moveAllowed = true;
         player2.GetComponent<Movement>().moveAllowed = false;
 
     }
 
-    public static void GetMovementOptions(int roll, TileData tile, GameObject player)
-    {
-        List<TileData>nextTiles = new List<TileData>();
-        nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
-        //foreach (var item in nextTiles)
-        //{
-           // Debug.Log(item.ToString());
-       // }
-        if (roll <= 0)
-        {
-            return;
-            //GameObject tileObject = tile.gameObject;
-            //tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
-        }
-        for (int i = 0; i < nextTiles.Count; i++)
-        {
-            if (!player.GetComponent<Movement>().travelled.Contains(nextTiles[i]))
-            {
-                if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
-                {
-                    player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
-                    //Debug.Log(nextTiles[i]);
-                }
-                roll -= 1;
-                //Debug.Log(nextTiles[i]);
-                GetMovementOptions(roll, nextTiles[i], player);
-            }
-        }
-
-
-    }
-
-
-    public void ClearColorDirection(GameObject player)
-    {
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
-        foreach (GameObject tile in tiles)
-        {
-            tile.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
-        }
-    }
-
-    public static void colorDirection(GameObject player)
-    {
-        for(int i = 0; i < player.GetComponent<Movement>().pathOptions.Count; i++)
-        {
-            Debug.Log(player.GetComponent<Movement>().pathOptions[i]);
-            GameObject tileObject = player.GetComponent<Movement>().pathOptions[i].gameObject;
-            tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
-        }
-        
-    }
-
-
-
     /*
      * Update players turn, and activate game over scene.
-     * Source: https://www.youtube.com/watch?v=W8ielU8iURI&ab_channel=AlexanderZotov
      * 
      * TODO: activate game over scene and player turns, also make text to say whos turn it is.
      */
@@ -214,28 +158,23 @@ public class GameSessionController : MonoBehaviour
         {
             MouseClickChecker(ray, hit);
         }
+        if(!player1.GetComponent<Movement>().moveAllowed) 
+        {
+            turnText.text = "Player 2: Your Turn";
+        }
+        if (!player2.GetComponent<Movement>().moveAllowed)
+        {
+            turnText.text = "Player 1: Your Turn";
+        }
 
-        if (player1.GetComponent<Movement>().tileIndex > player1position + spinner)
-        {
-            player1.GetComponent<Movement>().moveAllowed = false;
-            ClearColorDirection(player1);
-            player1position = player1.GetComponent<Movement>().tileIndex - 1;
-            turnText.text = "Computer's Turn";
-        }
-        if (player2.GetComponent<Movement>().tileIndex > player2position + spinner)
-        {
-            player2.GetComponent<Movement>().moveAllowed = false;
-            player2position = player2.GetComponent<Movement>().tileIndex - 1;
-            turnText.text = "Your Turn";
-        }
-        if (player1.GetComponent<Movement>().tileIndex == player1.GetComponent<Movement>().tiles.Length)
+        if (player1.GetComponent<Movement>().tileData.isEndingTile)
         {
             gameOver = true;
             Debug.Log("End Game");
             //TODO: Assign Winner
             SceneManager.LoadScene("EndGame");
         }
-        if (player2.GetComponent<Movement>().tileIndex == player2.GetComponent<Movement>().tiles.Length)
+        if (player2.GetComponent<Movement>().tileData.isEndingTile)
         {
             gameOver = true;
             Debug.Log("End Game");
@@ -281,37 +220,93 @@ public class GameSessionController : MonoBehaviour
         }
         else
         {
-
             //Make Separate Function for color
             if (hit.collider.CompareTag("Tiles"))
             {
 
                 print(hit.collider.name);
-                currentHit = hit.collider.gameObject;
-
-                //player1.GetComponent<Movement>().Move(currentHit);
-                //TODO validate movement option
-                //TODO move player
+                if (player1.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()))
+                {
+                    Debug.Log("hit!");
+                    currentHit = hit.collider.gameObject;
+                    ClearColorDirection();
+                    player1.GetComponent<Movement>().Move(currentHit);
+                }
+                else if (player2.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()))
+                {
+                    Debug.Log("hit!");
+                    currentHit = hit.collider.gameObject;
+                    ClearColorDirection();
+                    player2.GetComponent<Movement>().Move(currentHit);
+                }
+                //TODO make validation and movement separate
             }
         }
+    }
+
+    public static void GetMovementOptions(int roll, TileData tile, GameObject player)
+    {
+        List<TileData> nextTiles = new List<TileData>();
+        nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
+
+        if (roll <= 0)
+        {
+            return;
+
+        }
+        for (int i = 0; i < nextTiles.Count; i++)
+        {
+            if (!player.GetComponent<Movement>().travelled.Contains(nextTiles[i]))
+            {
+                if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
+                {
+                    player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
+                }
+                roll -= 1;
+                GetMovementOptions(roll, nextTiles[i], player);
+            }
+        }
+    }
+
+    public static void ClearColorDirection()
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
+        }
+    }
+
+
+    public static void colorDirection(GameObject player)
+    {
+        for (int i = 0; i < player.GetComponent<Movement>().pathOptions.Count; i++)
+        {
+            Debug.Log(player.GetComponent<Movement>().pathOptions[i]);
+            GameObject tileObject = player.GetComponent<Movement>().pathOptions[i].gameObject;
+            tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+        }
+
     }
 
     /*
      * If players turn, move action and highlight move
      */
-    public static void MovePlayer(int playerturn)
+    public static void PlayerTurn(int playerturn)
     {
         switch (playerturn)
         {
             case 1:
+                player1.GetComponent<Movement>().moveAllowed = true;
                 player1.GetComponent<Movement>().pathOptions.Clear();
                 GetMovementOptions(spinner, player1.GetComponent<Movement>().tileData, player1);
                 colorDirection(player1);
-
-                player1.GetComponent<Movement>().moveAllowed = true;
                 break;
             case 2:
                 player2.GetComponent<Movement>().moveAllowed = true;
+                player2.GetComponent<Movement>().pathOptions.Clear();
+                GetMovementOptions(spinner, player2.GetComponent<Movement>().tileData, player2);
+                colorDirection(player2);
                 break;
 
         }

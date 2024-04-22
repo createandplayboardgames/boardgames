@@ -30,47 +30,51 @@ public class Movement : MonoBehaviour
         transform.position = tiles[tileIndex].transform.position;
     }
 
-    // Update is called once per frame
+    // TODO: FIX Update is called once per frame
     void Update()
     {
         if (moveAllowed) 
         { 
-            tileData = tiles[tileIndex].GetComponent<TileData>();
             if (!travelled.Contains(tileData))
             {
                 travelled.Add(tileData);
                 //Debug.Log(tileData);
-            }
-            //GetMovementOptions(tileIndex, tileData);
-            Move(); 
+            } 
         }
     }
 
-    public void GetCurrentPos()
+    public void updateCurrentTile(GameObject tile)
     {
-        currentPos.position = tiles[tileIndex].transform.position;
+        tileData = tile.GetComponent<TileData>();
+    }
+
+    public void GetCurrentPos(GameObject tile)
+    {
+        currentPos.position = tile.transform.position;
     }
 
 
 
-    public void Move()
+    public void Move(GameObject tile)
     {
-        //if (moveAllowed)
-        //{
-        //    //transform.position = Vector2.MoveTowards(transform.position,
-        //    //        tile.transform.position, movementSpeed * Time.deltaTime);
-        //    transform.position = tile.transform.position;
-        //}
-        if (tileIndex <= tiles.Length - 1)
+        if (moveAllowed)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                tiles[tileIndex].transform.position, movementSpeed * Time.deltaTime);
-
-            if (transform.position == tiles[tileIndex].transform.position)
-            {
-                tileIndex += 1;
-            }
+            //transform.position = Vector2.MoveTowards(transform.position,
+            //        tile.transform.position, movementSpeed * Time.deltaTime);
+            transform.position = tile.transform.position;
+            updateCurrentTile(tile);
+            moveAllowed = false;
         }
+        //if (tileIndex <= tiles.Length - 1)
+        //{
+        //    transform.position = Vector2.MoveTowards(transform.position,
+        //        tiles[tileIndex].transform.position, movementSpeed * Time.deltaTime);
+
+        //    if (transform.position == tiles[tileIndex].transform.position)
+        //    {
+        //        tileIndex += 1;
+        //    }
+        //}
     }
 }
 
