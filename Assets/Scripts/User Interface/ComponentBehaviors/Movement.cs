@@ -57,24 +57,9 @@ public class Movement : MonoBehaviour
 
     public void Move(GameObject tile)
     {
-        if (moveAllowed)
-        {
-            //transform.position = Vector2.MoveTowards(transform.position,
-            //        tile.transform.position, movementSpeed * Time.deltaTime);
-            transform.position = tile.transform.position;
-            updateCurrentTile(tile);
-            moveAllowed = false;
-        }
-        //if (tileIndex <= tiles.Length - 1)
-        //{
-        //    transform.position = Vector2.MoveTowards(transform.position,
-        //        tiles[tileIndex].transform.position, movementSpeed * Time.deltaTime);
+        transform.position = tile.transform.position;
+        updateCurrentTile(tile);
 
-        //    if (transform.position == tiles[tileIndex].transform.position)
-        //    {
-        //        tileIndex += 1;
-        //    }
-        //}
     }
 }
 
