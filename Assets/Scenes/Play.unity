@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 77254790}
   - component: {fileID: 77254789}
   - component: {fileID: 77254791}
+  - component: {fileID: 77254792}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -373,20 +374,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a196dd3c1497f644941875389bda637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileData: {fileID: 0}
+  tileData: {fileID: 2012575049}
   travelled: []
   pathOptions: []
-  tiles:
-  - {fileID: 2012575048}
-  - {fileID: 1614423677}
-  - {fileID: 1083897786}
-  - {fileID: 1620376466}
-  - {fileID: 519901919}
-  - {fileID: 112429373}
-  - {fileID: 1383043007}
   movementSpeed: 5
   tileIndex: 0
   moveAllowed: 1
+--- !u!114 &77254792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77254788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b97294f6c61fd418dd485b475e1abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  location: {fileID: 2012575049}
+  playerName: Player 2
+  points: 0
 --- !u!114 &93442058 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7080295419361660523, guid: a288eafcbf1374942bc50bded238e809, type: 3}
@@ -930,6 +938,7 @@ RectTransform:
   - {fileID: 210756164}
   - {fileID: 1366405111}
   - {fileID: 920727968}
+  - {fileID: 1349811359}
   m_Father: {fileID: 1957203330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1124,8 +1133,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -486, y: 385}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -224, y: 298}
+  m_SizeDelta: {x: 180, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767279540
 MonoBehaviour:
@@ -1403,7 +1412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -425.42, y: 249.56}
+  m_AnchoredPosition: {x: -475, y: 282}
   m_SizeDelta: {x: 319.14, y: 86.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &920727969
@@ -1426,7 +1435,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Your Turn: Click the Dice to Roll'
+  m_text: Your Turn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1645,6 +1654,7 @@ GameObject:
   - component: {fileID: 944413111}
   - component: {fileID: 944413110}
   - component: {fileID: 944413112}
+  - component: {fileID: 944413113}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -1731,20 +1741,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a196dd3c1497f644941875389bda637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileData: {fileID: 0}
+  tileData: {fileID: 2012575049}
   travelled: []
   pathOptions: []
-  tiles:
-  - {fileID: 2012575048}
-  - {fileID: 1614423677}
-  - {fileID: 1083897786}
-  - {fileID: 1620376466}
-  - {fileID: 519901919}
-  - {fileID: 112429373}
-  - {fileID: 1383043007}
   movementSpeed: 5
   tileIndex: 0
   moveAllowed: 0
+--- !u!114 &944413113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944413109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b97294f6c61fd418dd485b475e1abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  location: {fileID: 2012575049}
+  playerName: Player 1
+  points: 0
 --- !u!114 &1023193934 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3284120833086746800, guid: a288eafcbf1374942bc50bded238e809, type: 3}
@@ -2132,6 +2149,140 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7432c9af77fbe3148b117e0629f6db2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1349811358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349811359}
+  - component: {fileID: 1349811361}
+  - component: {fileID: 1349811360}
+  m_Layer: 5
+  m_Name: Instructions
+  m_TagString: Text
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1349811359
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349811358}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 568467776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -418, y: 442}
+  m_SizeDelta: {x: 319.14, y: 86.88}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1349811360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349811358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "Click to roll the dice, click to move. \nClick to end turn."
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 30
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1349811361
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349811358}
+  m_CullTransparentMesh: 1
 --- !u!1 &1366405107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,6 +3397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791b7057743cd8940bfd0df30e4a3783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players:
+  - {fileID: 944413113}
+  - {fileID: 77254792}
   turnText: {fileID: 920727969}
 --- !u!114 &1823972904 stripped
 MonoBehaviour:
@@ -3435,6 +3589,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5353535221182068848, guid: a288eafcbf1374942bc50bded238e809, type: 3}
   m_PrefabInstance: {fileID: 554605816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2012575049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2368001060901877463, guid: a288eafcbf1374942bc50bded238e809, type: 3}
+  m_PrefabInstance: {fileID: 554605816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09375bc1c9d880469d094c7702a27ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2048315292 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3037475773996518875, guid: a288eafcbf1374942bc50bded238e809, type: 3}

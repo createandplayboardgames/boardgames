@@ -123,13 +123,15 @@ public class GameSessionController : MonoBehaviour
     /* get number of players, spiner, and position on map.
         * TODO: link to data from set classes
     */
-    private static GameObject player1, player2;
+    
+    public List<PlayerData> players = new();
+    int playerIndex = 0;
+
+    //TODO: Get Playercache (number of players)
+
     private static GameObject activePlayer;
-    private int playerTurn = 1;
     public TextMeshProUGUI turnText;
     public static int spinner = 0;
-    public static int player1position = 0;
-    public static int player2position = 0;
     public static bool gameOver = false;
 
     bool mouseOver;
@@ -139,11 +141,12 @@ public class GameSessionController : MonoBehaviour
 
     void Start()
     {
-        player1 = GameObject.Find("Player1");
-        player2 = GameObject.Find("Player2");
+        if(players.Count > 0)
+        {
+            Debug.Log(players.Count);
+            StartTurn(playerIndex);
+        }
 
-        player1.GetComponent<Movement>().moveAllowed = false;
-        player2.GetComponent<Movement>().moveAllowed = false;
     }
 
     /*
@@ -154,21 +157,14 @@ public class GameSessionController : MonoBehaviour
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        MouseHoverChecker(ray, hit);
+        //MouseHoverChecker(ray, hit);
 
         if(Input.GetMouseButtonDown(0))
         {
             MouseClickChecker(ray, hit);
         }
 
-        if (player1.GetComponent<Movement>().tileData.isEndingTile)
-        {
-            gameOver = true;
-            Debug.Log("End Game");
-            //TODO: Assign Winner
-            SceneManager.LoadScene("EndGame");
-        }
-        if (player2.GetComponent<Movement>().tileData.isEndingTile)
+        if (activePlayer.GetComponent<Movement>().tileData.isEndingTile)
         {
             gameOver = true;
             Debug.Log("End Game");
@@ -179,64 +175,77 @@ public class GameSessionController : MonoBehaviour
     }
 
     //Start Turn for active player.
-    public void StartTurn(int playerturn)
+    public void StartTurn(int playerIndex)
     {
-        switch (playerturn)
+        switch (playerIndex)
         {
-            case 1:
+            case 0:
                 turnText.text = "Player 1: Your Turn";
-                activePlayer = GameObject.Find("Player1");
-                playerTurn = 2;
+                break;
+            case 1:
+                turnText.text = "Player 2: Your Turn";
                 break;
             case 2:
-                turnText.text = "Player 2: Your Turn";
-                activePlayer = GameObject.Find("Player2");
-                playerTurn = 1;
+                turnText.text = "Player 3: Your Turn";
                 break;
-
+            case 3:
+                turnText.text = "Player 4: Your Turn";
+                break;
         }
+        Spinner.coroutineAllowed = true;
+        activePlayer = players[playerIndex].gameObject;
+        activePlayer.GetComponent<Movement>().moveAllowed = true;
     }
 
     //End Turn for active player, switch player and start turn for new player.
     public void EndTurn()
     {
-        //activePlayer.GetComponent<Movement>().moveAllowed = false;
-        if (playerTurn == 1)
+        playerIndex++;
+        if (players.Count <= playerIndex)
         {
-            StartTurn(1);
+            playerIndex = 0;
         }
-        else if (playerTurn == 2)
-        {
-            StartTurn(2);
-        }
+        Debug.Log(playerIndex);
+        StartTurn(playerIndex);
+
+    }
+
+    /*
+    * If players turn, move action and highlight move int player turn
+    */
+    public static void PlayerTurn()
+    {
+        activePlayer.GetComponent<Movement>().pathOptions.Clear();
+        GetMovementOptions(spinner, activePlayer.GetComponent<Movement>().tileData, activePlayer);
+        colorDirection(activePlayer);
     }
 
     //TODO: Highlight tiles while mouse hovers over
-    public void MouseHoverChecker(Ray ray, RaycastHit2D hit)
-    {
-        hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (hit.collider == null)
-        {
-            Debug.Log("nothing hit");
+    //public void MouseHoverChecker(Ray ray, RaycastHit2D hit)
+    //{
+    //    hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+    //    if (hit.collider == null)
+    //    {
+    //        Debug.Log("nothing hit");
 
-        }
-        else
-        {
+    //    }
+    //    else
+    //    {
             
-            //Make Separate Function for color
-            if (hit.collider.CompareTag("Tiles"))
-            {
+    //        //Make Separate Function for color
+    //        if (hit.collider.CompareTag("Tiles"))
+    //        {
                 
-                print(hit.collider.name);
-                currentHit = hit.collider.gameObject;
-                print(currentHit.name);
-                //highlight tile
-                //currentHit.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
+    //            print(hit.collider.name);
+    //            currentHit = hit.collider.gameObject;
+    //            print(currentHit.name);
+    //            //highlight tile
+    //            //currentHit.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
 
-            }
-        }
+    //        }
+    //    }
         
-    }
+    //}
 
     //Check player click is over tile option then move
     public void MouseClickChecker(Ray ray, RaycastHit2D hit)
@@ -254,22 +263,15 @@ public class GameSessionController : MonoBehaviour
             {
 
                 print(hit.collider.name);
-                if (player1.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()) && player1.GetComponent<Movement>().moveAllowed)
+                if (activePlayer.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()) && activePlayer.GetComponent<Movement>().moveAllowed)
                 {
                     Debug.Log("hit!");
                     currentHit = hit.collider.gameObject;
                     ClearColorDirection();
-                    player1.GetComponent<Movement>().Move(currentHit);
-                    player1.GetComponent<Movement>().moveAllowed = false;
+                    activePlayer.GetComponent<Movement>().Move(currentHit);
+                    activePlayer.GetComponent<Movement>().moveAllowed = false;
                 }
-                else if (player2.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()) && player2.GetComponent<Movement>().moveAllowed)
-                {
-                    Debug.Log("hit!");
-                    currentHit = hit.collider.gameObject;
-                    ClearColorDirection();
-                    player2.GetComponent<Movement>().Move(currentHit);
-                    player2.GetComponent<Movement>().moveAllowed = false;
-                }
+
                 //TODO make validation and movement separate
             }
         }
@@ -294,15 +296,17 @@ public class GameSessionController : MonoBehaviour
             }
             roll -= 1;
             GetMovementOptions(roll, nextTiles[i], player);
-            //if (!player.GetComponent<Movement>().travelled.Contains(nextTiles[i]))
-            //{
-            //    if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
-            //    {
-            //        player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
-            //    }
-            //    roll -= 1;
-            //    GetMovementOptions(roll, nextTiles[i], player);
-            //}
+
+                //TODO: Update path travelled to use section below
+                //if (!player.GetComponent<Movement>().travelled.Contains(nextTiles[i]))
+                //{
+                //    if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
+                //    {
+                //        player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
+                //    }
+                //    roll -= 1;
+                //    GetMovementOptions(roll, nextTiles[i], player);
+                //}
         }
     }
 
@@ -319,7 +323,7 @@ public class GameSessionController : MonoBehaviour
     }
 
     // Clear highlighted tiles
-    public static void ClearColorDirection()
+    public void ClearColorDirection()
     {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
         foreach (GameObject tile in tiles)
@@ -328,27 +332,4 @@ public class GameSessionController : MonoBehaviour
         }
     }
 
-    /*
-     * If players turn, move action and highlight move
-     */
-    public static void PlayerTurn(int playerturn)
-    {
-        switch (playerturn)
-        {
-            case 1:
-                
-                player1.GetComponent<Movement>().moveAllowed = true;
-                player1.GetComponent<Movement>().pathOptions.Clear();
-                GetMovementOptions(spinner, player1.GetComponent<Movement>().tileData, player1);
-                colorDirection(player1);
-                break;
-            case 2:
-                player2.GetComponent<Movement>().moveAllowed = true;
-                player2.GetComponent<Movement>().pathOptions.Clear();
-                GetMovementOptions(spinner, player2.GetComponent<Movement>().tileData, player2);
-                colorDirection(player2);
-                break;
-
-        }
-    }
 }

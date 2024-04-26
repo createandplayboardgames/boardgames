@@ -10,8 +10,6 @@ public class Movement : MonoBehaviour
     public TileData tileData;
     public List<TileData> travelled = new List<TileData>();
     public List<TileData> pathOptions = new List<TileData>();
-    // get tiles
-    public Transform[] tiles;
 
     Transform currentPos;
 
@@ -25,9 +23,9 @@ public class Movement : MonoBehaviour
     // initialize
     void Start()
     {
-        tileData = tiles[tileIndex].GetComponent<TileData>();
+        tileData = tileData.GetComponent<TileData>();
         travelled.Add(tileData);
-        transform.position = tiles[tileIndex].transform.position;
+        transform.position = tileData.transform.position;
     }
 
     // TODO: FIX Update is called once per frame
