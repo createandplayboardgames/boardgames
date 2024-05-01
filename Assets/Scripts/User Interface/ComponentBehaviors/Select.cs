@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Select : MonoBehaviour//, IPointerDownHandler
+public class Select : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData){
         SelectPiece();
@@ -12,33 +12,14 @@ public class Select : MonoBehaviour//, IPointerDownHandler
     public void SelectPiece()
     {
         MenuLayoutManager layoutManager = GameObject.Find("MenuManager").GetComponent<MenuLayoutManager>();
-
-        // Get piece's type (by checking existence of associated data), then, perform actions
-
-        PlayerData playerData = GetComponent<PlayerData>();
-        if (playerData){
-            layoutManager.ShowInforMenuPlayer(playerData);
-            return;
-        }
-        TileData tileData = GetComponent<TileData>();
-        if (tileData){
-            layoutManager.ShowInfoMenuTile(tileData);
-            return;
-        }
-        FinishGameActionData finishGameActionData = GetComponent<FinishGameActionData>();
-        if (finishGameActionData){
-            layoutManager.ShowInfoMenuFinishGameAction(finishGameActionData);
-            return;
-        }
-        ChangePointsActionData changePointsActionData = GetComponent<ChangePointsActionData>();
-        if (changePointsActionData){
-            layoutManager.ShowInfoMenuChangePointsAction(changePointsActionData);
-            return;
-        }
-        MoveToActionData moveToActionData = GetComponent<MoveToActionData>();
-        if (moveToActionData){
-            layoutManager.ShowInfoMenuMoveToAction(moveToActionData);
-            return;
+        switch (GameDefinitionManager.GetGamePieceData(gameObject)){
+            case PlayerData data:               layoutManager.ShowInforMenuPlayer(data); break;
+            case TileData data:                 layoutManager.ShowInfoMenuTile(data); break;
+            case FinishGameActionData data:     layoutManager.ShowInfoMenuFinishGameAction(data); break;
+            case ChangePointsActionData data:   layoutManager.ShowInfoMenuChangePointsAction(data); break;
+            case MoveToActionData data:         layoutManager.ShowInfoMenuMoveToAction(data); break;
+            case BlockPathActionData data:      layoutManager.ShowInfoMenuBlockPathAction(data); break;
+            default:                            Debug.Log("invalid item selected"); break;
         }
     }   
 }

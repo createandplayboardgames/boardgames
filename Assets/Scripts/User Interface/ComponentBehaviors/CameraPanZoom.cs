@@ -8,7 +8,7 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
     public Camera mainCamera;
     private float dragScale = .02f;
     private float zoomScale = .5f;
-    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Right;
+    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Middle;
 
     public void Start()
     {
