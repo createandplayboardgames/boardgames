@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
         transform.position = tileData.transform.position;
     }
 
-    // TODO: FIX Update is called once per frame
+    //TODO: Fix the travelled list
     void Update()
     {
         if (moveAllowed) 
@@ -36,7 +36,6 @@ public class Movement : MonoBehaviour
             if (!travelled.Contains(tileData))
             {
                 travelled.Add(tileData);
-                //Debug.Log(tileData);
             } 
         }
     }
@@ -50,8 +49,6 @@ public class Movement : MonoBehaviour
     {
         currentPos.position = tile.transform.position;
     }
-
-
 
     public void Move(GameObject tile)
     {

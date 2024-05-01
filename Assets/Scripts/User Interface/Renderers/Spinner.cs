@@ -16,9 +16,6 @@ public class Spinner : MonoBehaviour
     //private int maxRoll = 6; // change with gameState
     public static bool coroutineAllowed = false;
 
-    private int playerTurn = 1;
-
-    private bool vsComputer = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,21 +57,6 @@ public class Spinner : MonoBehaviour
         GameSessionController.spinner = spinResult + 1;
         GameSessionController.PlayerTurn();
 
-        //if (playerTurn == 1)
-        //{
-        //    GameSessionController.PlayerTurn(1);
-        //}
-        //else if (playerTurn == -1)
-        //{
-        //    GameSessionController.PlayerTurn(2);
-        //}
-        //playerTurn *= -1;
-        //coroutineAllowed = true;
-        //if( playerTurn == -1 && vsComputer)
-        //{
-        //    yield return new WaitForSeconds(1.0f);
-        //    StartCoroutine("Spin");
-        //}
 
         Debug.Log(finalState);
 

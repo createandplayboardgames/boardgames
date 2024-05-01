@@ -51,63 +51,15 @@ public class TileData : MonoBehaviour
         return incomingConnections;
     }
 
-
-    // Returns tile directly above current tile
-    public TileData Up()
+    //Block Tile connections
+    //TODO: Test (get adjacent tiles to block their connection instead?)
+    public void BlockAllConnections()
     {
-        if (up != null)
+        List<EdgeData> edges = GetAllOutgoingConnections();
+        for (int i = 0; i < edges.Count; i++)
         {
-            EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
+            edges[i].isConnected = false;
         }
-        return null;
-    }
-
-    // Returns tile directly below current tile
-    public TileData Down()
-    {
-        if (down != null)
-        {
-            EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly right of the current tile
-    public TileData Right()
-    {
-        if (right != null)
-        {
-            EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly left of the current tile
-    public TileData Left()
-    {
-        if (left != null)
-        {
-            EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
     }
 
 }
