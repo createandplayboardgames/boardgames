@@ -51,16 +51,6 @@ public class TileData : MonoBehaviour
         return incomingConnections;
     }
 
-    //Block Tile connections
-    //TODO: Test (get adjacent tiles to block their connection instead?)
-    public void BlockAllConnections()
-    {
-        List<EdgeData> edges = GetAllOutgoingConnections();
-        for (int i = 0; i < edges.Count; i++)
-        {
-            edges[i].isConnected = false;
-        }
-    }
 
 }
 
