@@ -46,69 +46,11 @@ public class TileData : MonoBehaviour
         {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
             if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
-            { incomingConnections.Add(edge.connectedEdge.GetTile()); }
+            { incomingConnections.Add(edge.GetComponent<EdgeData>().connectedEdge.GetTile()); }
         }
         return incomingConnections;
     }
 
-
-    // Returns tile directly above current tile
-    public TileData Up()
-    {
-        if (up != null)
-        {
-            EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-    }
-
-    // Returns tile directly below current tile
-    public TileData Down()
-    {
-        if (down != null)
-        {
-            EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly right of the current tile
-    public TileData Right()
-    {
-        if (right != null)
-        {
-            EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly left of the current tile
-    public TileData Left()
-    {
-        if (left != null)
-        {
-            EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-    }
 
 }
 

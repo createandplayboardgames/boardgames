@@ -14,11 +14,8 @@ public class Spinner : MonoBehaviour
     private SpriteRenderer rend; // change sprites
 
     //private int maxRoll = 6; // change with gameState
-    private bool coroutineAllowed = true;
+    public static bool coroutineAllowed = false;
 
-    private int playerTurn = 1;
-
-    private bool vsComputer = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,21 +55,8 @@ public class Spinner : MonoBehaviour
         // end state and save for player movement
         finalState = spinResult + 1;
         GameSessionController.spinner = spinResult + 1;
+        GameSessionController.PlayerTurn();
 
-        if (playerTurn == 1)
-        {
-            GameSessionController.MovePlayer(1);
-        }
-        else if (playerTurn == -1)
-        {
-            GameSessionController.MovePlayer(2);
-        }
-        playerTurn *= -1;
-        coroutineAllowed = true;
-        if( playerTurn == -1 && vsComputer)
-        {
-            StartCoroutine("Spin");
-        }
 
         Debug.Log(finalState);
 
