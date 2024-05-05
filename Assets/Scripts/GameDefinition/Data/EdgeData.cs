@@ -7,15 +7,13 @@ using UnityEngine;
 
 public class EdgeData : MonoBehaviour
 {
-    
     public Transform edge;
 
     public EdgeData connectedEdge;
     public bool isConnected = false;
 
     //Get Parent Object Tile of current edge
-    public TileData GetTile()
-    {
+    public TileData GetTile(){
         return edge.transform.parent.gameObject.GetComponent<TileData>();
     }
 }

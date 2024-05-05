@@ -27,8 +27,14 @@ public class MenuController : MonoBehaviour
         edititem_player = player;
     }
     public void SetPlayerName(string newValue){
-        if (edititem_player == null) return;
-        // TODO - we MUST enforce name uniqueness, or weird things will happen with mapping of IDs and playerNames
+        if (edititem_player == null) return; 
+        foreach (PlayerData player in gameDefinitionManager.cache.players){ // check name uniqueness
+            if (player.playerName != newValue) 
+                continue; 
+            Debug.Log("name not unique!"); //TODO - show error text!
+            layoutManager.input_player_playerName.value = edititem_player.playerName; // revert text field
+            return;
+        }
         edititem_player.playerName = newValue;
     }
     public void SetPlayerPoints(int newValue){
