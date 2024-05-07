@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 
 /*
@@ -17,109 +16,7 @@ using UnityEngine.WSA;
  */
 public class GameSessionController : MonoBehaviour
 {
-    GameDefinitionManager manager;
-    PlayerData currentPlayer = null;
-    int currentPlayerIndex = 0;
-
-    /*
-    private void TaylorsUpdate()
-    {
-        //find current player
-        currentPlayer = manager.cache.players[currentPlayerIndex];
-
-        PerformPerTurnActions();
-
-        //move player
-        int spacesToMove = 1; //TODO - spin spinner instead
-        while (spacesToMove != 0){
-            MovePlayerOneSpace(currentPlayer);
-            PerformPerMoveActions();
-            spacesToMove--;
-        }
-
-        //update current player
-        currentPlayerIndex = (currentPlayerIndex + 1) % manager.players.Count;
-    }
-    */
-
     
-    private void PerformPerMoveActions()
-    {
-        /*
-        // Perform Actions
-        var action = currentPlayer.location.GetAssociatedAction();
-        if (action is FinishGameAction || currentPlayer.location.shouldFinishGame)
-        {
-            SceneManager.LoadScene("EndGame");
-            return;
-        }
-        else if (action is MovePlayerToLocationAction)
-        {
-            MovePlayerToLocationAction a = (MovePlayerToLocationAction) action;
-            PlayerData player = ParsePlayerFromAction(a.player); //convert dummy players
-            MovePlayerToLocation(player, a.location);
-        }
-        else if (action is ChangePlayerPointsAction)
-        {
-            ChangePlayerPointsAction a = (ChangePlayerPointsAction) action;
-            PlayerData player = ParsePlayerFromAction(a.player); //convert dummy players
-            ChangePlayerPoints(player, 0);
-        }
-        */
-        // TODO - perform action associated with player
-    }
-
-
-    private PlayerData ParsePlayerFromAction(PlayerData player)
-    {
-        //player might dummy-type
-        /*
-        if (player is RandomPlayer)
-            return manager.players[ (new System.Random()).Next(0, manager.players.Count) ];
-        if (player is CurrentPlayer)
-            return currentPlayer;
-        */
-        return player;
-    }
-
-    private void PerformPerTurnActions()
-    {
-        // TODO - nothing yet!
-    }
-
-
-
-
-
-
-
-    private void MovePlayerOneSpace(PlayerData player)
-    {
-        //TODO 
-    }
-    private void MovePlayerToLocation(PlayerData player, TileData location){
-        //TODO - animate player to location
-        //TODO - update data classes (?)
-    }
-    private void ChangePlayerPoints(PlayerData player, int points)
-    {
-        player.points = points;
-        //TODO - animation?
-    }
-
-
-
-
-
-
-
-
-
-    // --------------------------------------------------------
-
-
-
-
     /* get number of players, spiner, and position on map.
      * 
      * TODO: link to data from set classes

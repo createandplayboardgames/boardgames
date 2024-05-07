@@ -13,8 +13,6 @@ public class Movement : MonoBehaviour
 
     Transform currentPos;
 
-    [SerializeField] private float movementSpeed = 1f;
-
     // tile location
     [HideInInspector] public int tileIndex = 0;
 
