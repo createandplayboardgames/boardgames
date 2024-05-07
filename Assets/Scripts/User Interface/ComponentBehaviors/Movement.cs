@@ -11,8 +11,6 @@ public class Movement : MonoBehaviour
     // get tiles
     public Transform[] tiles;
 
-    [SerializeField] private float movementSpeed = 1f;
-
     // tile location
     [HideInInspector] public int tileIndex = 0;
 
