@@ -16,13 +16,16 @@ using UnityEngine.UI;
  */
 public class GameSessionController : MonoBehaviour
 {
-    
+    LayoutHelper layout;
+
+    GameDefinitionManager manager;
     /* get number of players, spiner, and position on map.
      * 
      * TODO: link to data from set classes
     */
     
     public List<PlayerData> players = new();
+    public List<TileData> tiles = new();
     int playerIndex = 0;
 
     //TODO: Get Playercache (number of players)
@@ -39,9 +42,19 @@ public class GameSessionController : MonoBehaviour
 
     void Start()
     {
-        if(players.Count > 0)
+        manager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
+        layout = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
+        manager.cache.players = players;
+        manager.cache.tiles = tiles;
+
+        foreach(PlayerData player in manager.cache.players)
         {
-            Debug.Log(players.Count);
+            layout.SnapPlayerToTile(player, player.gameObject.GetComponent<Movement>().tileData);
+        }
+
+        if (manager.cache.players.Count > 0)
+        {
+            Debug.Log(manager.cache.players.Count);
             StartTurn(playerIndex);
         }
 
@@ -93,7 +106,7 @@ public class GameSessionController : MonoBehaviour
                 break;
         }
         Spinner.coroutineAllowed = true;
-        activePlayer = players[playerIndex].gameObject;
+        activePlayer = manager.cache.players[playerIndex].gameObject;
         activePlayer.GetComponent<Movement>().moveAllowed = true;
     }
 
@@ -103,7 +116,7 @@ public class GameSessionController : MonoBehaviour
     public void EndTurn()
     {
         playerIndex++;
-        if (players.Count <= playerIndex)
+        if (manager.cache.players.Count <= playerIndex)
         {
             playerIndex = 0;
         }
@@ -145,7 +158,8 @@ public class GameSessionController : MonoBehaviour
                     Debug.Log("hit!");
                     currentHit = hit.collider.gameObject;
                     ClearColorDirection();
-                    activePlayer.GetComponent<Movement>().Move(currentHit);
+                    activePlayer.GetComponent<Movement>().updateCurrentTile(currentHit);
+                    layout.SnapPlayerToTile(activePlayer.GetComponent<PlayerData>(), currentHit.GetComponent<TileData>());
                     activePlayer.GetComponent<Movement>().moveAllowed = false;
                 }
 
