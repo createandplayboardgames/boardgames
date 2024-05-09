@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2017962484622771343}
   - component: {fileID: 5250957330147275159}
   - component: {fileID: 8055849416454120470}
-  - component: {fileID: 1963816161646424953}
   - component: {fileID: 7751534518082430233}
   - component: {fileID: 1552709850301635575}
   m_Layer: 0
@@ -190,20 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1010125a43a9514d874cfb9ce4d9aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
---- !u!114 &1963816161646424953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246628128472694631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e7b9e066aa6c84b911a1654cbe8ced, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startAngle: 180
+  overObject: 0
 --- !u!114 &7751534518082430233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b97294f6c61fd418dd485b475e1abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location: {fileID: 0}
   playerName: no name
   points: 0
 --- !u!114 &1552709850301635575

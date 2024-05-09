@@ -7,11 +7,11 @@ using UnityEngine;
  */
 public class Movement : MonoBehaviour
 {
-    TileData tileData;
-    // get tiles
-    public Transform[] tiles;
+    public TileData tileData;
+    public List<TileData> travelled = new List<TileData>();
+    public List<TileData> pathOptions = new List<TileData>();
 
-    [SerializeField] private float movementSpeed = 1f;
+    Transform currentPos;
 
     // tile location
     [HideInInspector] public int tileIndex = 0;
@@ -21,27 +21,31 @@ public class Movement : MonoBehaviour
     // initialize
     void Start()
     {
-        transform.position = tiles[tileIndex].transform.position;
+        tileData = tileData.GetComponent<TileData>();
+        travelled.Add(tileData);
     }
 
-    // Update is called once per frame
+    //TODO: Fix the travelled list
     void Update()
     {
-        if (moveAllowed) { Move(); }
-    }
-
-    public void Move()
-    {
-        if (tileIndex <= tiles.Length - 1)
-        {
-            transform.position = Vector2.MoveTowards(transform.position,
-                tiles[tileIndex].transform.position, movementSpeed * Time.deltaTime);
-
-            if (transform.position == tiles[tileIndex].transform.position)
+        if (moveAllowed) 
+        { 
+            if (!travelled.Contains(tileData))
             {
-                tileIndex += 1;
-            }
+                travelled.Add(tileData);
+            } 
         }
     }
+
+    public void updateCurrentTile(GameObject tile)
+    {
+        tileData = tile.GetComponent<TileData>();
+    }
+
+    public void GetCurrentPos(GameObject tile)
+    {
+        currentPos.position = tile.transform.position;
+    }
+
 }
 
