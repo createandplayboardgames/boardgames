@@ -41,7 +41,7 @@ public class LayoutHelper : MonoBehaviour{
         }
     }
 
-    private void LayoutPlayersOnTile(TileData tile){
+    public void LayoutPlayersOnTile(TileData tile){
         // determine players on tile
         if (tile == null) return;
         List<PlayerData> playersOnTile = new();
