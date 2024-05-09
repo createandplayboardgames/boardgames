@@ -24,6 +24,30 @@ public class SaveData
 }
 
 [System.Serializable]
+public class PlayerData
+{
+    public Vector3 position;
+    public string playerName;
+    public string spritePath;  // Path to the sprite asset, for serialization
+
+    public PlayerData(Vector3 position, string playerName, string spritePath)
+    {
+        this.position = position;
+        this.playerName = playerName;
+        this.spritePath = spritePath;
+    }
+
+    // Method to set player data from saved state, adding sprite handling
+    public void SetData(PlayerData data)
+    {
+        this.position = data.position;
+        this.playerName = data.playerName;
+        this.spritePath = data.spritePath;
+        // Does this save/load the sprite?
+    }
+}
+
+[System.Serializable]
 public class TileInfo
 {
     // Location of the tile
