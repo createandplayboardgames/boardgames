@@ -23,7 +23,6 @@ public class Movement : MonoBehaviour
     {
         tileData = tileData.GetComponent<TileData>();
         travelled.Add(tileData);
-        transform.position = tileData.transform.position;
     }
 
     //TODO: Fix the travelled list
@@ -48,11 +47,5 @@ public class Movement : MonoBehaviour
         currentPos.position = tile.transform.position;
     }
 
-    public void Move(GameObject tile)
-    {
-        transform.position = tile.transform.position;
-        updateCurrentTile(tile);
-
-    }
 }
 
