@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class TileData : MonoBehaviour
 {
@@ -52,69 +46,21 @@ public class TileData : MonoBehaviour
         {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
             if (child.TryGetComponent<EdgeData>(out EdgeData edge) && edge.isConnected)
-            { incomingConnections.Add(edge.connectedEdge.GetTile()); }
+            { incomingConnections.Add(edge.GetComponent<EdgeData>().connectedEdge.GetTile()); }
         }
         return incomingConnections;
     }
 
-
-    // Returns tile directly above current tile
-    public TileData Up()
+    public void SetData(TileInfo data)
     {
-        if (up != null)
-        {
-            EdgeData edge = up.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-    }
-
-    // Returns tile directly below current tile
-    public TileData Down()
-    {
-        if (down != null)
-        {
-            EdgeData edge = down.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly right of the current tile
-    public TileData Right()
-    {
-        if (right != null)
-        {
-            EdgeData edge = right.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-
-    }
-
-    // Returns tile directly left of the current tile
-    public TileData Left()
-    {
-        if (left != null)
-        {
-            EdgeData edge = left.gameObject.GetComponent<EdgeData>().connectedEdge;
-            if (edge != null)
-            {
-                return edge.GetTile();
-            }
-        }
-        return null;
-    }
+        this.transform.position = data.tileLocation;
+        this.isEndingTile = data.isEndingTile;
+        // For simplicity, only setting the flags without handling Transform connections
+        this.left = data.leftOutgoing ? this.left : null;
+        this.right = data.rightOutgoing ? this.right : null;
+        this.up = data.upOutgoing ? this.up : null;
+        this.down = data.downOutgoing ? this.down : null;
+    }    
 
 }
 

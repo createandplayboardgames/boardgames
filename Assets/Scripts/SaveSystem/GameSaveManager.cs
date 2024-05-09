@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour
@@ -33,12 +34,23 @@ public class GameSaveManager : MonoBehaviour
             return;
         }
 
-        SaveData data = new SaveData
-        {
-            players = gameDefinitionManager.cache.players,
-            tiles = gameDefinitionManager.cache.tiles,
-            actions = gameDefinitionManager.cache.actions
-        };
+        List<SerializablePlayerData> playerDataList = new List<SerializablePlayerData>();
+        foreach (PlayerData player in gameDefinitionManager.cache.players) {
+            Vector3 playerPosition = player.gameObject.transform.position;  // Correctly accessing the position
+            string spritePath = player.GetComponent<SpriteRenderer>().sprite.name;
+            SerializablePlayerData serializablePlayer = new SerializablePlayerData(playerPosition, player.playerName, player.spritePath);
+            playerDataList.Add(serializablePlayer);
+        }
+
+        List<TileInfo> tileInfoList = new List<TileInfo>();
+        foreach (TileData tile in gameDefinitionManager.cache.tiles) {
+            Vector3 tilePosition = tile.transform.position;  // Correctly accessing the position
+            TileInfo tileInfo = new TileInfo(tilePosition, tile.left, tile.right, tile.up, tile.down, tile.isEndingTile);
+            tileInfoList.Add(tileInfo);
+        }
+
+
+        SaveData data = new SaveData(playerDataList, tileInfoList);
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(savePath, FileMode.Create);
@@ -66,9 +78,6 @@ public class GameSaveManager : MonoBehaviour
             return;
         }
 
-        // Clear existing game state
-        gameDefinitionManager.ClearGameState();
-
         // Apply the loaded data
         ApplyLoadedData(data);
         Debug.Log("Game loaded successfully from " + savePath);
@@ -76,31 +85,18 @@ public class GameSaveManager : MonoBehaviour
 
     private void ApplyLoadedData(SaveData data)
     {
-        foreach (var playerData in data.players)
+        foreach (SerializablePlayerData playerData in data.playersData)
         {
             var player = gameDefinitionManager.CreatePlayer(); // Does CreatePlayer set the player's state?
             player.SetData(playerData);
         }
 
-        foreach (var tileData in data.tiles)
+        foreach (TileInfo tileData in data.tilesInfo)
         {
             var tile = gameDefinitionManager.CreateTile();
             tile.SetData(tileData);
         }
 
-        foreach (var actionData in data.actions)
-        {
-            // Depending on the type of action, call the respective method to recreate the action
-            CreateActionFromData(actionData);
-        }
     }
 
-    private void CreateActionFromData(ActionData actionData)
-    {
-        // Need to expand this for other actions
-        if (actionData is FinishGameActionData finishActionData)
-        {
-            gameDefinitionManager.CreateFinishGameAction();
-        }
-    }
 }
