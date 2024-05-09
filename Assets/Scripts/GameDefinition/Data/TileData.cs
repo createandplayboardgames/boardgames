@@ -51,6 +51,16 @@ public class TileData : MonoBehaviour
         return incomingConnections;
     }
 
+    public void SetData(TileInfo data)
+    {
+        this.transform.position = data.tileLocation;
+        this.isEndingTile = data.isEndingTile;
+        // For simplicity, only setting the flags without handling Transform connections
+        this.left = data.leftOutgoing ? this.left : null;
+        this.right = data.rightOutgoing ? this.right : null;
+        this.up = data.upOutgoing ? this.up : null;
+        this.down = data.downOutgoing ? this.down : null;
+    }    
 
 }
 
