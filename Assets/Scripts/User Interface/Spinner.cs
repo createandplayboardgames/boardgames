@@ -13,9 +13,10 @@ public class Spinner : MonoBehaviour
 
     private SpriteRenderer rend; // change sprites
 
-    public static bool coroutineAllowed = false;
+    public static bool spinAllowed = false;
 
     public int finalState;
+    public bool finished = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,13 +32,14 @@ public class Spinner : MonoBehaviour
     // click mouse to start Spin
     private void OnMouseDown()
     {
-        if(coroutineAllowed) { StartCoroutine("Spin"); }
+        if(spinAllowed) { StartCoroutine(nameof(Spin)); }
     }
 
     private IEnumerator Spin()
     {
+        finished = false;
         // initialize spinner and end roll
-        coroutineAllowed = false;
+        spinAllowed = false;
         int spinResult = 0;
 
         // roll 
@@ -54,6 +56,7 @@ public class Spinner : MonoBehaviour
 
         // end state and save for player movement
         finalState = spinResult + 1;
+        finished = true;
 
         Debug.Log(finalState);
 

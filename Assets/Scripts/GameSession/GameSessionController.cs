@@ -35,13 +35,12 @@ public class GameSessionController : MonoBehaviour
     //TODO: Get Playercache (number of players)
 
     private PlayerData currentPlayer;
-
     public TextMeshProUGUI turnText;
+
     public static bool gameOver = false;
 
     Ray ray;
     RaycastHit2D hit;
-    GameObject currentHit;
 
     void Start()
     {
@@ -53,43 +52,37 @@ public class GameSessionController : MonoBehaviour
         manager.cache.players = players;
         manager.cache.tiles = tiles;
 
-        foreach(PlayerData player in manager.cache.players)
-        {
-            layout.SnapPlayerToTile(player, player.location);
-        }
-
         if (manager.cache.players.Count > 0)
         {
             Debug.Log(manager.cache.players.Count);
-            StartTurn(playerIndex);
+            StartGame();
+        }
+    }
+
+    /*
+     * Check Mouse Input
+     */
+    void Update()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            MouseClickChecker(ray, hit);
         }
 
     }
 
     /*
-     * Update players turn, and activate game over scene.
-     * 
-     * TODO: activate game over scene and player turns, also make text to say whos turn it is.
-     */
-    void Update()
+    * Start Game Sequence.
+    */
+    public void StartGame()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //MouseHoverChecker(ray, hit);
-
-        if(Input.GetMouseButtonDown(0))
+        foreach (PlayerData player in manager.cache.players)
         {
-            //movementControl.MouseClickChecker(ray, hit);
-            MouseClickChecker(ray, hit);
+            layout.SnapPlayerToTile(player, player.location);
         }
-
-        if (currentPlayer.location.isEndingTile)
-        {
-            gameOver = true;
-            Debug.Log("End Game");
-            //TODO: Assign Winner
-            SceneManager.LoadScene("EndGame");
-        }
-
+        StartTurn(playerIndex);
     }
 
     /*
@@ -97,42 +90,46 @@ public class GameSessionController : MonoBehaviour
      */
     public void StartTurn(int playerIndex)
     {
-        switch (playerIndex)
-        {
-            case 0:
-                turnText.text = "Player 1: Your Turn";
-                break;
-            case 1:
-                turnText.text = "Player 2: Your Turn";
-                break;
-            case 2:
-                turnText.text = "Player 3: Your Turn";
-                break;
-            case 3:
-                turnText.text = "Player 4: Your Turn";
-                break;
-        }
-        Spinner.coroutineAllowed = true;
         currentPlayer = manager.cache.players[playerIndex];
+        turnText.text = $"{currentPlayer.name}: Your Turn. Click Dice to Roll.";
+        Spinner.spinAllowed = true;
         movementControl.currentPlayer = currentPlayer;
-        movementControl.moveAllowed = true;
     }
 
     /*
-     * End Turn for active player, switch player and start turn for new player.
+     * End Turn for active player, start turn for new player.
      */
     public void EndTurn()
     {
+        if (currentPlayer.location.isEndingTile)
+        {
+            EndGame();
+        }
+
+        //Next Player turn
         playerIndex++;
         if (manager.cache.players.Count <= playerIndex)
         {
             playerIndex = 0;
         }
-        Debug.Log(playerIndex);
         StartTurn(playerIndex);
 
     }
 
+    /*
+     * End Game Sequence.
+     */
+    public void EndGame()
+    {
+        gameOver = true;
+        Debug.Log("End Game");
+        //TODO: Assign Winner
+        SceneManager.LoadScene("EndGame");
+    }
+
+    /*
+     * Check Ray hit.
+     */
     public void MouseClickChecker(Ray ray, RaycastHit2D hit)
     {
         hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
@@ -142,31 +139,37 @@ public class GameSessionController : MonoBehaviour
         }
         else
         {
+            // Wait for roll to finish
             if(hit.collider.CompareTag("Spinner"))
             {
-                PlayerTurn();
+                StartCoroutine(nameof(WaitForRoll));
             }
+            // Move if allowed
             if (hit.collider.CompareTag("Tiles"))
             {
                 movementControl.Move(ray, hit);
-                //if (pathOptions.Contains(hit.collider.GetComponent<TileData>()) && moveAllowed)
-                //{
-                //    Debug.Log("hit!");
-                //    currentHit = hit.collider.gameObject;
-                //    ClearColorDirection();
-                //    currentPlayer.location = currentHit.gameObject.GetComponent<TileData>();
-                //    layout.SnapPlayerToTile(currentPlayer, currentPlayer.location);
-                //    moveAllowed = false;
-                //}
             }
         }
     }
 
     /*
-    * If players turn, move action and highlight move int player turn
-    */
-    public void PlayerTurn()
+     * Wait for roll to finish before Movement.
+     */
+    public IEnumerator WaitForRoll()
     {
+        while(!spinner.finished)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        HandlePlayerMovement();
+    }
+
+    /*
+    * Move action and highlight move int player turn.
+    */
+    public void HandlePlayerMovement()
+    {
+        turnText.text = $"{currentPlayer.name}: Your Turn. Click Tile to Move.";
         movementControl.pathOptions.Clear();
         movementControl.GetMovementOptions(spinner.finalState, currentPlayer.location);
         movementControl.ColorDirection();

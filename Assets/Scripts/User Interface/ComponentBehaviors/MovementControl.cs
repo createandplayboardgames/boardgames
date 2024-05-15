@@ -6,12 +6,7 @@ public class MovementControl : MonoBehaviour
     public PlayerData currentPlayer;
     public LayoutHelper layout;
 
-    public List<TileData> travelled = new();
     public List<TileData> pathOptions = new();
-    public bool moveAllowed = false;
-    public static int spinner = 0;
-    Ray ray;
-    RaycastHit2D hit;
 
     public GameObject currentHit;
 
@@ -20,6 +15,7 @@ public class MovementControl : MonoBehaviour
         layout = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
 
+    // Find all available paths.
     public void GetMovementOptions(int roll, TileData tile)
     {
         if (roll <= 0)
@@ -37,6 +33,7 @@ public class MovementControl : MonoBehaviour
         }
     }
 
+    // Highlight Paths.
     public void ColorDirection()
     {
         foreach (TileData tile in pathOptions)
@@ -45,6 +42,7 @@ public class MovementControl : MonoBehaviour
         }
     }
 
+    // Clear highlighted paths.
     public void ClearColorDirection()
     {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
@@ -54,40 +52,18 @@ public class MovementControl : MonoBehaviour
         }
     }
 
+    // Move Player to clicked tile.
     public void Move(Ray ray, RaycastHit2D hit)
     {
-        if (pathOptions.Contains(hit.collider.GetComponent<TileData>()) && moveAllowed)
+        if (pathOptions.Contains(hit.collider.GetComponent<TileData>()))
         {
             Debug.Log("hit!");
             currentHit = hit.collider.gameObject;
             ClearColorDirection();
             currentPlayer.location = currentHit.gameObject.GetComponent<TileData>();
             layout.SnapPlayerToTile(currentPlayer, currentPlayer.location);
-            moveAllowed = false;
         }
     }
-    //public void MouseClickChecker(Ray ray, RaycastHit2D hit)
-    //{
-    //    hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-    //    if (hit.collider == null)
-    //    {
-    //        Debug.Log("nothing clicked");
-    //    }
-    //    else
-    //    {
-    //        if (hit.collider.CompareTag("Tiles"))
-    //        {
-    //            if (pathOptions.Contains(hit.collider.GetComponent<TileData>()) && moveAllowed)
-    //            {
-    //                Debug.Log("hit!");
-    //                currentHit = hit.collider.gameObject;
-    //                ClearColorDirection();
-    //                currentPlayer.location = currentHit.gameObject.GetComponent<TileData>();
-    //                layout.SnapPlayerToTile(currentPlayer, currentPlayer.location);
-    //                moveAllowed = false;
-    //            }
-    //        }
-    //    }
-    //}
+
 }
 
