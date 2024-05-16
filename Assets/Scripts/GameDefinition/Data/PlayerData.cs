@@ -10,6 +10,7 @@ public class PlayerData : NonTileData {
     public string spritePath;  // Added for sprite save/load
 
     // Method to set data from a SerializablePlayerData object
+    /*
     public void SetData(SerializablePlayerData data)
     {
         this.playerName = data.playerName;
@@ -23,5 +24,6 @@ public class PlayerData : NonTileData {
             this.GetComponent<SpriteRenderer>().sprite = newSprite;
         }
     }
+    */
 }
 

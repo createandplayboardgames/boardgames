@@ -8,41 +8,57 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
     public Camera mainCamera;
     private float dragScale = .02f;
     private float zoomScale = .5f;
-    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Middle;
+    private PointerEventData.InputButton panButton = PointerEventData.InputButton.Left;
+    private PointerEventData.InputButton altPanButton = PointerEventData.InputButton.Middle;
+    private PointerEventData.InputButton zoomButton = PointerEventData.InputButton.Right;
+    private KeyCode modifierKey = KeyCode.LeftControl;
+
 
     public void Start()
     {
         layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
+
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.button != panButton)
-            return;
-        if (eventData.button == panButton)
+        if (PanOrZoomButtonPressed(eventData))
             Cursor.visible = false;
     }
     public void OnPointerUp(PointerEventData eventData)
-   {
-        if (eventData.button != panButton)
-            return;
-        if (eventData.button == panButton)
+    {
+        if (PanOrZoomButtonPressed(eventData))
             Cursor.visible = true;
     }
+    private bool PanOrZoomButtonPressed(PointerEventData eventData){
+        return eventData.button == panButton || eventData.button == altPanButton || eventData.button == zoomButton;
+    }
+
+
     public void OnDrag(PointerEventData eventData)
     {
-        if (eventData.button != panButton)
-            return;
+        if ((Input.GetKey(modifierKey) && eventData.button == panButton) || eventData.button == altPanButton)
+            PanCamera(eventData.delta);
+        if (Input.GetKey(modifierKey) && eventData.button == zoomButton)
+            ZoomCamera(eventData.delta);
+    }
+    public void OnScroll(PointerEventData eventData)    {
+        ZoomCamera(eventData.scrollDelta);
+    }
 
+
+    private void PanCamera(Vector2 delta){
         //calculate new position 
         Vector3 cameraCenter = mainCamera.transform.position;
-        Vector2 amountToChange = eventData.delta * dragScale;
+        Vector2 amountToChange = delta * dragScale;
         mainCamera.transform.position = layoutHelper.GetBoundedPosition(
             new Vector3(cameraCenter.x + amountToChange.x, cameraCenter.y + amountToChange.y, cameraCenter.z));
+        return;
     }
-    public void OnScroll(PointerEventData eventData)
-    {
-        float amountToChange = eventData.scrollDelta.y * zoomScale;
+    private void ZoomCamera(Vector2 delta){
+        float amountToChange = delta.y * zoomScale;
         mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize + amountToChange, 1, 10);
     }
+
 
 }

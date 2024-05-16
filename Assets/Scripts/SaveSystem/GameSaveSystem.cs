@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+/*
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
@@ -104,3 +105,4 @@ public class GameStateManager : MonoBehaviour
         }
     }
 }
+*/

@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class GameSaveManager : MonoBehaviour
 {
     public static GameSaveManager Instance;
@@ -100,3 +101,4 @@ public class GameSaveManager : MonoBehaviour
     }
 
 }
+*/

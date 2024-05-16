@@ -170,6 +170,7 @@ MonoBehaviour:
   location: {fileID: 0}
   playerName: CURRENT_PLAYER
   points: 0
+  spritePath: 
 --- !u!1 &81343492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,13 +1137,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: '-Click Item in Option Bar to Place onto Board.
 
-    -Left Click to Move
+    -Left Click  to Move
     Item around
 
     -Right Click to Remove Item from Board
 
-    -Use the Scroll
-    Button to Zoom and Pan.'
+    -CTRL + Left Click
+    to Pan
+
+    -CTRL + Right Click to Zoom'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1375,6 +1378,7 @@ MonoBehaviour:
   location: {fileID: 0}
   playerName: RANDOM_PLAYER
   points: 0
+  spritePath: 
 --- !u!1 &627690612
 GameObject:
   m_ObjectHideFlags: 0

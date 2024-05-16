@@ -50,7 +50,7 @@ public class TileData : MonoBehaviour
         }
         return incomingConnections;
     }
-
+    /*
     public void SetData(TileInfo data)
     {
         this.transform.position = data.tileLocation;
@@ -61,6 +61,6 @@ public class TileData : MonoBehaviour
         this.up = data.upOutgoing ? this.up : null;
         this.down = data.downOutgoing ? this.down : null;
     }    
-
+    */
 }
 
