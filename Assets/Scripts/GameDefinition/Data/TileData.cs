@@ -11,7 +11,7 @@ public class TileData : MonoBehaviour
 
     public bool isEndingTile = false;
 
-    private GameAction associatedAction = null;
+    public GameAction associatedAction = null;
     public bool shouldFinishGame = false;
 
     public bool IsEndingTile()

@@ -214,7 +214,7 @@ public class MenuLayoutManager : MonoBehaviour
     }
     public void ShowInfoMenuBlockPathAction(BlockPathActionData blockPathActionData){
         HideAllInfoMenus();
-        SetInfoMenuShown(infoMenu_blockPath, true);
+        //SetInfoMenuShown(infoMenu_blockPath, true);
         //empty, at the moment
     }
     // ---- Show/Hide Others

@@ -75,7 +75,8 @@ public class GameSessionController : MonoBehaviour
             MouseClickChecker(ray, hit);
         }
 
-        if (activePlayer.GetComponent<Movement>().tileData.isEndingTile)
+        TileData tileData = activePlayer.GetComponent<Movement>().tileData;
+        if (tileData.isEndingTile || (tileData.associatedAction is FinishGameActionData))
         {
             gameOver = true;
             Debug.Log("End Game");
