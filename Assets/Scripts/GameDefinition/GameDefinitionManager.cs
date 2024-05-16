@@ -9,6 +9,10 @@ public class GameDefinitionManager : MonoBehaviour
 {
     private readonly int MAX_PLAYER_COUNT = 4;
     public GameDefinitionCache cache = new();
+    private LayoutHelper layoutHelper;
+    public void Start(){
+        layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
+    }
 
     // ====== General Functions
     private GameObject LoadGameObject(string prefabName, String sortingLayerName)
@@ -58,11 +62,14 @@ public class GameDefinitionManager : MonoBehaviour
 
 
     // ====== Players 
-    public PlayerData CreatePlayer(){
-        if (cache.players.Count > MAX_PLAYER_COUNT)
-            return null; //TODO - show error message
+    public PlayerData CreatePlayer(String spritePath=null){
+        if (cache.players.Count > MAX_PLAYER_COUNT){
+            layoutHelper.StartFlashErrorText("Max players already created!");
+            return null;
+        }
         var obj = LoadGameObject(Keywords.PREFAB_PLAYER, Keywords.SORTING_LAYER_PLAYERS);
         AssignUniquePlayerName(obj.GetComponent<PlayerData>());
+        if (spritePath != null) { AssignSprite(obj, spritePath);  }
         cache.players.Add(obj.GetComponent<PlayerData>());
         return obj.GetComponent<PlayerData>();
     }
@@ -96,8 +103,13 @@ public class GameDefinitionManager : MonoBehaviour
         return obj.GetComponent<TileData>();
     }
     public void DeleteTile(TileData tile){
+        //first, unsnap any items on tile
+        foreach (PlayerData player in cache.GetPlayersOnTile(tile))
+            layoutHelper.SnapPlayerToTile(player, null);
+        foreach (ActionData action in cache.GetActionsOnTile(tile))
+            layoutHelper.SnapActionToTile(action, null);
         cache.tiles.Remove(tile);
-        Destroy(tile.gameObject); //TODO - confirm that this destroys references to playerData in, for example, actions
+        Destroy(tile.gameObject); 
     }
     public void UpdateConnections(Transform node, Collider2D other)
     {

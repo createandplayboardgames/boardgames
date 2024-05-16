@@ -6,8 +6,10 @@ using UnityEngine;
 public class MenuController : MonoBehaviour
 {
 
-    MenuLayoutManager layoutManager;
-    GameDefinitionManager gameDefinitionManager;
+    private MenuLayoutManager layoutManager;
+    private GameDefinitionManager gameDefinitionManager;
+    private LayoutHelper layoutHelper;
+
 
     // These are the items that may be edited through the menu...
     private PlayerData              edititem_player = null;
@@ -20,6 +22,7 @@ public class MenuController : MonoBehaviour
     private void Start(){
         layoutManager = GetComponent<MenuLayoutManager>(); //TODO - circular reference? potential of errors?
         gameDefinitionManager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
+        layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
 
     // ===== Player 
@@ -30,8 +33,8 @@ public class MenuController : MonoBehaviour
         if (edititem_player == null) return; 
         foreach (PlayerData player in gameDefinitionManager.cache.players){ // check name uniqueness
             if (player.playerName != newValue) 
-                continue; 
-            Debug.Log("name not unique!"); //TODO - show error text!
+                continue;
+            layoutHelper.StartFlashErrorText("name not unique!");
             layoutManager.input_player_playerName.value = edititem_player.playerName; // revert text field
             return;
         }

@@ -1,5 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+
 
 public class LayoutHelper : MonoBehaviour{
 
@@ -57,7 +60,7 @@ public class LayoutHelper : MonoBehaviour{
     }
 
     private void LayoutPlayersInCircle(List<PlayerData> players, TileData tile){
-		for (int i = 0; i < players.Count; i++){
+        for (int i = 0; i < players.Count; i++){
             //first, center
             var t = players[i].gameObject.transform;
             t.position = tile.gameObject.transform.position; //position
@@ -74,7 +77,7 @@ public class LayoutHelper : MonoBehaviour{
             //move 
             t.position = new Vector3(t.position.x + deltaX, t.position.y + deltaY, t.position.z);
         } // NOTE - scaling shouldn't be needed, assuming player image size is limited
-      	
+        
     }
     private void LayoutItemInCenterOfTile(NonTileData item, TileData tile){
         if (tile == null) return;
@@ -95,4 +98,16 @@ public class LayoutHelper : MonoBehaviour{
         return p;
     }
 
-}	
+    public void StartFlashErrorText(string messageText){
+        var textMesh = GameObject.Find("ErrorText").GetComponent<TMP_Text>();
+        textMesh.text = messageText;
+        textMesh.enabled = true;
+        StartCoroutine(EndFlashErrorText());
+    }
+    IEnumerator EndFlashErrorText(){
+        yield return new WaitForSeconds(1);
+        var textMesh = GameObject.Find("ErrorText").GetComponent<TMP_Text>();
+        textMesh.enabled = false;
+    }
+
+}   

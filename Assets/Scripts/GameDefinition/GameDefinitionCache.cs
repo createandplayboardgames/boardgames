@@ -14,5 +14,12 @@ public class GameDefinitionCache
             if (player.location == tile) { playersOnTile.Add(player); }
         return playersOnTile;
     }
+    public List<ActionData> GetActionsOnTile(TileData tile){
+        List<ActionData> actionsOnTile = new();
+        foreach (ActionData action in actions)
+            if (action.location == tile) { actionsOnTile.Add(action); }
+        return actionsOnTile;
+    }
+
 
 }

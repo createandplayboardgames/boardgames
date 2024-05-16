@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 504916794}
   - component: {fileID: 504916793}
   m_Layer: 5
-  m_Name: Help Text
+  m_Name: HelpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1135,17 +1135,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-Click Item in Option Bar to Place onto Board.
-
-    -Left Click  to Move
-    Item around
-
-    -Right Click to Remove Item from Board
-
-    -CTRL + Left Click
-    to Pan
-
-    -CTRL + Right Click to Zoom'
+  m_text: "-Click Item in Option Bar to Place onto Board.\n-Left Click  to Move Item
+    around\n-Right Click to Remove Item from Board\n-CTRL + Left Click (or middle
+    mouse) to Pan \n-CTRL + Right Click (or middle mouse) to Zoom"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2610,12 +2602,12 @@ GameObject:
   - component: {fileID: 1525014068}
   - component: {fileID: 1525014067}
   m_Layer: 5
-  m_Name: Error Text
+  m_Name: ErrorText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1525014066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2642,7 +2634,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525014065}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2655,17 +2647,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: -ERROR TEXT - PLACEHOLDER
+  m_text: ERROR TEXT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278255596
-  m_fontColor: {r: 0.92502797, g: 1, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -91,17 +91,17 @@ public class MenuLayoutManager : MonoBehaviour
         input_add_player_dog = root.Q("input_add_player_dog");
         input_add_player_dog.RegisterCallback<ClickEvent>(evt => {
             var obj = gameDefinitionManager.CreatePlayer();
-            gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/dog");
+            if (obj) gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/dog");
         });
         input_add_player_tractor = root.Q("input_add_player_tractor");
         input_add_player_tractor.RegisterCallback<ClickEvent>(evt => {
             var obj = gameDefinitionManager.CreatePlayer();
-            gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/tractor");
+            if (obj) gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/tractor");
         });
         input_add_player_hat = root.Q("input_add_player_hat");
         input_add_player_hat.RegisterCallback<ClickEvent>(evt => {
             var obj = gameDefinitionManager.CreatePlayer();
-            gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/hat");
+            if (obj) gameDefinitionManager.AssignSprite(obj.gameObject, "images/Players/hat");
         });
 
 

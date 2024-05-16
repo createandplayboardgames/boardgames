@@ -42,7 +42,7 @@ public class DragDrop : MonoBehaviour
         if (!thisClicked && !isDragging) return;  //if THIS wasn't clicked, there's nothing to do (unless already dragging) 
         bool atMouseLocation = GetComponent<Collider2D>().OverlapPoint(GetMousePos());
 
-        if (Input.GetMouseButtonDown(1)){ //right-click, deletion
+        if (Input.GetMouseButtonDown(1) && atMouseLocation){ //right-click, deletion
             gameDefinitionManager.DeleteGamePiece(gameObject); 
             GameObject.Find("MenuManager").GetComponent<MenuLayoutManager>().HideAllInfoMenus();
             return;
