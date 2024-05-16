@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -30,6 +31,8 @@ public class GameSessionController : MonoBehaviour
     
     public List<PlayerData> players = new();
     public List<TileData> tiles = new();
+    public List<ActionData> actions = new();
+
     int playerIndex = 0;
 
     //TODO: Get Playercache (number of players)
@@ -51,6 +54,7 @@ public class GameSessionController : MonoBehaviour
 
         manager.cache.players = players;
         manager.cache.tiles = tiles;
+        manager.cache.actions = actions;
 
         if (manager.cache.players.Count > 0)
         {
@@ -123,7 +127,8 @@ public class GameSessionController : MonoBehaviour
     {
         gameOver = true;
         Debug.Log("End Game");
-        //TODO: Assign Winner
+        EndScene.AssignWinner(currentPlayer);
+        Debug.Log(EndScene.winner);
         SceneManager.LoadScene("EndGame");
     }
 
