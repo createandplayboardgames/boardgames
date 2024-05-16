@@ -13,7 +13,7 @@ public class Buttons : MonoBehaviour
     GameObject helpText;
 
     public void Start(){
-        helpText = GameObject.Find("Help Text");
+        helpText = GameObject.Find("HelpText");
     }
 
     public void OnCreateButton () 
