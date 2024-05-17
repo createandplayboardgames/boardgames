@@ -5,7 +5,7 @@ public class GameDefinitionCache
     public List<PlayerData> players = new();
     public List<TileData> tiles = new(); 
     public List<ActionData> actions = new(); 
-    public int itemsLoadedCount = 0;
+    public int numberOfItemsLoaded = 0;
 
     // ====== Helper Methods
     public List<PlayerData> GetPlayersOnTile(TileData tile){

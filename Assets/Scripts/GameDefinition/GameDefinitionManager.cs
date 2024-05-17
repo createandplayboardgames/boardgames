@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
+
 
 public class GameDefinitionManager : MonoBehaviour
 {
-    private readonly int MAX_PLAYER_COUNT = 4;
+    private readonly int MAX_PLAYER_COUNT = 5;
     public GameDefinitionCache cache = new();
     private LayoutHelper layoutHelper;
     public void Start(){
@@ -17,25 +17,22 @@ public class GameDefinitionManager : MonoBehaviour
     // ====== General Functions
     private GameObject LoadGameObject(string prefabName, String sortingLayerName)
     {
-        //place in board
-        Debug.Log("LoadGameObject(), loading... " + prefabName);
+        //place in scene
         var parent = GameObject.Find(Keywords.GAMEOBJECT_BOARD);
         GameObject gamePiece = Instantiate(Resources.Load(prefabName),
             parent.transform.position, parent.transform.rotation) as GameObject;
         gamePiece.transform.parent = parent.transform;
         
-        //place in camera center
+        //move to camera center
         Vector3 position = GameObject.Find("Main Camera").transform.position;
         position.z = gamePiece.transform.position.z;
         gamePiece.transform.position = position;  
 
         //assign sorting layer and sorting order
         gamePiece.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
-        gamePiece.GetComponent<SpriteRenderer>().sortingOrder = cache.itemsLoadedCount; // put in front, always
+        gamePiece.GetComponent<SpriteRenderer>().sortingOrder = cache.numberOfItemsLoaded; // put in front, always
 
-        //TODO - select (currently won't work with actions)
-
-        cache.itemsLoadedCount++;
+        cache.numberOfItemsLoaded++;
         return gamePiece;
     }
     public void DeleteGamePiece(GameObject obj){
@@ -63,7 +60,7 @@ public class GameDefinitionManager : MonoBehaviour
 
     // ====== Players 
     public PlayerData CreatePlayer(String spritePath=null){
-        if (cache.players.Count > MAX_PLAYER_COUNT){
+        if (cache.players.Count == MAX_PLAYER_COUNT){
             layoutHelper.StartFlashErrorText("Max players already created!");
             return null;
         }
@@ -79,8 +76,7 @@ public class GameDefinitionManager : MonoBehaviour
     }
     private void AssignUniquePlayerName(PlayerData player){
         // Give the player a unique name, of form "player-num"
-        // TODO - this needs testing!
-        for (int i = 0; ; i++){
+        for (int i = 0; ; i++){ // TODO - this needs testing!
             String name = "player-" + i;  // choose potential name
             bool isNameUnique = true; //check if name unique...
             foreach (PlayerData p in cache.players){ //... against all current names
@@ -140,10 +136,9 @@ public class GameDefinitionManager : MonoBehaviour
         cache.actions.Add(action.GetComponent<BlockPathActionData>());
     }
     public void DeleteAction(ActionData action){
-        cache.actions.Remove(action);
+        cache.actions.Remove(action); 
+        //TODO - remove associated actions data in tiles
         Destroy(action.gameObject);
     }
-
-
 
 }

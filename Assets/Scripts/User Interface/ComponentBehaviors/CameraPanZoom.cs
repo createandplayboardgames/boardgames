@@ -10,42 +10,35 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
     private float zoomScale = .5f;
     private PointerEventData.InputButton panButton = PointerEventData.InputButton.Left;
     private PointerEventData.InputButton altPanButton = PointerEventData.InputButton.Middle;
-    private PointerEventData.InputButton zoomButton = PointerEventData.InputButton.Right;
-    private KeyCode modifierKey = KeyCode.LeftControl;
+    private PointerEventData.InputButton altZoomButton = PointerEventData.InputButton.Right;
+    private KeyCode altKey = KeyCode.LeftControl;
 
-
-    public void Start()
-    {
+    public void Start(){
         layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
     }
 
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public void OnPointerDown(PointerEventData eventData){
         if (PanOrZoomButtonPressed(eventData))
             Cursor.visible = false;
     }
-    public void OnPointerUp(PointerEventData eventData)
-    {
+    public void OnPointerUp(PointerEventData eventData){
         if (PanOrZoomButtonPressed(eventData))
             Cursor.visible = true;
     }
     private bool PanOrZoomButtonPressed(PointerEventData eventData){
-        return eventData.button == panButton || eventData.button == altPanButton || eventData.button == zoomButton;
+        return eventData.button == panButton || eventData.button == altPanButton || eventData.button == altZoomButton;
     }
-
 
     public void OnDrag(PointerEventData eventData)
     {
-        if ((Input.GetKey(modifierKey) && eventData.button == panButton) || eventData.button == altPanButton)
+        if ((Input.GetKey(altKey) && eventData.button == altPanButton) || eventData.button == panButton)
             PanCamera(eventData.delta);
-        if (Input.GetKey(modifierKey) && eventData.button == zoomButton)
+        if (Input.GetKey(altKey) && eventData.button == altZoomButton)
             ZoomCamera(eventData.delta);
     }
     public void OnScroll(PointerEventData eventData)    {
         ZoomCamera(eventData.scrollDelta);
     }
-
 
     private void PanCamera(Vector2 delta){
         //calculate new position 
@@ -59,6 +52,5 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
         float amountToChange = delta.y * zoomScale;
         mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize + amountToChange, 1, 10);
     }
-
 
 }

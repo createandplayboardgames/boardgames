@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData : NonTileData {
+public class PlayerData : NonTileData 
+{
     public String playerName = "placeholder";
     public int points = 0;
-
     public string spritePath;  // Added for sprite save/load
 
     // Method to set data from a SerializablePlayerData object
-    /*
+    /* /* TODO - save-load module
     public void SetData(SerializablePlayerData data)
     {
         this.playerName = data.playerName;

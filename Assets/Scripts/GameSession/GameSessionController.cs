@@ -76,7 +76,7 @@ public class GameSessionController : MonoBehaviour
         }
 
         TileData tileData = activePlayer.GetComponent<Movement>().tileData;
-        if (tileData.isEndingTile || (tileData.associatedAction is FinishGameActionData))
+        if (tileData.IsEndingTile())
         {
             gameOver = true;
             Debug.Log("End Game");
