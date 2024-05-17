@@ -35,8 +35,7 @@ public class GameSaveManager : MonoBehaviour
         }
 
         List<SerializablePlayerData> playerDataList = new List<SerializablePlayerData>();
-        foreach (PlayerData player in gameDefinitionManager.cache.players)
-        {
+        foreach (PlayerData player in gameDefinitionManager.cache.players) {
             Vector3 playerPosition = player.gameObject.transform.position;  // Correctly accessing the position
             string spritePath = player.GetComponent<SpriteRenderer>().sprite.name;
             SerializablePlayerData serializablePlayer = new SerializablePlayerData(playerPosition, player.playerName, player.spritePath);
@@ -44,8 +43,7 @@ public class GameSaveManager : MonoBehaviour
         }
 
         List<TileInfo> tileInfoList = new List<TileInfo>();
-        foreach (TileData tile in gameDefinitionManager.cache.tiles)
-        {
+        foreach (TileData tile in gameDefinitionManager.cache.tiles) {
             Vector3 tilePosition = tile.transform.position;  // Correctly accessing the position
             TileInfo tileInfo = new TileInfo(tilePosition, tile.left, tile.right, tile.up, tile.down, tile.isEndingTile);
             tileInfoList.Add(tileInfo);
