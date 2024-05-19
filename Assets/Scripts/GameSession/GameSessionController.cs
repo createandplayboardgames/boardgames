@@ -105,10 +105,7 @@ public class GameSessionController : MonoBehaviour
      */
     public void EndTurn()
     {
-        if (currentPlayer.location.isEndingTile)
-        {
-            EndGame();
-        }
+        PerformActions();
 
         //Next Player turn
         playerIndex++;
@@ -179,4 +176,23 @@ public class GameSessionController : MonoBehaviour
         movementControl.GetMovementOptions(spinner.finalState, currentPlayer.location);
         movementControl.ColorDirection();
     }
+
+    /*
+     * Perform actions for player.
+     */
+    public void PerformActions()
+    {
+        var action = currentPlayer.location.GetAssociatedAction();
+
+        if (action is FinishGameAction || currentPlayer.location.shouldFinishGame || currentPlayer.location.isEndingTile)
+        {
+            EndGame();
+        }
+        else if (action is ChangePlayerPointsAction)
+        {
+            // Perform changing player points.
+            
+        }
+    }
+
 }
