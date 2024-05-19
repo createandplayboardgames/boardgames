@@ -6,7 +6,7 @@ using UnityEngine;
 public class SaveData
 {
     public Vector3 playerPosition;
-    
+
     // Lists to hold serialized data for players and tiles
     public List<SerializablePlayerData> playersData;
     public List<TileInfo> tilesInfo;
@@ -46,7 +46,7 @@ public class SerializablePlayerData
 [System.Serializable]
 public class TileInfo
 {
-    // Location of the tile
+    //Location of the tile
     public Vector3 tileLocation;
     // Directional flags indicating outgoing paths from this tile
     public bool leftOutgoing, rightOutgoing, upOutgoing, downOutgoing;

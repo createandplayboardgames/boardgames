@@ -60,7 +60,7 @@ public class TileData : MonoBehaviour
         this.right = data.rightOutgoing ? this.right : null;
         this.up = data.upOutgoing ? this.up : null;
         this.down = data.downOutgoing ? this.down : null;
-    }    
+    }
 
 }
 
