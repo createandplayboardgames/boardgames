@@ -18,7 +18,6 @@ public class CameraPanZoom : MonoBehaviour, IScrollHandler, IDragHandler, IPoint
     }
 
     public void OnPointerDown(PointerEventData eventData){
-        Debug.Log("ON POINTER DWONWN");
         if (PanOrZoomButtonPressed(eventData))
             Cursor.visible = false;
     }

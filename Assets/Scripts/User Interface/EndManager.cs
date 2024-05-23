@@ -6,10 +6,8 @@ using UnityEngine;
 
 public class EndManager : MonoBehaviour
 {
-    public TextMeshProUGUI winnerText;
-
     void Update()
     {
-        winnerText.text = $"Congratulations {EndScene.text}! You have won the Game!";
+        GameObject.Find("WinnerText").GetComponent<TextMeshProUGUI>().text = $"Congratulations {EndScene.text}!\n You have won the Game!";
     }
 }

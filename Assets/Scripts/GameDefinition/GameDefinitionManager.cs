@@ -141,7 +141,6 @@ public class GameDefinitionManager : MonoBehaviour
     }
     public void DeleteAction(ActionData action){
         cache.actions.Remove(action); 
-        //TODO - remove associated actions data in tiles
         Destroy(action.gameObject);
     }
 

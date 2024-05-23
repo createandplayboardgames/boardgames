@@ -11,7 +11,7 @@ public static class EndScene
     public static void AssignWinner(PlayerData player)
     {
         winner = player;
-        text = player.name;
+        text = player.playerName;
 
     }
     //FinishGameActionData endGame;
