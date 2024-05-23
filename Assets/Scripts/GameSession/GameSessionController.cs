@@ -63,8 +63,9 @@ public class GameSessionController : MonoBehaviour
             }
             // Move if allowed
             if (hit.collider.CompareTag("Tiles")){
-                movementControl.Move(ray, hit);      
-                EndTurn();
+                if(movementControl.Move(ray, hit))
+                { EndTurn(); }    
+                //EndTurn();
             }
         }
     }
@@ -107,6 +108,7 @@ public class GameSessionController : MonoBehaviour
         movementControl.pathOptions.Clear();
         movementControl.GetMovementOptions(spinner.finalState, currentPlayer.location);
         movementControl.ColorDirection();
+        movementControl.moveAllowed = true;
     }
     public void PerformActions()
     {

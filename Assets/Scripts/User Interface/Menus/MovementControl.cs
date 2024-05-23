@@ -9,6 +9,7 @@ public class MovementControl : MonoBehaviour
     public List<TileData> pathOptions = new();
 
     public GameObject currentHit;
+    public bool moveAllowed = false;
 
     public void Start()
     {
@@ -53,16 +54,19 @@ public class MovementControl : MonoBehaviour
     }
 
     // Move Player to clicked tile.
-    public void Move(Ray ray, RaycastHit2D hit)
+    public bool Move(Ray ray, RaycastHit2D hit)
     {
-        if (pathOptions.Contains(hit.collider.GetComponent<TileData>()))
+        if (pathOptions.Contains(hit.collider.GetComponent<TileData>()) && moveAllowed)
         {
             Debug.Log("hit!");
             currentHit = hit.collider.gameObject;
             ClearColorDirection();
             currentPlayer.location = currentHit.gameObject.GetComponent<TileData>();
             layout.SnapPlayerToTile(currentPlayer, currentPlayer.location);
+            moveAllowed = false;
+            return true;
         }
+        return false;
     }
 
 }
