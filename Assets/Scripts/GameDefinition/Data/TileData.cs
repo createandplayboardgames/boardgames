@@ -1,17 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileData : MonoBehaviour
+public class TileData : GameItemData
 {
-    public Transform left, right, up, down;
-    public Transform tilePosition;
-    private ActionData associatedAction = null;
-    public bool shouldFinishGame = false;
-    public string spritePath;  // Added for sprite save/load
-
-    public bool IsEndingTile(){
-        return shouldFinishGame; //TODO - also actions
-    }
 
     // Get all current tile edges that have a connection.
     public List<EdgeData> GetAllOutgoingConnections()
@@ -36,18 +27,7 @@ public class TileData : MonoBehaviour
         return incomingConnections;
     }
 
-    /* TODO - save-load module
-    public void SetData(TileInfo data)
-    {
-        this.transform.position = data.tileLocation;
-        this.isEndingTile = data.isEndingTile;
-        // For simplicity, only setting the flags without handling Transform connections
-        this.left = data.leftOutgoing ? this.left : null;
-        this.right = data.rightOutgoing ? this.right : null;
-        this.up = data.upOutgoing ? this.up : null;
-        this.down = data.downOutgoing ? this.down : null;
-    }    
-    */
+
 }
 
 

@@ -115,7 +115,7 @@ public class MenuLayoutManager : MonoBehaviour
         });
         input_add_action_moveTo = root.Q("input_add_action_moveTo");
         input_add_action_moveTo.RegisterCallback<ClickEvent>(evt => {
-            gameDefinitionManager.CreateMoveToAction();
+            //gameDefinitionManager.CreateMoveToAction();
         });
         input_add_action_blockPath = root.Q("input_add_action_blockPath");
         input_add_action_blockPath.RegisterCallback<ClickEvent>(evt => {
@@ -155,11 +155,11 @@ public class MenuLayoutManager : MonoBehaviour
         // move player
         input_moveTo_player = root.Q("input_moveTo_player") as DropdownField;
         input_moveTo_player.RegisterValueChangedCallback<string>(evt => {
-            controller.SetMoveToPlayer(evt.newValue);
+            //controller.SetMoveToPlayer(evt.newValue);
         });
         input_moveTo_set = root.Q("input_moveTo_set") as Button ;
         input_moveTo_set.RegisterCallback<ClickEvent>(evt => {
-            controller.StartSetMoveToLocation();
+            //controller.StartSetMoveToLocation();
         }); 
         input_moveTo_find = root.Q("input_moveTo_find") as Button ;
         input_moveTo_find.RegisterCallback<ClickEvent>(evt => {
@@ -206,12 +206,14 @@ public class MenuLayoutManager : MonoBehaviour
         input_changePoints_op.value = changePointsActionData.operation;
         input_changePoints_val.value = changePointsActionData.value;
     }
+    /*
     public void ShowInfoMenuMoveToAction(MoveToActionData moveToActionData){
         HideAllInfoMenus();
         SetInfoMenuShown(infoMenu_moveTo, true);
         controller.EditMoveToAction(moveToActionData);
         //TODO - populate menu
     }
+    */
     public void ShowInfoMenuBlockPathAction(BlockPathActionData blockPathActionData){
         HideAllInfoMenus();
         //SetInfoMenuShown(infoMenu_blockPath, true);

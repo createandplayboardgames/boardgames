@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     private PlayerData              edititem_player = null;
     private FinishGameActionData    edititem_finishGameAction = null;
     private ChangePointsActionData  edititem_changePointsAction = null;
-    private MoveToActionData        edititem_moveToAction = null;
+    //private MoveToActionData        edititem_moveToAction = null;
     public Boolean isRequestingPlayerLocationSet = false;
     public Dictionary<string, Guid> playerNameIDMap = new();
 
@@ -86,6 +86,7 @@ public class MenuController : MonoBehaviour
     }
 
     // ===== Move To
+    /*
     public void EditMoveToAction(MoveToActionData moveToActionData){
         edititem_moveToAction = moveToActionData;
     }
@@ -95,7 +96,7 @@ public class MenuController : MonoBehaviour
     public void StartSetMoveToLocation(){
         // TODO - click on tile
     }
-
+    */
 
 
 

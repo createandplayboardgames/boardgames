@@ -4,44 +4,35 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement; //able to load scenes from script
 
-/*
- * Script for various button actions on Main menu and other scenes
- */
-public class Buttons : MonoBehaviour
+public class HUDController : MonoBehaviour
 {
 
     GameObject helpText;
 
-    public void Start(){
+    public void Start()
+    {
         helpText = GameObject.Find("HelpText");
     }
 
-    public void OnCreateButton () 
+    public void OnCreateButton() 
     {
         SceneManager.LoadScene("Create");
     }
 
-    public void OnPlayButton ()
+    public void OnPlayButton()
     {
         // Load and Play
+        GameObject.Find("SaveAndLoadHandler").GetComponent<SaveAndLoadHandler>().SaveGame();
         SceneManager.LoadScene("Play");
     }
 
-    public void OnMenuButton ()
+    public void OnMenuButton()
     {
         SceneManager.LoadScene("Menu");
     }
 
-    public void OnSaveButton ()
-    {
-        // Save Things
-    }
     public void OnHelpButton(){
         helpText.SetActive(!helpText.activeSelf);
     }
-
-    // TODO:
-    // Lobby Button
-
 
 }

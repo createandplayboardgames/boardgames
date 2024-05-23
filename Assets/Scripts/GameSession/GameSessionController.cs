@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -16,74 +17,54 @@ using UnityEngine.UI;
  */
 public class GameSessionController : MonoBehaviour
 {
-    LayoutHelper layout;
-
-    GameDefinitionManager manager;
-    /* get number of players, spiner, and position on map.
-     * 
-     * TODO: link to data from set classes
-    */
+    GameDefinitionManager gameDefinitionManager;
+    LayoutHelper layoutHelper;
+    MovementControl movementControl;
+    Spinner spinner;
     
-    public List<PlayerData> players = new();
-    public List<TileData> tiles = new();
-    int playerIndex = 0;
-
     //TODO: Get Playercache (number of players)
-
-    private static GameObject activePlayer;
+    int playerIndex = 0;
+    private PlayerData currentPlayer;
     public TextMeshProUGUI turnText;
-    public static int spinner = 0;
-    public static bool gameOver = false;
-
-    bool mouseOver;
     Ray ray;
     RaycastHit2D hit;
-    GameObject currentHit;
 
     void Start()
     {
-        manager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
-        layout = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
-        manager.cache.players = players;
-        manager.cache.tiles = tiles;
-
-        foreach(PlayerData player in manager.cache.players)
-        {
-            layout.SnapPlayerToTile(player, player.gameObject.GetComponent<Movement>().tileData);
+        SaveAndLoadHandler loader = GameObject.Find("SaveAndLoadHandler").GetComponent<SaveAndLoadHandler>();
+        if (!loader.LoadGame()){
+            //TODO - show error text
         }
 
-        if (manager.cache.players.Count > 0)
-        {
-            Debug.Log(manager.cache.players.Count);
-            StartTurn(playerIndex);
-        }
+        gameDefinitionManager = GameObject.Find("GameDefinitionManager").GetComponent<GameDefinitionManager>();
+        layoutHelper = GameObject.Find("LayoutHelper").GetComponent<LayoutHelper>();
+        movementControl = GameObject.Find("MovementControl").GetComponent<MovementControl>();
+        spinner = GameObject.Find("Spinner").GetComponent<Spinner>();
+        turnText = GameObject.Find("TurnText").GetComponent<TextMeshProUGUI>();
 
+        if (gameDefinitionManager.cache.players.Count > 0)
+        {
+            Debug.Log(gameDefinitionManager.cache.players.Count);
+            StartGame();
+        }
     }
 
     /*
-     * Update players turn, and activate game over scene.
-     * 
-     * TODO: activate game over scene and player turns, also make text to say whos turn it is.
+     * Check Mouse Input
      */
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //MouseHoverChecker(ray, hit);
-
         if(Input.GetMouseButtonDown(0))
-        {
-            MouseClickChecker(ray, hit);
-        }
+            MouseClickHandler(ray, hit);
+    }
 
-        TileData tileData = activePlayer.GetComponent<Movement>().tileData;
-        if (tileData.IsEndingTile())
-        {
-            gameOver = true;
-            Debug.Log("End Game");
-            //TODO: Assign Winner
-            SceneManager.LoadScene("EndGame");
-        }
-
+    /*
+    * Start Game Sequence.
+    */
+    public void StartGame()
+    {
+        StartTurn(playerIndex);
     }
 
     /*
@@ -91,130 +72,97 @@ public class GameSessionController : MonoBehaviour
      */
     public void StartTurn(int playerIndex)
     {
-        switch (playerIndex)
-        {
-            case 0:
-                turnText.text = "Player 1: Your Turn";
-                break;
-            case 1:
-                turnText.text = "Player 2: Your Turn";
-                break;
-            case 2:
-                turnText.text = "Player 3: Your Turn";
-                break;
-            case 3:
-                turnText.text = "Player 4: Your Turn";
-                break;
-        }
-        Spinner.coroutineAllowed = true;
-        activePlayer = manager.cache.players[playerIndex].gameObject;
-        activePlayer.GetComponent<Movement>().moveAllowed = true;
+        currentPlayer = gameDefinitionManager.cache.players[playerIndex];
+        turnText.text = $"{currentPlayer.playerName}: Your Turn.";
+        Spinner.spinAllowed = true;
+        movementControl.currentPlayer = currentPlayer;
     }
 
     /*
-     * End Turn for active player, switch player and start turn for new player.
+     * End Turn for active player, start turn for new player.
      */
     public void EndTurn()
     {
-        playerIndex++;
-        if (manager.cache.players.Count <= playerIndex)
-        {
-            playerIndex = 0;
-        }
-        Debug.Log(playerIndex);
+        PerformActions();
+        //Next Player turn
+        playerIndex = (playerIndex + 1) % gameDefinitionManager.cache.players.Count;
         StartTurn(playerIndex);
-
     }
 
     /*
-    * If players turn, move action and highlight move int player turn
-    */
-    public static void PlayerTurn()
-    {
-        activePlayer.GetComponent<Movement>().pathOptions.Clear();
-        GetMovementOptions(spinner, activePlayer.GetComponent<Movement>().tileData, activePlayer);
-        colorDirection(activePlayer);
-    }
-
-    /*
-     * Check player click is over tile option then move
+     * End Game Sequence.
      */
-    public void MouseClickChecker(Ray ray, RaycastHit2D hit)
+    public void EndGame()
+    {
+        EndScene.AssignWinner(currentPlayer);
+        SceneManager.LoadScene("EndGame");
+    }
+
+    /*
+     * Check Ray hit.
+     */
+    public void MouseClickHandler(Ray ray, RaycastHit2D hit)
     {
         hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+        Debug.Log("!!!!!!!!!!!!!MouseClickHandler");
         if (hit.collider == null)
         {
             Debug.Log("nothing clicked");
-
         }
         else
         {
-            //Make Separate Function for color
+            // Wait for roll to finish
+            if(hit.collider.CompareTag("Spinner"))
+            {
+                StartCoroutine(nameof(WaitForRoll));
+            }
+            // Move if allowed
             if (hit.collider.CompareTag("Tiles"))
             {
-
-                print(hit.collider.name);
-                if (activePlayer.GetComponent<Movement>().pathOptions.Contains(hit.collider.GetComponent<TileData>()) && activePlayer.GetComponent<Movement>().moveAllowed)
-                {
-                    Debug.Log("hit!");
-                    currentHit = hit.collider.gameObject;
-                    ClearColorDirection();
-                    activePlayer.GetComponent<Movement>().updateCurrentTile(currentHit);
-                    layout.SnapPlayerToTile(activePlayer.GetComponent<PlayerData>(), currentHit.GetComponent<TileData>());
-                    activePlayer.GetComponent<Movement>().moveAllowed = false;
-                }
-
+                movementControl.Move(ray, hit);
             }
         }
     }
 
     /*
-     * Recursive get list of available moves for active player.
+     * Wait for roll to finish before Movement.
      */
-    public static void GetMovementOptions(int roll, TileData tile, GameObject player)
+    public IEnumerator WaitForRoll()
     {
-        List<TileData> nextTiles = new List<TileData>();
-        nextTiles = tile.gameObject.GetComponent<TileData>().GetAllIncomingConnections();
-
-        if (roll <= 0)
+        while(!spinner.finished)
         {
+            yield return new WaitForSeconds(0.1f);
+        }
+        HandlePlayerMovement();
+    }
+
+    /*
+    * Move action and highlight move int player turn.
+    */
+    public void HandlePlayerMovement()
+    {
+        movementControl.pathOptions.Clear();
+        movementControl.GetMovementOptions(spinner.finalState, currentPlayer.location);
+        movementControl.ColorDirection();
+    }
+
+    /*
+     * Perform actions for player.
+     */
+    public void PerformActions()
+    {
+        var actionsOnTile = gameDefinitionManager.cache.GetActionsOnTile(currentPlayer.location);
+        if (actionsOnTile.Count == 0)
             return;
-
-        }
-        for (int i = 0; i < nextTiles.Count; i++)
+        ActionData actionToPerform = actionsOnTile[0];
+        if (actionToPerform is FinishGameActionData)
         {
-            if (!player.GetComponent<Movement>().pathOptions.Contains(nextTiles[i]))
-            {
-                player.GetComponent<Movement>().pathOptions.Add(nextTiles[i]);
-            }
-            roll -= 1;
-            GetMovementOptions(roll, nextTiles[i], player);
+            EndGame();
         }
-    }
-
-    /*
-     * Highlight available moves for active player
-     */
-    public static void colorDirection(GameObject player)
-    {
-        for (int i = 0; i < player.GetComponent<Movement>().pathOptions.Count; i++)
+        else if (actionToPerform is ChangePointsActionData)
         {
-            Debug.Log(player.GetComponent<Movement>().pathOptions[i]);
-            GameObject tileObject = player.GetComponent<Movement>().pathOptions[i].gameObject;
-            tileObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1.5f, 1.5f, 0.5f);
-        }
-
-    }
-
-    /*
-     * Clear highlighted tiles
-     */
-    public void ClearColorDirection()
-    {
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
-        foreach (GameObject tile in tiles)
-        {
-            tile.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.5f);
+            // Perform changing player points.
+            // TODO             
         }
     }
 

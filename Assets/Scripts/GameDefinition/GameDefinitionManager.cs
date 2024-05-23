@@ -52,7 +52,7 @@ public class GameDefinitionManager : MonoBehaviour
                          obj.GetComponent<TileData>()               as Component ??
                          obj.GetComponent<FinishGameActionData>()   as Component ??
                          obj.GetComponent<ChangePointsActionData>() as Component ??
-                         obj.GetComponent<MoveToActionData>()       as Component ??
+                         //obj.GetComponent<MoveToActionData>()       as Component ??
                          obj.GetComponent<BlockPathActionData>()    as Component;
         return data;
     }
@@ -119,18 +119,22 @@ public class GameDefinitionManager : MonoBehaviour
     }
 
     // ====== Actions
-    public void CreateFinishGameAction(){
+    public FinishGameActionData CreateFinishGameAction(){
         GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_FINISH_GAME, Keywords.SORTING_LAYER_ACTIONS);
-        cache.actions.Add(action.GetComponent<FinishGameActionData>());
+        var data = action.GetComponent<FinishGameActionData>();
+        cache.actions.Add(data);
+        return data;
     }
     public void CreateChangePointsAction(){
         GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_CHANGE_POINTS, Keywords.SORTING_LAYER_ACTIONS);
         cache.actions.Add(action.GetComponent<ChangePointsActionData>());
     }
+    /*
     public void CreateMoveToAction(){
         GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_MOVE_TO, Keywords.SORTING_LAYER_ACTIONS);
         cache.actions.Add(action.GetComponent<MoveToActionData>());
     }
+    */
     public void CreateBlockPathAction(){
         GameObject action = LoadGameObject(Keywords.PREFAB_ACTION_BLOCK_PATH, Keywords.SORTING_LAYER_ACTIONS);
         cache.actions.Add(action.GetComponent<BlockPathActionData>());
