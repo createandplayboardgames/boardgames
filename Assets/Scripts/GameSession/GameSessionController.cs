@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -47,8 +48,16 @@ public class GameSessionController : MonoBehaviour
     {
         //check mouse input
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Input.GetMouseButtonDown(0)) 
-            MouseClickHandler(ray, hit);
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Clicked on the UI");
+            }
+            else {
+                MouseClickHandler(ray, hit);
+            }
+        }
     }
 
     public void MouseClickHandler(Ray ray, RaycastHit2D hit)
