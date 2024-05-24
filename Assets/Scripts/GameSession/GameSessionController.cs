@@ -65,7 +65,6 @@ public class GameSessionController : MonoBehaviour
             if (hit.collider.CompareTag("Tiles")){
                 if(movementControl.Move(ray, hit))
                 { EndTurn(); }    
-                //EndTurn();
             }
         }
     }
