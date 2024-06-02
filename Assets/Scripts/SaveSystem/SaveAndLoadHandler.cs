@@ -3,7 +3,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
+
 
 
 public class SaveAndLoadHandler : MonoBehaviour
@@ -61,14 +62,14 @@ public class SaveAndLoadHandler : MonoBehaviour
         foreach (TileData tile in gameDefinitionManager.cache.tiles) 
         {
             tiles.Add(new TileState(
-                tile.ID.ToString(), tile.gameObject.transform.position, GetFormattedSpritePath(tile)
+                tile.ID.ToString(), tile.gameObject.transform.position, GetFormattedSpritePath(tile, "Tiles/")
             ));
         }
         List<PlayerState> players = new List<PlayerState>();
         foreach (PlayerData player in gameDefinitionManager.cache.players) 
         {
             players.Add(new PlayerState(
-                player.ID.ToString(), player.gameObject.transform.position, GetFormattedSpritePath(player),
+                player.ID.ToString(), player.gameObject.transform.position, GetFormattedSpritePath(player, "Players/"),
                 player.location == null ? "" : player.location.ID.ToString(),
                 player.playerName, player.points
             ));
@@ -78,7 +79,7 @@ public class SaveAndLoadHandler : MonoBehaviour
         {
             if (action is FinishGameActionData){
                 finishGameActions.Add(new FinishGameActionState(
-                    action.ID.ToString(), action.gameObject.transform.position, GetFormattedSpritePath(action),
+                    action.ID.ToString(), action.gameObject.transform.position, GetFormattedSpritePath(action, "Actions/"),
                     action.location == null ? "" : action.location.ID.ToString(),
                     ((FinishGameActionData) action).winner.ID.ToString()
                 ));                
@@ -142,10 +143,15 @@ public class SaveAndLoadHandler : MonoBehaviour
             if (tile.ID == Guid.Parse(targetID)) return tile;
         return null;
     }
-    public string GetFormattedSpritePath(GameItemData item){
-        string absolutePath = AssetDatabase.GetAssetPath(item.GetComponent<SpriteRenderer>().sprite);
-        Debug.Log("sprite " + absolutePath);
-        return absolutePath.Replace("Assets/Resources/", "").Replace(".png", ""); //loading sprites requires assets to be in this form
-    }   
+    public string GetFormattedSpritePath(GameItemData item, string subpath){
+        string path = "Assets/Resources/images/" + subpath + item.GetComponent<SpriteRenderer>().sprite.ToString();
+        Debug.Log(path.ToString().Replace(" (UnityEngine.Sprite)", ""));
+        return path.ToString().Replace("Assets/Resources/", "").Replace(" (UnityEngine.Sprite)", "");
+
+        //string absolutePath = AssetDatabase.GetAssetPath(item.GetComponent<SpriteRenderer>().sprite);
+        //var absolutePath = Resources.Load("images/" + subpath + item.GetComponent<SpriteRenderer>().sprite);
+        //return absolutePath.ToString().Replace("Assets/Resources/", "").Replace(".png", ""); //loading sprites requires assets to be in this form
+
+    }
 
 }
